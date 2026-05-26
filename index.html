@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OOF Engine</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Inter+Tight:wght@800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0F2552; --ink-dk: #07152E; --lime: #A6F50C; --cyan: #0CB8F5;
+  --magenta: #F50C7A; --orange: #F5800C; --white: #fff; --gray: #808AA0;
+  --gray-d: #5A6275; --card: #EDF1F5; --card-2: #F6F8FA; --rule: #D8DFE8;
+  --font-display: 'Inter Tight', system-ui, sans-serif;
+  --font-body: Inter, system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); background: #2a2e3a; color: var(--ink); min-height: 100vh; }
+.shell { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
+header { color: var(--white); margin-bottom: 24px; }
+header h1 { font-family: var(--font-display); font-size: 36px; font-weight: 900; letter-spacing: -0.02em; }
+header h1 .l { color: var(--lime); }
+header .sub { font-size: 14px; color: rgba(255,255,255,0.75); margin-top: 6px; font-style: italic; }
+
+.engine { display: grid; grid-template-columns: 380px 1fr; gap: 16px; }
+.left, .right { background: var(--white); border-radius: 12px; overflow: hidden; }
+
+.left { padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+.label { font-size: 11px; font-weight: 700; color: var(--gray-d); text-transform: uppercase; letter-spacing: 0.06em; }
+textarea, input[type=text] {
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--rule); border-radius: 6px;
+  font-family: var(--font-body); font-size: 13px; line-height: 1.55; color: var(--ink);
+  background: var(--card-2); resize: vertical;
+}
+textarea { min-height: 200px; }
+textarea::placeholder, input::placeholder { color: var(--gray); font-style: italic; }
+textarea:focus, input:focus {
+  outline: none; border-color: var(--lime); background: var(--white);
+  box-shadow: 0 0 0 3px rgba(166,245,12,0.15);
+}
+.file-row { display: flex; align-items: center; gap: 12px; }
+.file-btn {
+  display: inline-block; cursor: pointer; background: var(--ink); color: var(--white);
+  padding: 9px 14px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+}
+.file-btn:hover { background: var(--lime); color: var(--ink); }
+#file-name { font-size: 11px; color: var(--gray); font-style: italic; }
+
+.btn { cursor: pointer; border: 0; border-radius: 4px; font-family: var(--font-display);
+  font-weight: 800; font-size: 13px; letter-spacing: 0.04em; padding: 12px 16px; }
+.btn.primary { background: var(--lime); color: var(--ink); }
+.btn.primary:hover { background: var(--ink); color: var(--lime); }
+.btn.primary:disabled { background: var(--gray); color: var(--white); cursor: not-allowed; }
+.btn.big { padding: 16px 24px; font-size: 15px; }
+.btn.secondary { background: var(--white); color: var(--ink); border: 1px solid var(--rule); }
+.btn.secondary:hover:not([disabled]) { background: var(--ink); color: var(--white); border-color: var(--ink); }
+.btn.secondary[disabled] { color: var(--gray); cursor: not-allowed; opacity: 0.5; }
+
+.downloads { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+.status {
+  background: rgba(166,245,12,0.12); border-left: 3px solid var(--lime);
+  padding: 10px 12px; border-radius: 3px; font-size: 11px; line-height: 1.5;
+  color: var(--ink-2); font-style: italic;
+}
+.status.error { background: rgba(245,12,122,0.10); border-left-color: var(--magenta); color: var(--ink); }
+
+.right { display: flex; flex-direction: column; min-height: 720px; }
+.preview-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 20px; background: var(--ink); color: var(--white);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+}
+#preview { flex: 1; width: 100%; border: 0; background: var(--card-2); min-height: 680px; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header>
+    <h1>OOF<span class="l">.</span> Engine</h1>
+    <div class="sub">Paste source · Generate v23 brief · Download HTML / PDF / PPTX</div>
+  </header>
+
+  <div class="engine">
+
+    <div class="left">
+      <div class="label">Paste source · or describe what you need</div>
+      <textarea id="input" placeholder="Examples to try:
+
+1.  NACO turnover hit 16.7% — €3.4M ask for ELT decision by Jun 15. Three roles bleeding: Business Excellence, V&A, MSL Oncology. Recommend ACCELERATE scenario.
+
+2.  ELT pre-read on CDIO talent horizon — three discussion prompts on architectural vs federated vs transformative.
+
+3.  Leave blank for a starter brief with placeholders."></textarea>
+
+      <div class="label">Optional constraint (length / format / archetype)</div>
+      <input type="text" id="constraint" placeholder="e.g. '5 slides max', 'ELT pre-read', 'use waterfall + pyramid principle'">
+
+      <div class="file-row">
+        <label class="file-btn">
+          ↑ Upload file (.txt / .md / .csv / .json)
+          <input type="file" id="file" accept=".txt,.md,.csv,.json" style="display: none;">
+        </label>
+        <span id="file-name"></span>
+      </div>
+
+      <button id="make" class="btn primary big">Generate brief →</button>
+
+      <div class="downloads">
+        <button id="dl-html" class="btn secondary" disabled>↓ HTML</button>
+        <button id="dl-pdf"  class="btn secondary" disabled>↓ PDF</button>
+        <button id="dl-pptx" class="btn secondary" disabled>↓ PPTX</button>
+      </div>
+
+      <div id="status" class="status" style="display: none;"></div>
+    </div>
+
+    <div class="right">
+      <div class="preview-bar">
+        <span>Preview</span>
+        <span id="preview-meta" style="opacity: 0.7;">Hit Generate to render</span>
+      </div>
+      <iframe id="preview" srcdoc="<style>body{font-family:Inter,sans-serif;color:#46526E;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#F6F8FA}p{max-width:280px;text-align:center;font-size:13px;font-style:italic}</style><p>Your live brief preview will render here once you hit Generate.</p>"></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = location.origin;  // same-origin (Flask serves both)
+let lastHTML = '';
+
+// File upload → read into textarea
+document.getElementById('file').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  document.getElementById('file-name').textContent = `${f.name} · ${Math.round(f.size/1024)}KB`;
+  const reader = new FileReader();
+  reader.onload = (ev) => { document.getElementById('input').value = ev.target.result; };
+  reader.readAsText(f);
+});
+
+function setStatus(msg, isError = false) {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = 'status' + (isError ? ' error' : '');
+  el.style.display = msg ? 'block' : 'none';
+}
+
+document.getElementById('make').addEventListener('click', async () => {
+  const source = document.getElementById('input').value.trim();
+  const constraint = document.getElementById('constraint').value.trim();
+  const btn = document.getElementById('make');
+  btn.disabled = true; btn.textContent = '⏳ Calling Claude…';
+  setStatus('Generating brief…');
+  try {
+    const r = await fetch(`${API}/api/generate`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({source, constraint})
+    });
+    const data = await r.json();
+    if (data.error) throw new Error(data.error);
+    lastHTML = data.html;
+    document.getElementById('preview').srcdoc = data.html;
+    document.getElementById('preview-meta').textContent = `Live · ${(data.len/1024).toFixed(1)}KB · ${new Date().toLocaleTimeString()}`;
+    document.getElementById('dl-html').disabled = false;
+    document.getElementById('dl-pdf').disabled = false;
+    document.getElementById('dl-pptx').disabled = false;
+    setStatus('✓ Brief generated. Use the download buttons.');
+  } catch (e) {
+    setStatus('Error: ' + e.message, true);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Generate brief →';
+  }
+});
+
+// Downloads
+document.getElementById('dl-html').addEventListener('click', () => {
+  const blob = new Blob([lastHTML], {type: 'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'OOF_brief.html';
+  a.click(); URL.revokeObjectURL(url);
+});
+
+async function exportBinary(path, name) {
+  setStatus('Building ' + name + '…');
+  try {
+    const r = await fetch(`${API}${path}`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({html: lastHTML})
+    });
+    if (!r.ok) throw new Error(await r.text());
+    const blob = await r.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = name;
+    a.click(); URL.revokeObjectURL(url);
+    setStatus('✓ ' + name + ' downloaded.');
+  } catch (e) {
+    setStatus(name + ' export failed: ' + e.message, true);
+  }
+}
+document.getElementById('dl-pdf').addEventListener('click',  () => exportBinary('/api/export/pdf',  'OOF_brief.pdf'));
+document.getElementById('dl-pptx').addEventListener('click', () => exportBinary('/api/export/pptx', 'OOF_brief.pptx'));
+</script>
+</body>
+</html>

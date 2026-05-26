@@ -1,0 +1,2413 @@
+/* ===========================================================
+   OOF v23 — Design System
+   Single source of truth. Every brief links here.
+   Office of the Future · Ipsen
+   =========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@500;600;700;800;900&display=swap');
+
+:root {
+  /* ---- BRAND COLORS ---- */
+  --ink:        #0F2552;   /* primary navy */
+  --ink-dk:     #07152E;   /* near-black navy */
+  --ink-2:      #46526E;   /* secondary text navy */
+  --lime:       #A6F50C;   /* OOF signature accent */
+  --cyan:       #0CB8F5;   /* data / analytical */
+  --magenta:    #F50C7A;   /* risk / urgency */
+  --orange:     #F5800C;   /* flag / caution */
+  --violet:     #A24CF5;   /* people / qualitative */
+  --green:      #4DB04F;   /* delivered / on plan */
+  --red:        #D9454D;   /* hard stop / regret */
+
+  /* ---- NEUTRALS ---- */
+  --white:      #FFFFFF;
+  --gray:       #808AA0;
+  --gray-d:     #5A6275;
+  --card:       #EDF1F5;
+  --card-2:     #F6F8FA;
+  --rule:       #D8DFE8;
+
+  /* ---- TYPOGRAPHY ---- */
+  --font-display: 'Inter Tight', Inter, system-ui, -apple-system, sans-serif;
+  --font-body:    Inter, system-ui, -apple-system, sans-serif;
+  --font-mono:    'SF Mono', Menlo, Consolas, monospace;
+
+  /* ---- SPACING SCALE (8px base) ---- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+
+  /* ---- SLIDE DIMENSIONS (16:9) ---- */
+  --slide-w: 1280px;
+  --slide-h: 720px;
+  --slide-pad: 32px;
+}
+
+/* ===========================================================
+   BASE
+   =========================================================== */
+*  { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===========================================================
+   SLIDE FRAME
+   Use: <section class="slide">...</section>
+   =========================================================== */
+.slide {
+  width: var(--slide-w);
+  height: var(--slide-h);
+  background: var(--white);
+  margin: 0 auto var(--s-6);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.30);
+}
+.slide::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--ink);
+}
+.slide::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--lime);
+}
+
+/* ===========================================================
+   CHROME — footer rail (OOF stamp · section · page · IPSEN)
+   =========================================================== */
+.chrome {
+  position: absolute;
+  bottom: 16px;
+  left: 32px;
+  right: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--gray);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+.chrome .stamp { display: inline-flex; align-items: center; gap: 10px; }
+.chrome .oof {
+  background: var(--lime);
+  color: var(--ink);
+  padding: 4px 9px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.chrome .section { text-transform: uppercase; color: var(--gray-d); }
+.chrome .right { display: inline-flex; align-items: center; gap: 18px; }
+.chrome .page-num { color: var(--gray-d); font-weight: 500; }
+.chrome .ipsen { color: var(--ink); font-size: 13px; font-weight: 800; letter-spacing: 0.05em; }
+
+/* ===========================================================
+   PAGE TITLE — kicker + h1 + takeaway
+   =========================================================== */
+.page-title { padding: 32px 32px 0; }
+.page-title .kicker {
+  font-size: 11px; font-weight: 700; color: var(--cyan);
+  letter-spacing: 0.10em; text-transform: uppercase; margin-bottom: 8px;
+}
+.page-title h1 {
+  font-family: var(--font-display);
+  font-size: 38px; font-weight: 800; color: var(--ink);
+  line-height: 1.05; letter-spacing: -0.02em;
+}
+.page-title h1 small {
+  font-size: 26px; font-weight: 500; color: var(--ink-2); letter-spacing: 0;
+}
+.takeaway {
+  padding: 12px 32px 0; font-size: 13px; color: var(--ink-2); font-style: italic;
+}
+.takeaway b { color: var(--ink); font-style: normal; }
+
+/* ===========================================================
+   KPI TILE — the workhorse stat block
+   =========================================================== */
+.kpi-row { display: grid; gap: 12px; padding: 24px 32px; }
+.kpi-row.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.kpi-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.kpi-row.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.kpi-row.cols-5 { grid-template-columns: repeat(5, 1fr); }
+.kpi-row.cols-6 { grid-template-columns: repeat(6, 1fr); }
+
+.kpi {
+  background: var(--card); position: relative;
+  padding: 26px 22px 18px;
+  min-height: 130px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.kpi::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 6px; background: var(--accent, var(--lime));
+}
+.kpi.lime    { --accent: var(--lime); }
+.kpi.cyan    { --accent: var(--cyan); }
+.kpi.magenta { --accent: var(--magenta); }
+.kpi.orange  { --accent: var(--orange); }
+.kpi.violet  { --accent: var(--violet); }
+.kpi.green   { --accent: var(--green); }
+.kpi.gray    { --accent: var(--gray); }
+.kpi .value {
+  font-family: var(--font-display);
+  font-size: 44px; font-weight: 800; color: var(--ink);
+  line-height: 1; letter-spacing: -0.02em;
+}
+.kpi .label {
+  font-size: 11px; font-weight: 600; color: var(--gray-d);
+  text-transform: uppercase; letter-spacing: 0.06em; margin-top: 14px;
+}
+.kpi .delta {
+  font-size: 11px; font-style: italic; color: var(--ink-2); margin-top: 4px;
+}
+.kpi.compact { min-height: 110px; padding: 20px 18px 16px; }
+.kpi.compact .value { font-size: 32px; }
+.kpi.hero    { min-height: 170px; }
+.kpi.hero .value { font-size: 56px; }
+
+/* ===========================================================
+   SO WHAT bar — the navy insight rail
+   =========================================================== */
+.sowhat {
+  position: absolute; left: 32px; right: 32px; bottom: 56px;
+  background: var(--ink); border-radius: 10px;
+  padding: 16px 22px;
+  display: flex; align-items: center; gap: 22px;
+}
+.sowhat .tag {
+  color: var(--lime); font-size: 11px; font-weight: 800;
+  letter-spacing: 0.10em; flex-shrink: 0;
+}
+.sowhat .divider { width: 2px; align-self: stretch; background: var(--lime); }
+.sowhat p { color: var(--white); font-size: 14px; line-height: 1.4; }
+
+/* ===========================================================
+   PANEL — bordered card with left accent stripe
+   =========================================================== */
+.panel {
+  background: var(--white); border: 0.5px solid var(--rule);
+  position: relative; padding: 18px 20px; border-radius: 6px;
+}
+.panel::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0;
+  width: 4px; background: var(--accent, var(--cyan));
+  border-radius: 6px 0 0 6px;
+}
+.panel.cyan    { --accent: var(--cyan); }
+.panel.lime    { --accent: var(--lime); }
+.panel.magenta { --accent: var(--magenta); }
+.panel.orange  { --accent: var(--orange); }
+.panel.violet  { --accent: var(--violet); }
+.panel.green   { --accent: var(--green); }
+.panel.gray    { --accent: var(--gray); }
+.panel h3 {
+  font-size: 11px; font-weight: 800; color: var(--accent, var(--cyan));
+  text-transform: uppercase; letter-spacing: 0.10em; margin-bottom: 14px;
+}
+.panel p, .panel li { font-size: 13px; color: var(--ink); line-height: 1.55; }
+.panel ul { list-style: none; }
+.panel ul li {
+  margin-bottom: 10px; padding-left: 14px; position: relative;
+}
+.panel ul li::before {
+  content: ''; position: absolute; left: 0; top: 8px;
+  width: 5px; height: 5px;
+  background: var(--accent, var(--cyan)); border-radius: 50%;
+}
+
+/* ===========================================================
+   COL LAYOUT helpers
+   =========================================================== */
+.cols { display: grid; gap: 12px; padding: 0 32px; }
+.cols-2 { grid-template-columns: 1fr 1fr; }
+.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+/* ===========================================================
+   CHIP — colored badge / tag
+   =========================================================== */
+.chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 5px 12px; border-radius: 4px;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+.chip.lime    { background: var(--lime);    color: var(--ink); }
+.chip.cyan    { background: var(--cyan);    color: var(--white); }
+.chip.magenta { background: var(--magenta); color: var(--white); }
+.chip.orange  { background: var(--orange);  color: var(--white); }
+.chip.violet  { background: var(--violet);  color: var(--white); }
+.chip.ink     { background: var(--ink);     color: var(--lime); }
+.chip.gray    { background: var(--gray);    color: var(--white); }
+.chip.green   { background: var(--green);   color: var(--white); }
+.chip.red     { background: var(--red);     color: var(--white); }
+
+/* Chip vocabulary — verdicts */
+.chip.on-plan { background: var(--ink);     color: var(--lime); }
+.chip.stable  { background: var(--lime);    color: var(--ink); }
+.chip.flag    { background: var(--orange);  color: var(--white); }
+.chip.risk    { background: var(--magenta); color: var(--white); }
+
+/* Chip vocabulary — scope (2^1, 2^2, 2^3) */
+.chip.scope-1 { background: var(--red);    color: var(--white); }
+.chip.scope-2 { background: var(--orange); color: var(--white); }
+.chip.scope-3 { background: var(--green);  color: var(--white); }
+
+/* Chip vocabulary — layer tags (N-0, N-1, N-2, @eye-level, @stretch-zone) */
+.chip.layer   { background: var(--ink-2);  color: var(--white); }
+
+/* ===========================================================
+   DATA TABLE — v23 styled
+   =========================================================== */
+table.v23 {
+  width: 100%; border-collapse: collapse; font-size: 12px;
+}
+table.v23 thead th {
+  background: var(--ink); color: var(--white);
+  padding: 12px 10px; text-align: left;
+  font-weight: 700; font-size: 11px; letter-spacing: 0.03em;
+  vertical-align: top;
+}
+table.v23 tbody td {
+  padding: 10px; border-bottom: 0.5px solid var(--rule);
+  vertical-align: top; color: var(--ink);
+}
+table.v23 tbody tr:nth-child(odd) td { background: var(--card-2); }
+table.v23.compact { font-size: 10px; }
+table.v23.compact thead th { padding: 9px 7px; font-size: 9px; }
+table.v23.compact tbody td { padding: 7px; }
+
+/* ===========================================================
+   PROV RAIL — source citation footer
+   =========================================================== */
+.prov {
+  position: absolute; bottom: 36px; left: 32px; right: 32px;
+  font-size: 9px; font-style: italic; color: var(--gray);
+  letter-spacing: 0.02em;
+}
+
+/* ===========================================================
+   COVER LAYOUTS
+   =========================================================== */
+.cover {
+  display: grid; grid-template-columns: 1fr 1fr;
+  height: 100%; background: var(--ink-dk); color: var(--white);
+}
+.cover .left {
+  padding: 56px 48px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.cover .right {
+  background: center/cover no-repeat;
+  position: relative;
+}
+.cover .right::after {
+  content: ''; position: absolute; left: -4px; top: 0; bottom: 0;
+  width: 8px; background: var(--lime);
+}
+.cover .kicker {
+  display: inline-block; background: var(--lime); color: var(--ink);
+  padding: 8px 16px; font-size: 11px; font-weight: 800;
+  letter-spacing: 0.12em; align-self: flex-start;
+}
+.cover h1 {
+  font-family: var(--font-display);
+  font-size: 68px; font-weight: 900;
+  line-height: 0.96; letter-spacing: -0.03em; margin-top: 0;
+}
+.cover h1 .accent { color: var(--lime); }
+.cover .sub {
+  font-size: 16px; font-style: italic;
+  color: rgba(255,255,255,0.85); margin-top: 18px;
+}
+.cover .author {
+  border-top: 2px solid var(--lime);
+  padding-top: 18px; margin-top: 28px; max-width: 360px;
+}
+.cover .author .name {
+  font-size: 18px; font-weight: 700; letter-spacing: 0.05em;
+}
+.cover .author .role {
+  font-size: 13px; color: rgba(255,255,255,0.8); margin-top: 4px;
+}
+.cover .meta { display: flex; justify-content: space-between; align-items: flex-end; }
+.cover .meta .date {
+  font-size: 11px; font-style: italic; color: rgba(255,255,255,0.65);
+}
+.cover .meta .ipsen {
+  font-size: 22px; font-weight: 800; letter-spacing: 0.06em; text-align: right;
+}
+.cover .meta .ipsen-rule {
+  width: 50px; height: 4px; background: var(--lime);
+  margin-top: 8px; margin-left: auto;
+}
+
+/* ===========================================================
+   CLOSER — full-bleed navy
+   =========================================================== */
+.closer {
+  background: var(--ink-dk); color: var(--white);
+  height: 100%; padding: 80px 80px;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative;
+}
+.closer::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0;
+  width: 12px; background: var(--lime);
+}
+.closer .kicker {
+  font-size: 11px; font-weight: 800; color: var(--lime);
+  letter-spacing: 0.12em; margin-bottom: 14px;
+}
+.closer h1 {
+  font-family: var(--font-display);
+  font-size: 88px; font-weight: 900;
+  line-height: 1; letter-spacing: -0.03em; margin-bottom: 36px;
+}
+.closer .levers { display: flex; gap: 12px; flex-wrap: wrap; }
+.closer .lever {
+  background: var(--lime); color: var(--ink);
+  font-size: 18px; font-weight: 800; letter-spacing: 0.04em;
+  padding: 12px 24px;
+}
+.closer .foot {
+  position: absolute; bottom: 32px; left: 32px; right: 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px; color: var(--lime); font-weight: 700; letter-spacing: 0.08em;
+}
+.closer .foot .ipsen { color: var(--white); font-size: 16px; font-weight: 800; }
+
+/* ===========================================================
+   SCENARIO COLUMNS — Iterate / Accelerate / Leap
+   =========================================================== */
+.scen { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; padding: 0 32px; }
+.scen-col header { padding: 22px 18px; text-align: center; color: var(--white); }
+.scen-col.iterate    header { background: var(--orange); }
+.scen-col.accelerate header { background: var(--cyan); }
+.scen-col.leap       header { background: var(--magenta); }
+.scen-col header .title {
+  font-family: var(--font-display);
+  font-size: 24px; font-weight: 900; letter-spacing: 0.04em;
+}
+.scen-col header .sub { font-size: 11px; font-style: italic; margin-top: 4px; opacity: 0.95; }
+.scen-col .row {
+  background: var(--card-2); border-bottom: 0.5px solid var(--rule);
+  padding: 12px 16px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.scen-col .row .key {
+  font-size: 11px; font-weight: 700; color: var(--gray-d);
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.scen-col .row .val {
+  font-family: var(--font-display);
+  font-size: 16px; font-weight: 800; color: var(--ink);
+}
+.scen-col .row.alt { background: var(--white); }
+
+/* ===========================================================
+   AMBITION FROM → TO ROW
+   =========================================================== */
+.ftt-head {
+  display: grid; grid-template-columns: 250px 1fr 60px 1fr;
+  padding: 12px 32px 0;
+  font-size: 12px; font-weight: 700; color: var(--gray-d);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.ftt-head .right { text-align: right; }
+.ftt {
+  display: grid; grid-template-columns: 250px 1fr 60px 1fr;
+  align-items: center; background: var(--card-2);
+  border-left: 6px solid var(--accent, var(--lime));
+  padding: 18px 20px; margin: 12px 32px; gap: 12px; border-radius: 4px;
+}
+.ftt.cyan    { --accent: var(--cyan); }
+.ftt.magenta { --accent: var(--magenta); }
+.ftt.orange  { --accent: var(--orange); }
+.ftt.violet  { --accent: var(--violet); }
+.ftt .lbl { font-size: 13px; font-weight: 700; color: var(--ink); }
+.ftt .v {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 700; color: var(--ink-2); text-align: center;
+}
+.ftt .v.target { color: var(--ink); font-weight: 800; }
+.ftt .arrow { text-align: center; font-size: 22px; color: var(--gray); }
+
+/* ===========================================================
+   NUMBERED ACTION CARD
+   =========================================================== */
+.actions { padding: 0 32px; display: flex; flex-direction: column; gap: 8px; }
+.action {
+  display: grid; grid-template-columns: 60px 1fr;
+  background: var(--card); border-radius: 4px;
+  overflow: hidden; min-height: 78px;
+}
+.action .num {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--white); font-family: var(--font-display);
+  font-size: 26px; font-weight: 900;
+  background: var(--accent, var(--cyan));
+}
+.action.cyan    { --accent: var(--cyan); }
+.action.lime    { --accent: var(--lime); }
+.action.magenta { --accent: var(--magenta); }
+.action.orange  { --accent: var(--orange); }
+.action.violet  { --accent: var(--violet); }
+.action .num.lime { color: var(--ink); }
+.action .body {
+  padding: 14px 18px;
+  display: flex; flex-direction: column; justify-content: center;
+  border-left: 4px solid var(--accent, var(--cyan));
+}
+.action .body .h { font-size: 14px; font-weight: 700; color: var(--ink); }
+.action .body .m { font-size: 12px; color: var(--ink-2); font-style: italic; margin-top: 4px; }
+
+/* ===========================================================
+   TA STRIPE — therapy area split
+   =========================================================== */
+.ta { padding: 0 32px; display: flex; flex-direction: column; gap: 10px; }
+.ta-row {
+  display: grid; grid-template-columns: 220px 1fr;
+  border-radius: 4px; overflow: hidden; min-height: 96px;
+}
+.ta-row .ta-lbl {
+  background: var(--accent, var(--cyan)); color: var(--white);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 4px;
+}
+.ta-row .ta-lbl .name { font-size: 16px; font-weight: 800; letter-spacing: 0.04em; }
+.ta-row .ta-lbl .share {
+  font-family: var(--font-display); font-size: 36px; font-weight: 900;
+}
+.ta-row.cyan    { --accent: var(--cyan); }
+.ta-row.magenta { --accent: var(--magenta); }
+.ta-row.violet  { --accent: var(--violet); }
+.ta-row .ta-body {
+  background: var(--card); padding: 0 26px;
+  display: flex; align-items: center; font-size: 14px; color: var(--ink);
+}
+
+/* ===========================================================
+   SLOPE TILE — from → to with delta chip
+   =========================================================== */
+.slope-row { padding: 0 32px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.slope {
+  background: var(--card); position: relative; padding: 22px 22px 18px;
+}
+.slope::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 6px; background: var(--accent, var(--cyan));
+}
+.slope.magenta { --accent: var(--magenta); }
+.slope.cyan    { --accent: var(--cyan); }
+.slope.orange  { --accent: var(--orange); }
+.slope .name {
+  font-size: 13px; font-weight: 800; color: var(--accent);
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+.slope .flow { display: flex; align-items: baseline; gap: 14px; margin-top: 14px; }
+.slope .from {
+  font-family: var(--font-display);
+  font-size: 28px; font-weight: 700; color: var(--gray-d);
+}
+.slope .arrow { font-size: 20px; color: var(--gray); }
+.slope .to {
+  font-family: var(--font-display);
+  font-size: 36px; font-weight: 900; color: var(--ink);
+}
+.slope .delta {
+  display: inline-block; margin-top: 12px;
+  background: var(--accent); color: var(--white);
+  font-size: 11px; font-weight: 800; padding: 5px 12px; letter-spacing: 0.05em;
+}
+
+/* ===========================================================
+   SECTION DIVIDER — full-bleed photo + big title (ED10 pattern)
+   =========================================================== */
+.divider {
+  height: 100%; position: relative; overflow: hidden;
+  background: var(--ink-dk) center/cover no-repeat;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 64px 56px;
+  color: var(--white);
+}
+.divider::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 12px; background: var(--lime);
+}
+.divider::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(7,21,46,0.75) 0%, rgba(7,21,46,0.35) 60%, rgba(7,21,46,0.10) 100%);
+}
+.divider > * { position: relative; z-index: 1; }
+.divider .num {
+  font-family: var(--font-display);
+  font-size: 14px; font-weight: 800; color: var(--lime);
+  letter-spacing: 0.12em; margin-bottom: 14px;
+}
+.divider h1 {
+  font-family: var(--font-display);
+  font-size: 72px; font-weight: 900;
+  line-height: 0.96; letter-spacing: -0.03em;
+}
+.divider .lede {
+  font-size: 16px; font-style: italic;
+  color: rgba(255,255,255,0.88); max-width: 640px; margin-top: 18px;
+}
+
+/* ===========================================================
+   HERO NUMBER — single big statistic full-slide
+   =========================================================== */
+.hero-num {
+  height: 100%; padding: 64px 64px;
+  display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+  position: relative;
+}
+.hero-num .lead .kicker {
+  font-size: 11px; font-weight: 700; color: var(--cyan);
+  letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 16px;
+}
+.hero-num .lead h2 {
+  font-family: var(--font-display);
+  font-size: 32px; font-weight: 800; color: var(--ink);
+  line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 18px;
+}
+.hero-num .lead p {
+  font-size: 14px; color: var(--ink-2); line-height: 1.6; max-width: 480px;
+}
+.hero-num .stat {
+  font-family: var(--font-display);
+  font-size: 200px; font-weight: 900; color: var(--ink);
+  line-height: 0.9; letter-spacing: -0.05em;
+}
+.hero-num .stat .unit {
+  font-size: 64px; color: var(--lime); margin-left: 4px;
+}
+
+/* ===========================================================
+   SWOT GRID — 2x2 quadrant
+   =========================================================== */
+.swot {
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+  gap: 8px; padding: 0 32px;
+}
+.swot .q {
+  background: var(--card); padding: 22px 24px; position: relative;
+  border-top: 4px solid var(--accent, var(--lime));
+}
+.swot .q.strengths    { --accent: var(--green); }
+.swot .q.weaknesses   { --accent: var(--orange); }
+.swot .q.opportunities{ --accent: var(--cyan); }
+.swot .q.threats      { --accent: var(--magenta); }
+.swot .q h3 {
+  font-size: 12px; font-weight: 800; color: var(--accent);
+  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px;
+}
+.swot .q ul { list-style: none; }
+.swot .q ul li {
+  font-size: 12px; color: var(--ink); padding-left: 12px;
+  position: relative; margin-bottom: 8px; line-height: 1.45;
+}
+.swot .q ul li::before {
+  content: ''; position: absolute; left: 0; top: 7px;
+  width: 4px; height: 4px; background: var(--accent); border-radius: 50%;
+}
+
+/* ===========================================================
+   TIMELINE — horizontal milestones
+   =========================================================== */
+.timeline {
+  padding: 32px; position: relative;
+  display: grid; grid-template-columns: repeat(var(--n, 4), 1fr); gap: 16px;
+}
+.timeline::before {
+  content: ''; position: absolute; left: 64px; right: 64px; top: 60px;
+  height: 3px; background: var(--rule); z-index: 0;
+}
+.timeline .ms {
+  position: relative; z-index: 1; padding-top: 32px;
+  text-align: center;
+}
+.timeline .ms::before {
+  content: ''; position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--accent, var(--lime));
+  border: 4px solid var(--white);
+  box-shadow: 0 0 0 1px var(--accent, var(--lime));
+}
+.timeline .ms.cyan    { --accent: var(--cyan); }
+.timeline .ms.magenta { --accent: var(--magenta); }
+.timeline .ms.orange  { --accent: var(--orange); }
+.timeline .ms.violet  { --accent: var(--violet); }
+.timeline .ms .date {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 800; color: var(--ink);
+  margin-bottom: 6px;
+}
+.timeline .ms .label {
+  font-size: 11px; font-weight: 600; color: var(--gray-d);
+  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;
+}
+.timeline .ms .body {
+  font-size: 11px; color: var(--ink-2); line-height: 1.4;
+}
+
+/* ===========================================================
+   TROMBINOSCOPE — avatar grid (people)
+   =========================================================== */
+.trombi {
+  padding: 0 32px;
+  display: grid; grid-template-columns: repeat(var(--cols, 6), 1fr); gap: 14px;
+}
+.trombi .person {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; padding: 12px 8px;
+}
+.trombi .person .avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--card) center/cover no-repeat;
+  border: 2px solid var(--accent, var(--lime));
+  margin-bottom: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 22px; font-weight: 800;
+  color: var(--accent, var(--ink));
+}
+.trombi .person.cyan    { --accent: var(--cyan); }
+.trombi .person.magenta { --accent: var(--magenta); }
+.trombi .person.orange  { --accent: var(--orange); }
+.trombi .person.violet  { --accent: var(--violet); }
+.trombi .person .name {
+  font-size: 11px; font-weight: 700; color: var(--ink); line-height: 1.2;
+}
+.trombi .person .role {
+  font-size: 10px; color: var(--gray-d); margin-top: 2px;
+}
+.trombi .person .tag {
+  margin-top: 6px; font-size: 9px; font-weight: 700; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* ===========================================================
+   PICTOGRAM TILE — for icon-led slides
+   =========================================================== */
+.picto-row {
+  padding: 0 32px;
+  display: grid; grid-template-columns: repeat(var(--cols, 4), 1fr); gap: 14px;
+}
+.picto {
+  background: var(--card); padding: 22px 20px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  border-top: 4px solid var(--accent, var(--cyan));
+}
+.picto.cyan    { --accent: var(--cyan); }
+.picto.magenta { --accent: var(--magenta); }
+.picto.lime    { --accent: var(--lime); }
+.picto.orange  { --accent: var(--orange); }
+.picto.violet  { --accent: var(--violet); }
+.picto.green   { --accent: var(--green); }
+.picto .icon {
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--white); border-radius: 50%;
+  margin-bottom: 14px;
+  color: var(--accent); font-size: 28px; font-weight: 900;
+  border: 2px solid var(--accent);
+}
+.picto .title {
+  font-family: var(--font-display);
+  font-size: 14px; font-weight: 800; color: var(--ink);
+  margin-bottom: 6px;
+}
+.picto .body { font-size: 11px; color: var(--ink-2); line-height: 1.45; }
+
+/* ===========================================================
+   DISCUSSION PROMPTS — ELT pre-read footer (3 question chips)
+   Outer wrap is the dark box; .qs is the 3-column grid inside.
+   .tag sits on top with negative margin / overhang.
+   =========================================================== */
+.prompts {
+  position: absolute; left: 32px; right: 32px; bottom: 56px;
+  background: var(--ink); border-radius: 10px;
+  padding: 24px 24px 18px;
+  counter-reset: qcount;
+}
+.prompts .tag {
+  display: inline-block;
+  background: var(--lime); color: var(--ink);
+  font-size: 10px; font-weight: 800; padding: 4px 10px;
+  letter-spacing: 0.10em;
+  margin-bottom: 14px;
+}
+.prompts .qs {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;
+}
+.prompts .q {
+  color: var(--white); font-size: 13px; line-height: 1.45;
+  padding-left: 28px; position: relative;
+}
+.prompts .q::before {
+  content: counter(qcount); counter-increment: qcount;
+  position: absolute; left: 0; top: 0;
+  color: var(--lime); font-family: var(--font-display);
+  font-size: 22px; font-weight: 900; line-height: 1;
+}
+
+/* ===========================================================
+   WORLDMAP — geographic split (visual placeholder + region cards)
+   =========================================================== */
+.worldmap {
+  padding: 0 32px;
+  display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px;
+  height: 380px;
+}
+.worldmap .map {
+  background: var(--card);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+/* Real world map silhouette — uses inline SVG element instead of bg image for crispness */
+.worldmap .map svg { width: 100%; height: 100%; display: block; padding: 16px; }
+.worldmap .map svg path { fill: var(--gray); fill-opacity: 0.25; stroke: var(--gray-d); stroke-width: 0.8; }
+.worldmap .map svg path.hl { fill: var(--cyan); fill-opacity: 0.65; }
+.worldmap .map svg path.hl-magenta { fill: var(--magenta); fill-opacity: 0.65; }
+.worldmap .map svg path.hl-lime { fill: var(--lime); fill-opacity: 0.85; }
+.worldmap .map svg path.hl-violet { fill: var(--violet); fill-opacity: 0.65; }
+.worldmap .regions {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.worldmap .region {
+  background: var(--card-2); padding: 12px 16px;
+  border-left: 4px solid var(--accent, var(--cyan));
+  display: flex; justify-content: space-between; align-items: center;
+}
+.worldmap .region.cyan    { --accent: var(--cyan); }
+.worldmap .region.magenta { --accent: var(--magenta); }
+.worldmap .region.lime    { --accent: var(--lime); }
+.worldmap .region.violet  { --accent: var(--violet); }
+.worldmap .region .name {
+  font-size: 12px; font-weight: 700; color: var(--ink); letter-spacing: 0.04em;
+}
+.worldmap .region .val {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 800; color: var(--accent);
+}
+
+/* ===========================================================
+   CHART LIBRARY — pure CSS / SVG, no JS dependency
+   Each chart accepts inline-style values via CSS custom properties.
+   Color accents: --c1, --c2, --c3 default to cyan / magenta / lime
+   =========================================================== */
+
+/* HORIZONTAL BAR CHART
+   Use: .bar-chart > .bar-row > .bar-label + .bar-track > .bar-fill
+   Set bar width via inline style: style="width: 72%" */
+.bar-chart {
+  padding: 0 32px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.bar-chart .bar-row {
+  display: grid; grid-template-columns: 200px 1fr 64px; gap: 14px; align-items: center;
+}
+.bar-chart .bar-label {
+  font-size: 12px; font-weight: 600; color: var(--ink); text-align: right;
+}
+.bar-chart .bar-track {
+  background: var(--card); height: 26px; border-radius: 2px; position: relative; overflow: hidden;
+}
+.bar-chart .bar-fill {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: var(--accent, var(--cyan)); border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.bar-chart .bar-fill.cyan    { background: var(--cyan); }
+.bar-chart .bar-fill.magenta { background: var(--magenta); }
+.bar-chart .bar-fill.lime    { background: var(--lime); }
+.bar-chart .bar-fill.orange  { background: var(--orange); }
+.bar-chart .bar-fill.violet  { background: var(--violet); }
+.bar-chart .bar-fill.green   { background: var(--green); }
+.bar-chart .bar-fill.ink     { background: var(--ink); }
+.bar-chart .bar-value {
+  font-family: var(--font-display);
+  font-size: 14px; font-weight: 800; color: var(--ink);
+}
+
+/* DONUT / RING CHART
+   Single proportion (e.g. 88% of capacity) as a CSS conic-gradient ring */
+.donut {
+  display: inline-block;
+  width: var(--size, 140px); height: var(--size, 140px);
+  border-radius: 50%;
+  background:
+    conic-gradient(var(--accent, var(--cyan)) 0deg calc(var(--pct, 70) * 3.6deg),
+                   var(--card) calc(var(--pct, 70) * 3.6deg) 360deg);
+  position: relative;
+}
+.donut::after {
+  content: ''; position: absolute; inset: 14px;
+  background: var(--white); border-radius: 50%;
+}
+.donut .center {
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.donut .center .pct {
+  font-family: var(--font-display);
+  font-size: 28px; font-weight: 900; color: var(--ink);
+}
+.donut .center .lbl {
+  font-size: 10px; font-weight: 600; color: var(--gray-d);
+  text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px;
+}
+.donut.cyan    { --accent: var(--cyan); }
+.donut.magenta { --accent: var(--magenta); }
+.donut.lime    { --accent: var(--lime); }
+.donut.orange  { --accent: var(--orange); }
+.donut.violet  { --accent: var(--violet); }
+.donut.green   { --accent: var(--green); }
+
+/* BUTTERFLY / TORNADO CHART
+   Back-to-back bars left vs right (e.g. 2025 vs 2026 by region) */
+.butterfly {
+  padding: 0 32px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.butterfly .row {
+  display: grid; grid-template-columns: 1fr 160px 1fr; align-items: center; gap: 14px;
+}
+.butterfly .row .label {
+  text-align: center; font-size: 12px; font-weight: 700; color: var(--ink);
+}
+.butterfly .row .left, .butterfly .row .right {
+  height: 22px; background: var(--card); position: relative; overflow: hidden; border-radius: 2px;
+}
+.butterfly .row .left  { transform: scaleX(-1); }
+.butterfly .row .left .fill, .butterfly .row .right .fill {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: var(--accent, var(--cyan));
+}
+.butterfly .row .left  .fill { background: var(--left-c, var(--cyan)); }
+.butterfly .row .right .fill { background: var(--right-c, var(--magenta)); }
+.butterfly .header {
+  display: grid; grid-template-columns: 1fr 160px 1fr; gap: 14px;
+  padding-bottom: 8px; border-bottom: 0.5px solid var(--rule); margin-bottom: 8px;
+}
+.butterfly .header .h-left, .butterfly .header .h-right {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--gray-d);
+}
+.butterfly .header .h-left  { text-align: right; color: var(--left-c, var(--cyan)); }
+.butterfly .header .h-right { text-align: left;  color: var(--right-c, var(--magenta)); }
+
+/* WATERFALL CHART
+   Series of stepping bars showing positive/negative changes from baseline */
+.waterfall {
+  padding: 0 32px;
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px;
+  height: 260px; align-items: end;
+}
+.waterfall .step {
+  position: relative; display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  height: 100%;
+}
+.waterfall .step .bar {
+  width: 100%; background: var(--accent, var(--cyan));
+  position: relative;
+}
+.waterfall .step.up    .bar { background: var(--green); }
+.waterfall .step.down  .bar { background: var(--magenta); }
+.waterfall .step.total .bar { background: var(--ink); }
+.waterfall .step .val {
+  font-family: var(--font-display);
+  font-size: 13px; font-weight: 800; color: var(--ink);
+  margin-bottom: 4px;
+}
+.waterfall .step .name {
+  font-size: 10px; font-weight: 600; color: var(--gray-d);
+  text-align: center; margin-top: 6px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+
+/* SLOPE CHART (2-point) — Tufte-style with named endpoints
+   Left column: series labels with start value. Right column: end values with delta chip.
+   Lines connect across, encoding direction of change at a glance.
+   =========================================================== */
+.slope-2 {
+  padding: 0 32px;
+}
+.slope-2 .chart {
+  display: grid; grid-template-columns: 200px 1fr 200px;
+  align-items: stretch; height: 260px; gap: 0;
+}
+.slope-2 .left-labels {
+  position: relative;
+  border-right: 1px solid var(--rule);
+}
+.slope-2 .right-labels {
+  position: relative;
+  border-left: 1px solid var(--rule);
+}
+.slope-2 .endpoint {
+  position: absolute; transform: translateY(-50%);
+  display: flex; align-items: center; gap: 8px;
+}
+.slope-2 .endpoint.left {
+  right: 14px;
+  justify-content: flex-end;
+}
+.slope-2 .endpoint.right {
+  left: 14px;
+}
+.slope-2 .endpoint .name {
+  font-size: 12px; font-weight: 700; color: var(--ink);
+  line-height: 1.2;
+}
+.slope-2 .endpoint .val {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 900; color: var(--accent, var(--cyan));
+}
+.slope-2 .endpoint .delta {
+  font-size: 10px; font-weight: 700; color: var(--white);
+  background: var(--accent, var(--cyan));
+  padding: 2px 6px; border-radius: 2px;
+}
+.slope-2 .endpoint.up   .delta { background: var(--green); }
+.slope-2 .endpoint.down .delta { background: var(--magenta); }
+.slope-2 .endpoint.flat .delta { background: var(--gray); }
+.slope-2 .canvas {
+  position: relative;
+}
+.slope-2 .canvas svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  overflow: visible;
+}
+.slope-2 .canvas svg line { stroke-width: 2.5; }
+.slope-2 .canvas .dot {
+  position: absolute; width: 12px; height: 12px;
+  border-radius: 50%; border: 2px solid var(--white);
+}
+.slope-2 .x-labels {
+  display: grid; grid-template-columns: 200px 1fr 200px;
+  margin-top: 12px; padding-top: 8px;
+  border-top: 1px solid var(--rule);
+}
+.slope-2 .x-labels .from, .slope-2 .x-labels .to {
+  font-size: 12px; font-weight: 800; color: var(--ink);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.slope-2 .x-labels .from { text-align: right; padding-right: 14px; }
+.slope-2 .x-labels .to   { text-align: left;  padding-left: 14px; }
+
+/* LINE CHART (multi-point, inline SVG)
+   Container for a hand-coded SVG <polyline> chart. */
+.line-chart {
+  padding: 0 32px;
+  position: relative;
+}
+.line-chart svg { width: 100%; height: var(--h, 220px); display: block; }
+.line-chart svg .grid line { stroke: var(--rule); stroke-width: 0.5; stroke-dasharray: 2 4; }
+.line-chart svg polyline {
+  fill: none; stroke: var(--accent, var(--cyan)); stroke-width: 2.5;
+  stroke-linejoin: round; stroke-linecap: round;
+}
+.line-chart svg polyline.cyan    { stroke: var(--cyan); }
+.line-chart svg polyline.magenta { stroke: var(--magenta); }
+.line-chart svg polyline.lime    { stroke: var(--lime); }
+.line-chart svg polyline.orange  { stroke: var(--orange); }
+.line-chart svg circle { fill: var(--accent, var(--cyan)); }
+.line-chart svg text.axis {
+  font-family: var(--font-body); font-size: 10px;
+  fill: var(--gray-d); font-weight: 600;
+}
+.line-chart .legend {
+  display: flex; gap: 16px; margin-top: 12px;
+  font-size: 11px; color: var(--ink);
+}
+.line-chart .legend .item { display: flex; align-items: center; gap: 6px; }
+.line-chart .legend .item .swatch {
+  width: 14px; height: 3px; background: var(--accent);
+}
+
+/* ===========================================================
+   STORYTELLING SLIDES
+   =========================================================== */
+
+/* BEFORE / AFTER split — diagonal or vertical, two sides */
+.beforeafter {
+  display: grid; grid-template-columns: 1fr 1fr;
+  height: 100%; gap: 0;
+}
+.beforeafter .before, .beforeafter .after {
+  padding: 56px 48px;
+  display: flex; flex-direction: column; justify-content: center; gap: 16px;
+  position: relative;
+}
+.beforeafter .before { background: var(--card); color: var(--ink-2); }
+.beforeafter .after  { background: var(--ink-dk); color: var(--white); }
+.beforeafter .before::before, .beforeafter .after::before {
+  content: attr(data-tag);
+  position: absolute; top: 32px; left: 48px;
+  font-size: 11px; font-weight: 800; letter-spacing: 0.10em;
+}
+.beforeafter .before::before { color: var(--gray-d); }
+.beforeafter .after::before  { color: var(--lime); }
+.beforeafter h2 {
+  font-family: var(--font-display);
+  font-size: 44px; font-weight: 900; line-height: 1.0;
+  letter-spacing: -0.02em; margin-top: 24px;
+}
+.beforeafter .before h2 { color: var(--gray-d); }
+.beforeafter .after  h2 { color: var(--white); }
+.beforeafter .after  h2 .l { color: var(--lime); }
+.beforeafter ul { list-style: none; }
+.beforeafter li {
+  font-size: 14px; line-height: 1.5; padding-left: 18px; position: relative;
+  margin-bottom: 8px;
+}
+.beforeafter .before li::before {
+  content: '×'; position: absolute; left: 0; color: var(--magenta); font-weight: 800;
+}
+.beforeafter .after li::before {
+  content: '→'; position: absolute; left: 0; color: var(--lime); font-weight: 800;
+}
+
+/* BIG EDITORIAL QUOTE */
+.quote {
+  height: 100%; padding: 80px 96px;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative;
+}
+.quote::before {
+  content: '"'; position: absolute;
+  left: 48px; top: 24px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 360px; font-weight: 900; color: var(--lime);
+  line-height: 1; opacity: 0.35;
+}
+.quote .body {
+  position: relative; z-index: 1;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 36px; font-weight: 400; color: var(--ink);
+  line-height: 1.32; max-width: 880px; font-style: italic;
+  letter-spacing: -0.01em;
+}
+.quote .body em { color: var(--magenta); font-style: italic; }
+.quote .body b  { color: var(--ink); font-style: normal; font-weight: 700; }
+.quote .attribution {
+  position: relative; z-index: 1;
+  margin-top: 40px;
+  display: flex; align-items: center; gap: 18px;
+}
+.quote .attribution .lime-rule {
+  width: 40px; height: 3px; background: var(--lime);
+}
+.quote .attribution .who {
+  font-size: 14px; font-weight: 700; color: var(--ink);
+  letter-spacing: 0.04em;
+}
+.quote .attribution .who .role {
+  font-weight: 400; color: var(--gray-d); margin-left: 8px;
+}
+
+/* PROBLEM → INSIGHT → RESOLUTION narrative (3 stacked bands) */
+.narrative {
+  padding: 0 32px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.narrative .band {
+  background: var(--card); padding: 18px 22px;
+  display: grid; grid-template-columns: 140px 1fr; gap: 22px;
+  border-left: 6px solid var(--accent, var(--cyan));
+}
+.narrative .band.problem    { --accent: var(--magenta); }
+.narrative .band.insight    { --accent: var(--cyan); }
+.narrative .band.resolution { --accent: var(--lime); }
+.narrative .band .marker {
+  font-family: var(--font-display);
+  font-size: 14px; font-weight: 800; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 0.10em;
+  padding-top: 4px;
+}
+.narrative .band h3 {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 800; color: var(--ink);
+  margin-bottom: 6px; letter-spacing: -0.01em;
+}
+.narrative .band p {
+  font-size: 13px; color: var(--ink-2); line-height: 1.5;
+}
+
+/* THREE-ACT ARC — setup / conflict / resolution as 3 chevron columns
+   Each column's chevron tip nests into the next column's notch via negative margin.
+   The geometry uses 32px chevron depth — must match across all three columns. */
+.three-act {
+  display: flex;
+  gap: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.three-act .act {
+  flex: 1;
+  padding: 56px 44px 56px 60px;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative;
+}
+/* Setup: square left, chevron-tip right (points into next) */
+.three-act .act.setup {
+  background: var(--card);
+  clip-path: polygon(0 0, calc(100% - 32px) 0, 100% 50%, calc(100% - 32px) 100%, 0 100%);
+  padding-left: 56px;
+  padding-right: 76px;
+  margin-right: -32px;
+  z-index: 1;
+}
+/* Conflict: chevron-notch left (receives previous tip), chevron-tip right (points into next) */
+.three-act .act.conflict {
+  background: var(--ink); color: var(--white);
+  clip-path: polygon(32px 50%, 0 0, calc(100% - 32px) 0, 100% 50%, calc(100% - 32px) 100%, 0 100%);
+  padding-left: 80px;
+  padding-right: 76px;
+  margin-right: -32px;
+  z-index: 2;
+}
+/* Resolution: chevron-notch left (receives previous tip), square right */
+.three-act .act.resolution {
+  background: var(--lime); color: var(--ink);
+  clip-path: polygon(32px 50%, 0 0, 100% 0, 100% 100%, 0 100%);
+  padding-left: 80px;
+  padding-right: 56px;
+  z-index: 3;
+}
+.three-act .act .label {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 18px;
+}
+.three-act .setup      .label { color: var(--gray-d); }
+.three-act .conflict   .label { color: var(--lime); }
+.three-act .resolution .label { color: var(--ink); opacity: 0.75; }
+.three-act .act h3 {
+  font-family: var(--font-display);
+  font-size: 30px; font-weight: 900;
+  line-height: 1.05; letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.three-act .setup      h3 { color: var(--ink); }
+.three-act .conflict   h3 { color: var(--white); }
+.three-act .resolution h3 { color: var(--ink); }
+.three-act .act p {
+  font-size: 13px; line-height: 1.55;
+}
+.three-act .setup      p { color: var(--ink-2); }
+.three-act .conflict   p { color: rgba(255,255,255,0.92); }
+.three-act .resolution p { color: var(--ink); }
+
+/* ===========================================================
+   PROCESS FLOW — horizontal arrow-stepped sequence
+   =========================================================== */
+.process {
+  padding: 0 32px;
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 0;
+}
+.process .step {
+  background: var(--accent, var(--cyan));
+  color: var(--white);
+  padding: 24px 22px 24px 38px;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%, 22px 50%);
+  position: relative;
+}
+.process .step:first-child {
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%);
+  padding-left: 24px;
+}
+.process .step:last-child {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 22px 50%);
+  padding-right: 32px;
+}
+.process .step.cyan    { background: var(--cyan); }
+.process .step.magenta { background: var(--magenta); }
+.process .step.orange  { background: var(--orange); }
+.process .step.violet  { background: var(--violet); }
+.process .step.lime    { background: var(--lime); color: var(--ink); }
+.process .step.ink     { background: var(--ink); color: var(--white); }
+.process .step .num {
+  font-family: var(--font-display);
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 0.10em; margin-bottom: 6px;
+  opacity: 0.85;
+}
+.process .step .title {
+  font-family: var(--font-display);
+  font-size: 16px; font-weight: 800;
+  line-height: 1.15; letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+.process .step .body {
+  font-size: 11px; line-height: 1.4; opacity: 0.92;
+}
+
+/* ===========================================================
+   2X2 MATRIX — stakeholder map / decision grid
+   =========================================================== */
+.matrix {
+  padding: 0 32px;
+  display: grid; grid-template-columns: 60px 1fr 1fr; grid-template-rows: 1fr 1fr 60px;
+  height: 400px; gap: 0;
+}
+.matrix .y-label {
+  grid-row: 1 / 3; grid-column: 1;
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  font-size: 11px; font-weight: 800; color: var(--gray-d);
+  letter-spacing: 0.10em; text-transform: uppercase;
+}
+.matrix .y-label .low  { color: var(--gray); }
+.matrix .y-label .high { color: var(--ink); }
+.matrix .y-label .axis-name {
+  color: var(--ink); font-weight: 900;
+}
+.matrix .x-label {
+  grid-column: 2 / 4; grid-row: 3;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  font-size: 11px; font-weight: 800; color: var(--gray-d);
+  letter-spacing: 0.10em; text-transform: uppercase;
+  padding-top: 8px;
+}
+.matrix .quad {
+  background: var(--accent, var(--card));
+  padding: 18px 20px;
+  border: 0.5px solid var(--rule);
+  position: relative;
+  display: flex; flex-direction: column;
+}
+.matrix .quad.tl { --accent: rgba(245,128,12,0.12); border-color: var(--orange); }
+.matrix .quad.tr { --accent: rgba(166,245,12,0.18); border-color: var(--lime); }
+.matrix .quad.bl { --accent: rgba(128,138,160,0.10); border-color: var(--gray); }
+.matrix .quad.br { --accent: rgba(12,184,245,0.12); border-color: var(--cyan); }
+.matrix .quad .q-label {
+  font-size: 10px; font-weight: 800; color: var(--ink);
+  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;
+}
+.matrix .quad .tl-c { color: var(--orange); }
+.matrix .quad .tr-c { color: var(--lime); }
+.matrix .quad .bl-c { color: var(--gray-d); }
+.matrix .quad .br-c { color: var(--cyan); }
+.matrix .quad .item {
+  font-size: 12px; color: var(--ink); margin-bottom: 6px;
+  padding-left: 10px; position: relative;
+}
+.matrix .quad .item::before {
+  content: '•'; position: absolute; left: 0; color: var(--gray);
+}
+
+/* ===========================================================
+   HEATMAP — grid of cells with intensity encoding
+   =========================================================== */
+.heatmap {
+  padding: 0 32px;
+}
+.heatmap .grid-wrap {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 0;
+}
+.heatmap .row-labels, .heatmap .col-labels {
+  display: flex; flex-direction: column;
+}
+.heatmap .col-labels-row {
+  display: grid; grid-template-columns: var(--cols, repeat(6, 1fr));
+  gap: 2px; margin-bottom: 4px;
+}
+.heatmap .col-labels-row > div {
+  font-size: 10px; font-weight: 700; color: var(--gray-d);
+  text-transform: uppercase; letter-spacing: 0.06em; text-align: center;
+  padding: 4px 2px;
+}
+.heatmap .row {
+  display: grid; grid-template-columns: 140px var(--cols, repeat(6, 1fr));
+  gap: 2px; margin-bottom: 2px;
+}
+.heatmap .row .row-label {
+  font-size: 11px; color: var(--ink); font-weight: 600;
+  padding: 8px 12px 8px 0; text-align: right;
+  display: flex; align-items: center; justify-content: flex-end;
+}
+.heatmap .cell {
+  padding: 10px 6px; text-align: center;
+  font-size: 11px; font-weight: 700; color: var(--ink);
+  background: var(--cell-c, var(--card));
+}
+.heatmap .cell.l1 { background: rgba(166,245,12,0.18); }
+.heatmap .cell.l2 { background: rgba(166,245,12,0.42); }
+.heatmap .cell.l3 { background: rgba(166,245,12,0.75); }
+.heatmap .cell.h1 { background: rgba(245,128,12,0.20); }
+.heatmap .cell.h2 { background: rgba(245,128,12,0.50); color: var(--white); }
+.heatmap .cell.h3 { background: rgba(245,12,122,0.65); color: var(--white); }
+.heatmap .cell.h4 { background: rgba(245,12,122,0.95); color: var(--white); }
+
+/* ===========================================================
+   VERTICAL TIMELINE — for chronological narratives
+   =========================================================== */
+.vtimeline {
+  padding: 0 32px;
+  position: relative;
+}
+.vtimeline::before {
+  content: ''; position: absolute;
+  left: 110px; top: 0; bottom: 0;
+  width: 3px; background: var(--rule);
+}
+.vtimeline .vt-row {
+  display: grid; grid-template-columns: 90px 40px 1fr; align-items: flex-start;
+  margin-bottom: 18px; position: relative;
+}
+.vtimeline .vt-date {
+  font-family: var(--font-display);
+  font-size: 14px; font-weight: 800; color: var(--ink);
+  text-align: right; padding-right: 16px; padding-top: 2px;
+}
+.vtimeline .vt-dot {
+  display: flex; justify-content: center; padding-top: 4px;
+  position: relative; z-index: 1;
+}
+.vtimeline .vt-dot span {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--accent, var(--cyan));
+  border: 4px solid var(--white);
+  box-shadow: 0 0 0 1px var(--accent, var(--cyan));
+}
+.vtimeline .vt-row.cyan    { --accent: var(--cyan); }
+.vtimeline .vt-row.magenta { --accent: var(--magenta); }
+.vtimeline .vt-row.lime    { --accent: var(--lime); }
+.vtimeline .vt-row.orange  { --accent: var(--orange); }
+.vtimeline .vt-row.violet  { --accent: var(--violet); }
+.vtimeline .vt-content {
+  padding-left: 16px;
+}
+.vtimeline .vt-content .vt-title {
+  font-size: 13px; font-weight: 800; color: var(--ink);
+  margin-bottom: 4px;
+}
+.vtimeline .vt-content .vt-body {
+  font-size: 11px; color: var(--ink-2); line-height: 1.5;
+}
+
+/* ===========================================================
+   ROADMAP / GANTT — bars across a horizontal time axis
+   =========================================================== */
+.roadmap {
+  padding: 0 32px;
+}
+.roadmap .rm-header {
+  display: grid; grid-template-columns: 200px repeat(var(--quarters, 8), 1fr); gap: 4px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--rule); margin-bottom: 8px;
+}
+.roadmap .rm-header > div {
+  font-size: 10px; font-weight: 800; color: var(--gray-d);
+  text-transform: uppercase; letter-spacing: 0.06em; text-align: center;
+}
+.roadmap .rm-header > div:first-child { text-align: left; }
+.roadmap .rm-row {
+  display: grid; grid-template-columns: 200px 1fr;
+  align-items: center; padding: 6px 0; gap: 12px;
+}
+.roadmap .rm-row .rm-label {
+  font-size: 12px; font-weight: 700; color: var(--ink);
+  padding-right: 8px;
+}
+.roadmap .rm-row .rm-track {
+  position: relative; height: 22px; background: var(--card-2);
+  border-radius: 2px;
+}
+.roadmap .rm-row .rm-bar {
+  position: absolute; top: 0; bottom: 0; border-radius: 2px;
+  background: var(--accent, var(--cyan));
+  display: flex; align-items: center; padding: 0 8px;
+  font-size: 10px; font-weight: 700; color: var(--white);
+}
+.roadmap .rm-bar.cyan    { background: var(--cyan); }
+.roadmap .rm-bar.magenta { background: var(--magenta); }
+.roadmap .rm-bar.lime    { background: var(--lime); color: var(--ink); }
+.roadmap .rm-bar.orange  { background: var(--orange); }
+.roadmap .rm-bar.violet  { background: var(--violet); }
+.roadmap .rm-bar.ink     { background: var(--ink); }
+.roadmap .rm-today {
+  position: absolute; top: -8px; bottom: -8px; width: 2px;
+  background: var(--magenta);
+  z-index: 2;
+}
+.roadmap .rm-today::before {
+  content: 'TODAY'; position: absolute; top: -16px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px; font-weight: 800; color: var(--magenta);
+  letter-spacing: 0.06em;
+}
+
+/* ===========================================================
+   STACKED BAR CHART — composition over categories
+   =========================================================== */
+.stacked-bar {
+  padding: 0 32px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.stacked-bar .sb-row {
+  display: grid; grid-template-columns: 200px 1fr; align-items: center; gap: 14px;
+}
+.stacked-bar .sb-label {
+  font-size: 12px; font-weight: 700; color: var(--ink); text-align: right;
+}
+.stacked-bar .sb-track {
+  display: flex; height: 26px; border-radius: 2px; overflow: hidden;
+  background: var(--card);
+}
+.stacked-bar .sb-seg {
+  height: 100%; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--white);
+}
+.stacked-bar .sb-seg.cyan    { background: var(--cyan); }
+.stacked-bar .sb-seg.magenta { background: var(--magenta); }
+.stacked-bar .sb-seg.lime    { background: var(--lime); color: var(--ink); }
+.stacked-bar .sb-seg.orange  { background: var(--orange); }
+.stacked-bar .sb-seg.violet  { background: var(--violet); }
+.stacked-bar .sb-seg.green   { background: var(--green); }
+.stacked-bar .sb-seg.ink     { background: var(--ink); }
+.stacked-bar .sb-legend {
+  display: flex; gap: 18px; justify-content: center; margin-top: 8px;
+  font-size: 11px; color: var(--ink);
+}
+.stacked-bar .sb-legend .item { display: flex; align-items: center; gap: 6px; }
+.stacked-bar .sb-legend .swatch { width: 14px; height: 14px; }
+
+/* ===========================================================
+   MARIMEKKO / MOSAIC — McKinsey market-mix chart
+   Column widths = category size, segment heights = share within
+   =========================================================== */
+.marimekko {
+  padding: 0 32px;
+  height: 320px;
+  display: grid; grid-auto-flow: column; gap: 4px;
+}
+.marimekko .col {
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.marimekko .col .col-label {
+  position: absolute; bottom: -22px; left: 0; right: 0; text-align: center;
+  font-size: 10px; font-weight: 700; color: var(--gray-d);
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.marimekko .col .seg {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: var(--white);
+  background: var(--seg-c, var(--cyan));
+  border-bottom: 1px solid var(--white);
+}
+.marimekko .col .seg.cyan    { background: var(--cyan); }
+.marimekko .col .seg.magenta { background: var(--magenta); }
+.marimekko .col .seg.lime    { background: var(--lime); color: var(--ink); }
+.marimekko .col .seg.orange  { background: var(--orange); }
+.marimekko .col .seg.violet  { background: var(--violet); }
+.marimekko .col .seg.ink     { background: var(--ink); }
+.marimekko .col .seg.green   { background: var(--green); }
+
+/* ===========================================================
+   PYRAMID (MECE / Maslow) — stacked trapezoid layers
+   =========================================================== */
+.pyramid {
+  padding: 0 32px;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.pyramid .layer {
+  background: var(--accent, var(--cyan));
+  color: var(--white);
+  padding: 14px 22px;
+  text-align: center;
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+.pyramid .layer.l1 { width: 30%;  font-size: 13px; clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%); padding: 10px 28px; }
+.pyramid .layer.l2 { width: 50%;  font-size: 14px; clip-path: polygon(6% 0, 94% 0, 92% 100%, 8% 100%); }
+.pyramid .layer.l3 { width: 70%;  font-size: 15px; clip-path: polygon(4% 0, 96% 0, 94% 100%, 6% 100%); }
+.pyramid .layer.l4 { width: 90%;  font-size: 16px; clip-path: polygon(3% 0, 97% 0, 95% 100%, 5% 100%); }
+.pyramid .layer.l5 { width: 100%; font-size: 17px; clip-path: polygon(2% 0, 98% 0, 96% 100%, 4% 100%); }
+.pyramid .layer.lime    { background: var(--lime); color: var(--ink); }
+.pyramid .layer.cyan    { background: var(--cyan); }
+.pyramid .layer.magenta { background: var(--magenta); }
+.pyramid .layer.orange  { background: var(--orange); }
+.pyramid .layer.violet  { background: var(--violet); }
+.pyramid .layer.ink     { background: var(--ink); }
+.pyramid .layer .sub {
+  display: block; font-family: var(--font-body); font-size: 10px;
+  font-weight: 500; opacity: 0.85; margin-top: 2px;
+}
+
+/* ===========================================================
+   BCG GROWTH-SHARE MATRIX — named 2x2 with bubbles
+   =========================================================== */
+.bcg {
+  padding: 0 32px;
+  display: grid; grid-template-columns: 80px 1fr 1fr; grid-template-rows: 1fr 1fr 60px;
+  height: 400px; gap: 0;
+}
+.bcg .y-axis {
+  grid-row: 1 / 3; grid-column: 1;
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px; font-weight: 700; color: var(--ink);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 20px 12px;
+}
+.bcg .x-axis {
+  grid-column: 2 / 4; grid-row: 3;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px; font-weight: 700; color: var(--ink);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 16px 20px 0;
+}
+.bcg .cell {
+  border: 0.5px solid var(--rule);
+  padding: 16px 18px;
+  position: relative;
+  display: flex; flex-direction: column;
+}
+.bcg .cell.star     { background: rgba(166,245,12,0.18); border-color: var(--lime); }
+.bcg .cell.question { background: rgba(245,12,122,0.10); border-color: var(--magenta); }
+.bcg .cell.cow      { background: rgba(12,184,245,0.10); border-color: var(--cyan); }
+.bcg .cell.dog      { background: rgba(128,138,160,0.10); border-color: var(--gray); }
+.bcg .cell .name {
+  font-family: var(--font-display);
+  font-size: 16px; font-weight: 900;
+  letter-spacing: -0.01em; margin-bottom: 2px;
+}
+.bcg .cell.star     .name { color: var(--lime); filter: brightness(0.6); }
+.bcg .cell.question .name { color: var(--magenta); }
+.bcg .cell.cow      .name { color: var(--cyan); filter: brightness(0.7); }
+.bcg .cell.dog      .name { color: var(--gray-d); }
+.bcg .cell .desc {
+  font-size: 10px; color: var(--ink-2); font-style: italic;
+  margin-bottom: 14px;
+}
+.bcg .cell .items {
+  list-style: none;
+}
+.bcg .cell .items li {
+  font-size: 12px; color: var(--ink); padding-left: 14px; position: relative;
+  margin-bottom: 6px; font-weight: 600;
+}
+.bcg .cell .items li::before {
+  content: '●'; position: absolute; left: 0;
+}
+.bcg .cell.star     .items li::before { color: var(--lime); }
+.bcg .cell.question .items li::before { color: var(--magenta); }
+.bcg .cell.cow      .items li::before { color: var(--cyan); }
+.bcg .cell.dog      .items li::before { color: var(--gray); }
+
+/* ===========================================================
+   MCKINSEY 9-BOX — 3x3 talent matrix (performance × potential)
+   =========================================================== */
+.nine-box {
+  padding: 0 32px;
+  display: grid; grid-template-columns: 80px 1fr 1fr 1fr; grid-template-rows: 1fr 1fr 1fr 60px;
+  height: 420px; gap: 2px;
+}
+.nine-box .y-axis {
+  grid-row: 1 / 4; grid-column: 1;
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 10px; font-weight: 800; color: var(--ink);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 12px 12px;
+}
+.nine-box .x-axis {
+  grid-column: 2 / 5; grid-row: 4;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 10px; font-weight: 800; color: var(--ink);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 12px 18px 0;
+}
+.nine-box .box {
+  padding: 12px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  position: relative;
+}
+/* tier 1 = lime (top stars), tier 2 = cyan (core), tier 3 = orange (watch), tier 4 = magenta (at risk) */
+.nine-box .box.t1 { background: rgba(166,245,12,0.30); }
+.nine-box .box.t2 { background: rgba(12,184,245,0.18); }
+.nine-box .box.t3 { background: rgba(245,128,12,0.18); }
+.nine-box .box.t4 { background: rgba(245,12,122,0.18); }
+.nine-box .box .box-label {
+  font-size: 9px; font-weight: 800; color: var(--ink);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.nine-box .box .box-count {
+  font-family: var(--font-display);
+  font-size: 26px; font-weight: 900; color: var(--ink);
+  line-height: 1;
+}
+
+/* ===========================================================
+   BUBBLE CHART — X, Y, size (3-dimensional positioning)
+   =========================================================== */
+.bubble-chart {
+  padding: 0 32px;
+  position: relative;
+  height: 340px;
+}
+.bubble-chart .canvas {
+  position: absolute; left: 50px; right: 20px; top: 20px; bottom: 40px;
+  background:
+    linear-gradient(to right, var(--rule) 0 1px, transparent 1px 100%) 0 0 / 25% 100%,
+    linear-gradient(to bottom, var(--rule) 0 1px, transparent 1px 100%) 0 0 / 100% 25%;
+  background-color: var(--card-2);
+}
+.bubble-chart .canvas .bubble {
+  position: absolute;
+  background: var(--accent, var(--cyan));
+  border-radius: 50%;
+  opacity: 0.72;
+  border: 2px solid var(--white);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--white); font-weight: 800; font-size: 11px;
+}
+.bubble-chart .canvas .bubble.cyan    { background: var(--cyan); }
+.bubble-chart .canvas .bubble.magenta { background: var(--magenta); }
+.bubble-chart .canvas .bubble.lime    { background: var(--lime); color: var(--ink); }
+.bubble-chart .canvas .bubble.orange  { background: var(--orange); }
+.bubble-chart .canvas .bubble.violet  { background: var(--violet); }
+.bubble-chart .y-label {
+  position: absolute; left: 0; top: 50%;
+  transform: translateY(-50%) rotate(-90deg); transform-origin: 0 50%;
+  font-size: 10px; font-weight: 800; color: var(--gray-d);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.bubble-chart .x-label {
+  position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+  font-size: 10px; font-weight: 800; color: var(--gray-d);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.bubble-chart .axis-tick {
+  position: absolute; font-size: 9px; color: var(--gray-d);
+}
+
+/* ===========================================================
+   FUNNEL — top-down drop-off
+   =========================================================== */
+.funnel {
+  padding: 0 32px;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.funnel .stage {
+  padding: 18px 24px;
+  text-align: center;
+  background: var(--accent, var(--cyan));
+  color: var(--white);
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+.funnel .stage.s1 { width: 100%; font-size: 17px; clip-path: polygon(0 0, 100% 0, 92% 100%, 8% 100%); }
+.funnel .stage.s2 { width: 84%;  font-size: 16px; clip-path: polygon(4% 0, 96% 0, 90% 100%, 10% 100%); }
+.funnel .stage.s3 { width: 68%;  font-size: 15px; clip-path: polygon(6% 0, 94% 0, 88% 100%, 12% 100%); }
+.funnel .stage.s4 { width: 52%;  font-size: 14px; clip-path: polygon(8% 0, 92% 0, 85% 100%, 15% 100%); }
+.funnel .stage.s5 { width: 36%;  font-size: 14px; }
+.funnel .stage .num {
+  font-size: 11px; font-weight: 600; opacity: 0.8; margin-bottom: 4px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.funnel .stage.cyan    { background: var(--cyan); }
+.funnel .stage.violet  { background: var(--violet); }
+.funnel .stage.magenta { background: var(--magenta); }
+.funnel .stage.orange  { background: var(--orange); }
+.funnel .stage.lime    { background: var(--lime); color: var(--ink); }
+.funnel .stage.ink     { background: var(--ink); }
+.funnel .drop {
+  font-size: 11px; font-weight: 700; color: var(--magenta);
+  margin: 4px 0;
+}
+
+/* ===========================================================
+   SANKEY / FLOW — quantitative flows between sources & sinks
+   Simplified: bands of colored ribbons connecting two columns.
+   =========================================================== */
+.sankey {
+  padding: 0 32px;
+  display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 0;
+  height: 320px;
+  align-items: stretch;
+}
+.sankey .nodes {
+  display: flex; flex-direction: column;
+  justify-content: space-around; gap: 6px;
+}
+.sankey .nodes.left  { align-items: flex-start; }
+.sankey .nodes.right { align-items: flex-end; }
+.sankey .node {
+  background: var(--node-c, var(--ink));
+  color: var(--white);
+  padding: 12px 18px;
+  font-family: var(--font-display);
+  font-size: 13px; font-weight: 800;
+  width: 90%; max-width: 240px;
+}
+.sankey .node .val {
+  display: block; font-size: 11px; font-weight: 500; opacity: 0.85;
+  margin-top: 2px;
+}
+.sankey .node.cyan    { background: var(--cyan); }
+.sankey .node.magenta { background: var(--magenta); }
+.sankey .node.orange  { background: var(--orange); }
+.sankey .node.lime    { background: var(--lime); color: var(--ink); }
+.sankey .node.violet  { background: var(--violet); }
+.sankey .ribbons {
+  position: relative;
+}
+.sankey .ribbons svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+}
+.sankey .ribbons svg path {
+  fill: var(--ribbon-c, var(--cyan));
+  opacity: 0.35;
+}
+
+/* ===========================================================
+   RADAR / WHEEL — multi-axis comparison · sophisticated
+   Five spokes with concentric rings (0-25-50-75-100), axis labels,
+   value dots at each vertex, legend below.
+   =========================================================== */
+.radar {
+  padding: 24px 32px;
+  display: flex; align-items: center; justify-content: center;
+  height: 480px; position: relative;
+  flex-direction: column;
+}
+.radar svg { width: 460px; height: 460px; overflow: visible; }
+/* 4 concentric grid rings */
+.radar svg .grid polygon {
+  fill: none; stroke: var(--rule); stroke-width: 0.6;
+}
+.radar svg .grid polygon.outer { stroke: var(--gray); stroke-width: 1; }
+/* spoke axes */
+.radar svg .axis line {
+  stroke: var(--rule); stroke-width: 0.6;
+}
+/* numeric ring labels (0/25/50/75/100) along top axis */
+.radar svg text.ring-label {
+  font-family: var(--font-mono);
+  font-size: 9px; fill: var(--gray-d); font-weight: 600;
+  text-anchor: start;
+}
+/* series fills */
+.radar svg .series-1 polygon {
+  fill: var(--cyan); fill-opacity: 0.18;
+  stroke: var(--cyan); stroke-width: 2.5;
+}
+.radar svg .series-2 polygon {
+  fill: var(--magenta); fill-opacity: 0.18;
+  stroke: var(--magenta); stroke-width: 2.5;
+}
+.radar svg .series-1 circle { fill: var(--cyan); stroke: var(--white); stroke-width: 2; }
+.radar svg .series-2 circle { fill: var(--magenta); stroke: var(--white); stroke-width: 2; }
+/* axis labels (spoke names) */
+.radar svg text.axis-label {
+  font-family: var(--font-body);
+  font-size: 12px; font-weight: 700; fill: var(--ink);
+  text-anchor: middle;
+}
+.radar svg text.axis-sub {
+  font-family: var(--font-body);
+  font-size: 9px; font-weight: 500; fill: var(--gray-d);
+  text-anchor: middle;
+}
+.radar .legend {
+  margin-top: 16px;
+  display: flex; gap: 24px; font-size: 12px; color: var(--ink);
+  font-weight: 600;
+}
+.radar .legend .item { display: flex; align-items: center; gap: 8px; }
+.radar .legend .swatch { width: 18px; height: 4px; border-radius: 1px; }
+.radar .legend .delta {
+  font-size: 11px; font-weight: 500; color: var(--gray-d); font-style: italic;
+  margin-left: 4px;
+}
+
+/* ===========================================================
+   STORYTELLING — MANIFESTO (Uncommon Studios pattern)
+   Numbered truths, one per line, large display type.
+   =========================================================== */
+.manifesto {
+  padding: 56px 80px;
+  height: 100%; background: var(--white);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.manifesto .kicker {
+  font-size: 11px; font-weight: 800; color: var(--cyan);
+  letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 28px;
+}
+.manifesto ol {
+  list-style: none; counter-reset: manifesto;
+}
+.manifesto ol li {
+  counter-increment: manifesto;
+  display: grid; grid-template-columns: 64px 1fr; gap: 16px;
+  align-items: baseline;
+  margin-bottom: 18px;
+}
+.manifesto ol li::before {
+  content: counter(manifesto, decimal-leading-zero);
+  font-family: var(--font-display);
+  font-size: 16px; font-weight: 800; color: var(--lime);
+  letter-spacing: 0.06em;
+}
+.manifesto ol li .truth {
+  font-family: var(--font-display);
+  font-size: 26px; font-weight: 800; color: var(--ink);
+  line-height: 1.15; letter-spacing: -0.02em;
+}
+.manifesto ol li .truth em { color: var(--magenta); font-style: italic; }
+
+/* ===========================================================
+   STORYTELLING — IF / THEN conditional slide
+   Stack: IF marker → text. THEN marker on its own line → text below.
+   =========================================================== */
+.if-then {
+  padding: 80px 96px;
+  height: 100%;
+  display: flex; flex-direction: column; justify-content: center; gap: 44px;
+}
+.if-then .clause {
+  display: flex; flex-direction: column; gap: 14px;
+}
+.if-then .clause .marker {
+  font-family: var(--font-display);
+  font-size: 56px; font-weight: 900; line-height: 1; letter-spacing: -0.03em;
+}
+.if-then .clause.if   .marker { color: var(--gray-d); }
+.if-then .clause.then .marker { color: var(--lime); }
+.if-then .clause .text {
+  font-family: var(--font-display);
+  font-size: 30px; font-weight: 700;
+  line-height: 1.25; letter-spacing: -0.02em; color: var(--ink);
+  max-width: 1100px;
+}
+.if-then .clause.then .text { font-weight: 900; }
+.if-then .clause .text em { color: var(--magenta); font-style: italic; }
+.if-then .divider {
+  width: 50px; height: 3px; background: var(--lime);
+}
+
+/* ===========================================================
+   STORYTELLING — ANTI-TITLE (white slide, micro caption)
+   The slide where what isn't said IS the point.
+   =========================================================== */
+.anti-title {
+  height: 100%; padding: 64px;
+  background: var(--white);
+  display: flex; flex-direction: column; justify-content: space-between;
+  position: relative;
+}
+.anti-title::before {
+  content: ''; position: absolute; top: 64px; left: 64px;
+  width: 40px; height: 3px; background: var(--lime);
+}
+.anti-title .caption {
+  font-size: 11px; font-weight: 800; color: var(--ink-2);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  max-width: 320px; margin-top: 16px;
+}
+.anti-title .corner {
+  align-self: flex-end;
+  font-family: var(--font-display);
+  font-size: 14px; font-weight: 800;
+  color: var(--gray);
+}
+
+/* ===========================================================
+   STORYTELLING — IMAGE + ONE LINE (Cannes minimalism)
+   Full-bleed photo, single line of headline at bottom.
+   =========================================================== */
+.image-line {
+  height: 100%; position: relative; overflow: hidden;
+  background: var(--ink-dk) center/cover no-repeat;
+}
+.image-line::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 50%;
+  background: linear-gradient(to top, rgba(7,21,46,0.85), transparent);
+}
+.image-line .line {
+  position: absolute; left: 64px; right: 64px; bottom: 80px;
+  font-family: var(--font-display);
+  font-size: 48px; font-weight: 900; color: var(--white);
+  line-height: 1.05; letter-spacing: -0.03em;
+  max-width: 900px; z-index: 1;
+}
+.image-line .line .l { color: var(--lime); }
+.image-line .attribution {
+  position: absolute; left: 64px; bottom: 32px;
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.65);
+  letter-spacing: 0.12em; text-transform: uppercase; z-index: 1;
+}
+
+/* ===========================================================
+   STORYTELLING — PYRAMID PRINCIPLE (McKinsey/Barbara Minto)
+   Governing thought top, 3 supporting points below.
+   =========================================================== */
+.pyramid-principle {
+  padding: 32px 32px;
+  display: flex; flex-direction: column; gap: 18px;
+}
+.pyramid-principle .top {
+  background: var(--ink); color: var(--white);
+  padding: 26px 32px;
+  border-radius: 4px;
+  text-align: center;
+  position: relative;
+}
+.pyramid-principle .top::after {
+  content: ''; position: absolute;
+  bottom: -10px; left: 50%; transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 10px solid var(--ink);
+}
+.pyramid-principle .top .label {
+  font-size: 11px; font-weight: 800; color: var(--lime);
+  letter-spacing: 0.10em; text-transform: uppercase; margin-bottom: 8px;
+}
+.pyramid-principle .top h3 {
+  font-family: var(--font-display);
+  font-size: 26px; font-weight: 800; color: var(--white);
+  line-height: 1.15; letter-spacing: -0.02em;
+}
+.pyramid-principle .supports {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px;
+}
+.pyramid-principle .supports .support {
+  background: var(--card); padding: 18px 22px;
+  border-top: 4px solid var(--accent, var(--cyan));
+  border-radius: 4px;
+}
+.pyramid-principle .supports .support.cyan    { --accent: var(--cyan); }
+.pyramid-principle .supports .support.magenta { --accent: var(--magenta); }
+.pyramid-principle .supports .support.lime    { --accent: var(--lime); }
+.pyramid-principle .supports .support.orange  { --accent: var(--orange); }
+.pyramid-principle .supports .support .label {
+  font-size: 10px; font-weight: 800; color: var(--accent);
+  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;
+}
+.pyramid-principle .supports .support h4 {
+  font-family: var(--font-display);
+  font-size: 15px; font-weight: 800; color: var(--ink);
+  margin-bottom: 8px; line-height: 1.2;
+}
+.pyramid-principle .supports .support p {
+  font-size: 11px; color: var(--ink-2); line-height: 1.5;
+}
+
+/* ===========================================================
+   STORYTELLING — FIVE-ACT EFFIE (Challenge / Insight / Idea / Activation / Results)
+   The award-winning case study arc. Fills full slide.
+   =========================================================== */
+.five-act {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
+  height: 100%;
+}
+.five-act .act {
+  padding: 32px 26px;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative;
+  color: var(--white);
+}
+.five-act .act.a1 { background: rgba(128,138,160,0.85); color: var(--white); }
+.five-act .act.a2 { background: var(--cyan); }
+.five-act .act.a3 { background: var(--magenta); }
+.five-act .act.a4 { background: var(--orange); }
+.five-act .act.a5 { background: var(--lime); color: var(--ink); }
+.five-act .act .marker {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; opacity: 0.85; margin-bottom: 8px;
+}
+.five-act .act h3 {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 900; line-height: 1.1;
+  letter-spacing: -0.02em; margin-bottom: 14px;
+}
+.five-act .act p {
+  font-size: 12px; line-height: 1.5; opacity: 0.95;
+}
+.five-act .act .num {
+  position: absolute; top: 18px; right: 20px;
+  font-family: var(--font-display);
+  font-size: 36px; font-weight: 900; line-height: 1; opacity: 0.25;
+}
+
+/* ===========================================================
+   THREE-ACT · DIAMOND variant — three diamond cards in flow
+   Alternative to chevron three-act. Each act is a diamond shape.
+   =========================================================== */
+.three-act-diamond {
+  height: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 32px 56px; gap: 0;
+  position: relative;
+}
+.three-act-diamond .diamond {
+  width: 280px; height: 280px;
+  position: relative;
+  transform: rotate(45deg);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.three-act-diamond .diamond.setup      { background: var(--card); }
+.three-act-diamond .diamond.conflict   { background: var(--ink); color: var(--white); }
+.three-act-diamond .diamond.resolution { background: var(--lime); color: var(--ink); }
+.three-act-diamond .diamond .inner {
+  transform: rotate(-45deg);
+  text-align: center;
+  width: 220px;
+}
+.three-act-diamond .diamond .label {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 12px;
+}
+.three-act-diamond .setup      .label { color: var(--gray-d); }
+.three-act-diamond .conflict   .label { color: var(--lime); }
+.three-act-diamond .resolution .label { color: var(--ink); opacity: 0.75; }
+.three-act-diamond .diamond .inner h3 {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 900; line-height: 1.1;
+  letter-spacing: -0.02em; margin-bottom: 12px;
+}
+.three-act-diamond .diamond .inner p {
+  font-size: 12px; line-height: 1.5;
+}
+.three-act-diamond .connector {
+  flex: 1; height: 3px; background: var(--lime);
+  position: relative;
+}
+.three-act-diamond .connector::after {
+  content: ''; position: absolute; right: -2px; top: 50%;
+  transform: translateY(-50%);
+  width: 0; height: 0;
+  border-left: 12px solid var(--lime);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+
+/* ===========================================================
+   ORG CHART TREE — hierarchy with connecting lines
+   =========================================================== */
+.orgchart {
+  padding: 32px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.orgchart .level {
+  display: flex; gap: 16px; margin-bottom: 36px;
+  position: relative;
+}
+.orgchart .level::after {
+  content: ''; position: absolute;
+  left: 50%; bottom: -20px; transform: translateX(-50%);
+  width: 2px; height: 16px; background: var(--rule);
+}
+.orgchart .level:last-child::after { display: none; }
+.orgchart .node {
+  background: var(--accent, var(--card)); color: var(--ink);
+  padding: 12px 18px; min-width: 160px;
+  border-radius: 4px;
+  border-top: 4px solid var(--accent-c, var(--cyan));
+  text-align: center;
+  position: relative;
+}
+.orgchart .node.ceo  { background: var(--ink); color: var(--white); --accent-c: var(--lime); }
+.orgchart .node.elt  { background: var(--card); --accent-c: var(--cyan); }
+.orgchart .node.n1   { background: var(--white); border: 0.5px solid var(--rule); --accent-c: var(--magenta); }
+.orgchart .node.n2   { background: var(--card-2); --accent-c: var(--violet); }
+.orgchart .node .name {
+  font-size: 13px; font-weight: 800; line-height: 1.2;
+}
+.orgchart .node .role {
+  font-size: 10px; font-weight: 600; color: var(--gray-d); margin-top: 2px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.orgchart .node.ceo .role { color: rgba(166,245,12,0.85); }
+.orgchart .branch {
+  display: flex; gap: 16px;
+  position: relative;
+}
+.orgchart .branch::before {
+  content: ''; position: absolute;
+  top: -20px; left: 5%; right: 5%; height: 2px;
+  background: var(--rule);
+}
+
+/* ===========================================================
+   DECISION TREE — branching options with outcomes
+   =========================================================== */
+.dtree {
+  padding: 24px 32px;
+  display: grid; grid-template-columns: 220px 1fr; gap: 24px;
+  align-items: center;
+}
+.dtree .root {
+  background: var(--ink); color: var(--white);
+  padding: 22px 24px; border-radius: 6px;
+  text-align: center;
+}
+.dtree .root .q {
+  font-size: 10px; font-weight: 800; color: var(--lime);
+  letter-spacing: 0.10em; text-transform: uppercase; margin-bottom: 8px;
+}
+.dtree .root .text {
+  font-family: var(--font-display);
+  font-size: 17px; font-weight: 800; line-height: 1.2;
+}
+.dtree .branches {
+  display: flex; flex-direction: column; gap: 14px;
+  position: relative;
+}
+.dtree .branches::before {
+  content: ''; position: absolute;
+  left: -24px; top: 20%; bottom: 20%; width: 2px; background: var(--rule);
+}
+.dtree .branch {
+  display: grid; grid-template-columns: 90px 1fr 100px;
+  align-items: center; gap: 16px;
+  background: var(--card); padding: 14px 18px; border-radius: 4px;
+  border-left: 4px solid var(--accent, var(--cyan));
+  position: relative;
+}
+.dtree .branch::before {
+  content: ''; position: absolute; left: -24px; top: 50%;
+  width: 24px; height: 2px; background: var(--rule);
+}
+.dtree .branch.yes { --accent: var(--lime); }
+.dtree .branch.no  { --accent: var(--magenta); }
+.dtree .branch.maybe { --accent: var(--orange); }
+.dtree .branch .label {
+  font-family: var(--font-display);
+  font-size: 13px; font-weight: 800; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.dtree .branch .outcome {
+  font-size: 12px; color: var(--ink); line-height: 1.45;
+}
+.dtree .branch .chip-stat {
+  font-size: 10px; font-weight: 700; color: var(--white);
+  background: var(--accent); padding: 4px 8px; border-radius: 2px;
+  text-align: center;
+}
+
+/* ===========================================================
+   MATURITY MODEL — 5-stage capability assessment
+   =========================================================== */
+.maturity {
+  padding: 0 32px;
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px;
+}
+.maturity .stage {
+  padding: 18px 16px 18px 24px;
+  position: relative;
+  display: flex; flex-direction: column;
+  background: var(--accent, var(--gray));
+  color: var(--white);
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%, 16px 50%);
+  min-height: 200px;
+}
+.maturity .stage:first-child {
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%);
+  padding-left: 18px;
+}
+.maturity .stage:last-child {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 16px 50%);
+}
+.maturity .stage.l1 { background: rgba(128,138,160,0.85); }
+.maturity .stage.l2 { background: var(--orange); }
+.maturity .stage.l3 { background: var(--cyan); }
+.maturity .stage.l4 { background: var(--violet); }
+.maturity .stage.l5 { background: var(--lime); color: var(--ink); }
+.maturity .stage .num {
+  font-family: var(--font-display);
+  font-size: 36px; font-weight: 900; line-height: 1;
+  opacity: 0.35; position: absolute; top: 14px; right: 22px;
+}
+.maturity .stage .level {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.10em;
+  text-transform: uppercase; margin-bottom: 8px; opacity: 0.85;
+}
+.maturity .stage .name {
+  font-family: var(--font-display);
+  font-size: 16px; font-weight: 900; line-height: 1.15;
+  margin-bottom: 10px;
+}
+.maturity .stage .desc {
+  font-size: 11px; line-height: 1.5; opacity: 0.95;
+}
+.maturity .indicator {
+  margin-top: 12px; padding: 12px 22px;
+  background: var(--card); border-left: 4px solid var(--lime);
+  font-size: 12px; color: var(--ink);
+}
+.maturity .indicator b { color: var(--ink); font-weight: 800; }
+
+/* ===========================================================
+   RISK MATRIX — severity × likelihood with named risks
+   =========================================================== */
+.risk-matrix {
+  padding: 0 32px;
+  display: grid; grid-template-columns: 80px 1fr 1fr 1fr 1fr 1fr; grid-template-rows: 1fr 1fr 1fr 1fr 1fr 60px;
+  gap: 2px; height: 420px;
+}
+.risk-matrix .y-axis {
+  grid-row: 1 / 6; grid-column: 1;
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 10px; font-weight: 800; color: var(--ink);
+  text-transform: uppercase; letter-spacing: 0.08em; padding: 12px;
+}
+.risk-matrix .x-axis {
+  grid-column: 2 / 7; grid-row: 6;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 10px; font-weight: 800; color: var(--ink);
+  text-transform: uppercase; letter-spacing: 0.08em; padding: 12px 18px 0;
+}
+.risk-matrix .cell {
+  padding: 8px;
+  position: relative;
+  display: flex; flex-direction: column; gap: 4px;
+}
+/* Green = low risk, yellow = mod, orange = high, red = critical */
+.risk-matrix .cell.r1 { background: rgba(77,176,79,0.20); }
+.risk-matrix .cell.r2 { background: rgba(166,245,12,0.25); }
+.risk-matrix .cell.r3 { background: rgba(245,128,12,0.22); }
+.risk-matrix .cell.r4 { background: rgba(245,12,122,0.25); }
+.risk-matrix .cell.r5 { background: rgba(217,69,77,0.55); }
+.risk-matrix .cell .risk {
+  font-size: 9px; font-weight: 700; color: var(--ink);
+  background: var(--white); padding: 3px 6px;
+  border-left: 2px solid var(--ink);
+  line-height: 1.2;
+}
+.risk-matrix .cell.r4 .risk, .risk-matrix .cell.r5 .risk {
+  border-left-color: var(--magenta);
+}
+
+/* ===========================================================
+   COMPARISON COLUMNS — "this not that" / option face-off
+   =========================================================== */
+.comparison {
+  padding: 0 32px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  border-radius: 6px; overflow: hidden;
+}
+.comparison .side {
+  padding: 32px 36px;
+  display: flex; flex-direction: column;
+}
+.comparison .side.this { background: var(--ink); color: var(--white); }
+.comparison .side.not  { background: var(--card); color: var(--gray-d); }
+.comparison .side .marker {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 12px;
+}
+.comparison .side.this .marker { color: var(--lime); }
+.comparison .side.not  .marker { color: var(--magenta); }
+.comparison .side h2 {
+  font-family: var(--font-display);
+  font-size: 28px; font-weight: 900; line-height: 1.1;
+  letter-spacing: -0.02em; margin-bottom: 22px;
+}
+.comparison .side.this h2 { color: var(--white); }
+.comparison .side.not  h2 { color: var(--gray-d); }
+.comparison .side ul { list-style: none; }
+.comparison .side li {
+  font-size: 13px; line-height: 1.55; padding-left: 22px;
+  position: relative; margin-bottom: 10px;
+}
+.comparison .side.this li::before {
+  content: '✓'; position: absolute; left: 0;
+  color: var(--lime); font-weight: 900; font-size: 16px;
+}
+.comparison .side.not li::before {
+  content: '×'; position: absolute; left: 0;
+  color: var(--magenta); font-weight: 900; font-size: 16px;
+}
+
+/* ===========================================================
+   HERO QUOTE WITH PORTRAIT — credibility slide
+   =========================================================== */
+.hero-quote {
+  height: 100%; padding: 0;
+  display: grid; grid-template-columns: 1fr 1.4fr;
+  background: var(--white);
+}
+.hero-quote .portrait {
+  background: var(--ink-dk) center/cover no-repeat;
+  position: relative;
+}
+.hero-quote .portrait::after {
+  content: ''; position: absolute; right: -4px; top: 0; bottom: 0;
+  width: 8px; background: var(--lime);
+}
+.hero-quote .body {
+  padding: 64px 56px;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative;
+}
+.hero-quote .body::before {
+  content: ''; position: absolute; left: 56px; top: 40px;
+  width: 40px; height: 4px; background: var(--lime);
+}
+.hero-quote .body .text {
+  font-family: Georgia, serif;
+  font-size: 26px; font-weight: 400; line-height: 1.32;
+  color: var(--ink); font-style: italic;
+  letter-spacing: -0.01em; margin-top: 64px; margin-bottom: 32px;
+  position: relative; z-index: 1;
+}
+.hero-quote .body .text em { color: var(--magenta); font-style: italic; }
+.hero-quote .body .text b  { color: var(--ink); font-weight: 700; font-style: normal; }
+.hero-quote .body .who {
+  display: flex; align-items: center; gap: 14px;
+}
+.hero-quote .body .who .lime-rule {
+  width: 32px; height: 3px; background: var(--lime);
+}
+.hero-quote .body .who .name {
+  font-size: 14px; font-weight: 800; color: var(--ink);
+  letter-spacing: 0.04em;
+}
+.hero-quote .body .who .role {
+  font-size: 12px; color: var(--gray-d); margin-top: 2px;
+  font-weight: 400;
+}
+
+/* ===========================================================
+   PRINT — for PDF export at slide dimensions
+   =========================================================== */
+@media print {
+  html, body { background: white !important; }
+  .deck { padding: 0; max-width: none; }
+  .slide { margin: 0; box-shadow: none; page-break-after: always; }
+  @page { size: 1280px 720px; margin: 0; }
+}
