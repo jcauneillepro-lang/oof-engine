@@ -104,6 +104,32 @@ Every delivery includes:
 
 No silent ship.
 
+### 11 · Restructure before delete
+When two slides cover similar ground, FIRST try resequencing the surrounding
+slides so each lands in its own beat. Deletion is final; restructure is
+reversible. The Minto swap (credibility → capability cap) kept content AND
+improved flow; deletion would have lost both.
+
+### 12 · Chapter spine visible from every crumb
+Every body slide's top crumb must read `ACT N · CHAPTER · BEAT`
+(e.g. `ACT 2 · THE SIGNAL · CAPABILITY CAP`). The argument's three-act spine
+cannot live only in the section dividers — it must be legible from any single
+slide. Section dividers are reminders, not the only source of structure.
+
+### 13 · Visual bugs block "shippable"
+Text overlap, escaped HTML, stacked paragraphs, clipped diamonds, off-page
+shapes — these are NOT cosmetic. They block "shippable" status as much as a
+wrong number does. Catch via render-verify (rule 1 + 8). A polished argument
+delivered with broken rendering is not shipped, it's leaked.
+
+### 14 · Photo placement carries attribution risk
+When dropping a portrait or person-photo next to a quote, the visual reads as
+attribution. If the quote is by an external author (Wageman, Lencioni,
+McKinsey), a real Ipsen colleague's portrait next to it falsely implies they
+said it. Either: (a) use atmospheric/landscape photos that don't read as
+attribution, (b) caption the photo explicitly ("Ipsen research culture"), or
+(c) leave the slide quote-only. Never silently attribute.
+
 ---
 
 ## Part 3 · The Design Rules
@@ -240,6 +266,33 @@ Some duplicated content already present; one slide contained 32 invented
 people names (Apollo error). All 7 were dropped.
 **Fix:** Mechanic rule 8 — editorial judgment beats feature-completism.
 Read the artifact before changing it. Earn the change.
+
+### The Deletion-Heavy Cut · restructure beats delete
+A previous build, faced with duplicate-feeling slides, dropped two of them.
+A parallel build instead RESEQUENCED the surrounding slides (Wageman after
+acquiescence, following Minto's credibility→cap order), which let both slides
+stand as distinct beats in the new flow. The restructure was the better move:
+it kept content, improved narrative, and was reversible. Deletion is final.
+**Fix:** New rule below — Restructure before delete.
+
+### The Invisible Spine · chapter labels not standardized
+A previous build had every slide carry a different crumb label
+("PART 01 · THE BRIEF", "PART 02 · THE EVIDENCE", "ORG INTELLIGENCE · WAVE")
+without a unified chapter spine. The reader couldn't tell from any single
+slide which chapter they were in. A parallel build rewrote 30 PART labels
+onto a clean `ACT 1 · THE SCORE / ACT 2 · THE SIGNAL / ACT 3 · THE MOVE` spine
+with sub-tags (`PILLAR ALIGNMENT`, `QUAL DIVERGENCE`, `CAPABILITY CAP`).
+The argument's spine became visible from any single slide's crumb.
+**Fix:** New rule below — Chapter spine must be visible from every crumb.
+
+### The Visual Bug Pass · render-verify failure
+A previous build did a thorough numeric + tone sweep but missed a stacked-
+paragraph text overlap on a key quote slide because they didn't render-verify
+each slide visually. A parallel build caught it on first review. Visual bugs
+(text overlap, escaped HTML, stacked paragraphs, clipped diamonds) are not
+"minor visual issues" — they block "shippable" status as much as a wrong number.
+**Fix:** Rule 1 (slide-by-slide render check) is non-negotiable. Failing
+Rule 1 means failing the artifact, regardless of how clean the text reads.
 
 ---
 
