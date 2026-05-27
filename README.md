@@ -2,6 +2,15 @@
 
 A small backend that takes any source content, calls Claude, and returns a v23-designed brief in HTML / PDF / PPTX.
 
+## ⚠ ZERO INVENTION RULE — read this first
+
+The engine never fabricates names, numbers, quotes, percentages, dates, org
+charts, or any data the source does not contain. When data is missing, the
+output uses `[TBD]` / `[INSERT HERE]` placeholders or skips the slide.
+
+This rule overrides every other instruction. See [`NO_INVENTION.md`](NO_INVENTION.md)
+for the full statement and the Apollo cautionary tale.
+
 ## Architecture
 
 ```
