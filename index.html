@@ -31,7 +31,7 @@ body {
   display: flex; align-items: center; justify-content: space-between;
   padding: 18px 36px; border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-.topbar .left { display: flex; align-items: center; gap: 18px; }
+.topbar > div { display: flex; align-items: center; gap: 18px; }
 .brand-mark {
   display: inline-flex; align-items: center; justify-content: center;
   background: var(--magenta); color: var(--white); width: 38px; height: 38px;
@@ -48,11 +48,10 @@ body {
   font-size: 10px; color: rgba(255,255,255,0.55); margin-top: 3px;
   font-style: italic; letter-spacing: 0.04em;
 }
-.topbar .right {
-  display: flex; align-items: center; gap: 14px;
-  font-size: 11px; color: rgba(255,255,255,0.55);
+.topbar .status-chip {
+  font-size: 11px; color: rgba(255,255,255,0.55); gap: 6px;
 }
-.topbar .right .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 8px var(--lime); }
+.topbar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 8px var(--lime); }
 
 /* ===== HERO ===== */
 .hero { padding: 88px 36px 56px; max-width: 1280px; margin: 0 auto; }
@@ -122,10 +121,10 @@ body {
 @keyframes blink { 50% { opacity: 0.4; } }
 
 .engine { display: grid; grid-template-columns: 420px 1fr; gap: 18px; }
-.left, .right { background: var(--white); border-radius: 14px; overflow: hidden; color: var(--ink); }
+.engine > .panel { background: var(--white); border-radius: 14px; overflow: hidden; color: var(--ink); }
 
 /* LEFT panel · controls */
-.left { padding: 26px; display: flex; flex-direction: column; gap: 16px; }
+.engine .controls { padding: 26px; display: flex; flex-direction: column; gap: 16px; }
 .label {
   font-size: 10px; font-weight: 800; color: var(--gray-d);
   text-transform: uppercase; letter-spacing: 0.08em;
@@ -190,7 +189,7 @@ textarea:focus, input:focus, select:focus {
 .status.error { background: rgba(245,12,122,0.10); border-left-color: var(--magenta); color: var(--ink); }
 
 /* RIGHT panel · preview */
-.right { display: flex; flex-direction: column; min-height: 720px; }
+.engine .preview { display: flex; flex-direction: column; min-height: 720px; }
 .preview-bar {
   display: flex; justify-content: space-between; align-items: center;
   padding: 14px 22px; background: var(--ink); color: var(--white);
@@ -226,14 +225,14 @@ textarea:focus, input:focus, select:focus {
 
 <!-- ============== TOP BAR ============== -->
 <nav class="topbar">
-  <div class="left">
+  <div class="brand">
     <span class="brand-mark">OOF</span>
     <div class="brand-text">
       <span class="t1">OOF<span class="l">.</span> Engine</span>
       <span class="t2">Office of the Future · Ipsen</span>
     </div>
   </div>
-  <div class="right">
+  <div class="status-chip">
     <span class="dot"></span>
     <span>Live · v0.2</span>
   </div>
@@ -280,7 +279,7 @@ textarea:focus, input:focus, select:focus {
   <div class="engine">
 
     <!-- ===== LEFT · CONTROLS ===== -->
-    <div class="left">
+    <div class="panel controls">
       <div class="label">Paste source · or describe what you need</div>
       <textarea id="input" placeholder="Examples to try:
 
@@ -356,7 +355,7 @@ textarea:focus, input:focus, select:focus {
     </div>
 
     <!-- ===== RIGHT · PREVIEW ===== -->
-    <div class="right">
+    <div class="panel preview">
       <div class="preview-bar">
         <span>Live Preview</span>
         <span id="preview-meta" style="opacity: 0.7;">Hit Generate to render</span>
