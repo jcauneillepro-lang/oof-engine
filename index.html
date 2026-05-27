@@ -212,42 +212,48 @@
   }
   .mark-wordmark .l { color: var(--lime); }
 
-  /* ============== COMPONENT GRID ============== */
+  /* ============== COMPONENT INDEX (text-only, dense) ============== */
   .comp-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
   }
   .comp-card {
     background: white;
     border: 1px solid var(--rule-thin);
-    overflow: hidden;
-    display: flex; flex-direction: column;
+    border-left: 3px solid var(--lime);
+    padding: 10px 12px;
+    display: flex; flex-direction: column; gap: 4px;
+    min-height: 78px;
   }
+  .comp-card:nth-child(7n+2) { border-left-color: var(--cyan); }
+  .comp-card:nth-child(7n+3) { border-left-color: var(--magenta); }
+  .comp-card:nth-child(7n+4) { border-left-color: var(--orange); }
+  .comp-card:nth-child(7n+5) { border-left-color: var(--violet); }
+  .comp-card:nth-child(7n+6) { border-left-color: var(--gray-d); }
+  .comp-card:nth-child(7n+7) { border-left-color: var(--ink); }
   .comp-card header {
-    display: flex; align-items: baseline; gap: 10px;
-    padding: 10px 14px; border-bottom: 1px solid var(--rule-thin);
-    background: var(--paper-2); flex-shrink: 0;
+    display: flex; align-items: baseline; gap: 8px;
+    background: transparent; padding: 0; border: 0;
   }
   .comp-card .comp-num {
-    font-family: var(--mono); font-weight: 600; font-size: 9pt;
-    color: var(--lime); letter-spacing: 0.1em;
+    font-family: var(--mono); font-weight: 600; font-size: 8pt;
+    color: var(--gray-d); letter-spacing: 0.1em;
   }
   .comp-card .comp-name {
     font-family: 'Inter Tight', sans-serif; font-weight: 900;
     font-size: 11pt; letter-spacing: -0.01em; color: var(--ink);
+    line-height: 1.15;
   }
-  /* Demo container: fixed 16:9 with scaled inner content */
-  .comp-demo-wrap {
-    position: relative; width: 100%; aspect-ratio: 16 / 9;
-    background: white; overflow: hidden;
+  .comp-card .comp-desc {
+    font-family: 'Inter', sans-serif; font-size: 9pt;
+    color: var(--gray-d); line-height: 1.4;
+    margin-top: 2px;
   }
-  .comp-card .comp-demo {
-    position: absolute; inset: 0;
-    padding: 10px; overflow: hidden;
-    background: white;
-    zoom: 0.42;
+  .comp-card .comp-desc p { margin: 0; }
+  .comp-card .comp-demo-wrap, .comp-card .comp-demo { display: none; }
+  .comp-grid-footnote {
+    margin-top: 16px; font-family: var(--mono); font-size: 8.5pt;
+    color: var(--gray-d); letter-spacing: 0.04em;
   }
-  /* Drop the inline description — too noisy in dense grid */
-  .comp-card .comp-desc { display: none; }
 
   /* ============== ASSET GRID ============== */
   .asset-grid {
@@ -2280,6 +2286,7 @@
   <div class="comp-desc"><p>5×5 grid with named risks placed by likelihood (x) × severity (y). Cell color encodes risk tier — green (low) through red (critical).</p></div>
 </article>
   </div>
+  <p class="comp-grid-footnote">Live demos in <strong>Design_System/index.html</strong>. The engine references all 57 by number when composing.</p>
   <div class="page-num">06</div>
 </section>
 
