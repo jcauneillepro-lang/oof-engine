@@ -3,6 +3,7 @@ OOF Engine — Claude composition layer
 Calls Claude API with the v23 design system as context.
 Returns a complete standalone HTML brief.
 """
+import json
 import os
 import re
 from pathlib import Path
@@ -11,6 +12,39 @@ from anthropic import Anthropic
 # Read the v23 CSS once at startup (it's the design context Claude composes against)
 CSS_PATH = Path(__file__).parent / "oof-v23.css"
 OOF_V23_CSS = CSS_PATH.read_text() if CSS_PATH.exists() else ""
+
+# Load the canonical 57 components extracted from Design_System/index.html
+# (run scripts/extract_canon.py to regenerate when the canon changes)
+CANON_PATH = Path(__file__).parent / "canon_components.json"
+CANON_COMPONENTS = []
+if CANON_PATH.exists():
+    try:
+        CANON_COMPONENTS = json.loads(CANON_PATH.read_text()).get("components", [])
+    except Exception:
+        CANON_COMPONENTS = []
+
+
+def _build_canon_block() -> str:
+    """Format all 57 canonical components into a system-prompt block."""
+    if not CANON_COMPONENTS:
+        return ""
+    lines = [
+        "# CANONICAL COMPONENT LIBRARY · 57 named components",
+        "Below is every component documented in the v23 design system index, with the",
+        "live demo HTML for each. Use these patterns exactly — they are the canon.",
+        "Each component is numbered 01–57; reference by number when composing.",
+        "",
+    ]
+    for c in CANON_COMPONENTS:
+        lines.append(f"## {c['n']:02d} · {c['name']}")
+        lines.append("```html")
+        lines.append(c['demo_html'])
+        lines.append("```")
+        lines.append("")
+    return "\n".join(lines)
+
+
+CANON_BLOCK = _build_canon_block()
 
 # ============================================================
 # SYSTEM PROMPT
@@ -267,7 +301,12 @@ This is the locked cover treatment for executive briefs. Reproduce exactly:
 - Do not invent image URLs. Use only the canonical assets listed above.
 - Do not use external CDN images, stock photos, or placeholder URLs.
 - Do not generate emojis as visual elements.
+
+__CANON_COMPONENT_BLOCK__
 """
+
+# Inject the auto-extracted 57-component canon
+SYSTEM_PROMPT = SYSTEM_PROMPT.replace("__CANON_COMPONENT_BLOCK__", CANON_BLOCK)
 
 # ============================================================
 # CALL CLAUDE
