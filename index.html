@@ -3,313 +3,2370 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OOF Engine · From the people who live in the future</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@800;900&display=swap" rel="stylesheet">
+<title>OOF Design Guidebook · The Engine</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="oof-v23.css">
 <style>
-:root {
-  --ink: #0F2552; --ink-dk: #07152E; --ink-2: #1B3370;
-  --lime: #A6F50C; --cyan: #0CB8F5; --magenta: #F50C7A;
-  --orange: #F5800C; --violet: #8B5CF6;
-  --white: #fff; --gray: #808AA0; --gray-d: #5A6275;
-  --card: #EDF1F5; --card-2: #F6F8FA; --rule: #D8DFE8;
-  --font-display: 'Inter Tight', system-ui, sans-serif;
-  --font-body: Inter, system-ui, sans-serif;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: var(--font-body); background: #FAFBFC; color: var(--ink);
-  min-height: 100vh; overflow-x: hidden;
-  background-image:
-    radial-gradient(circle at 12% 8%, rgba(166,245,12,0.18) 0%, transparent 40%),
-    radial-gradient(circle at 88% 12%, rgba(12,184,245,0.10) 0%, transparent 42%),
-    radial-gradient(circle at 60% 95%, rgba(245,12,122,0.08) 0%, transparent 45%);
-}
+  :root {
+    --paper: #FAFAF7; --paper-2: #F4F4EF; --rule-thin: rgba(15,37,82,0.12);
+    --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--paper); color: var(--ink);
+    line-height: 1.5; overflow-x: hidden;
+  }
 
-/* ===== TOP CHROME · brand bar ===== */
-.topbar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 36px; border-bottom: 1px solid rgba(15,37,82,0.08);
-  background: rgba(255,255,255,0.55); backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-.topbar > div { display: flex; align-items: center; gap: 18px; }
-.brand-mark {
-  display: inline-flex; align-items: center; justify-content: center;
-  background: var(--magenta); color: var(--white); width: 38px; height: 38px;
-  border-radius: 50%; font-family: var(--font-display); font-size: 14px;
-  font-weight: 900; transform: rotate(-8deg); letter-spacing: -0.02em;
-}
-.brand-text { display: flex; flex-direction: column; }
-.brand-text .t1 {
-  font-family: var(--font-display); font-size: 18px; font-weight: 900;
-  letter-spacing: -0.02em; line-height: 1; color: var(--ink);
-}
-.brand-text .t1 .l { color: var(--lime); }
-.brand-text .t2 {
-  font-size: 10px; color: var(--gray-d); margin-top: 3px;
-  font-style: italic; letter-spacing: 0.04em;
-}
-.topbar .status-chip {
-  font-size: 11px; color: var(--gray-d); gap: 6px;
-}
-.topbar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 8px rgba(166,245,12,0.7); }
+  /* ============== GLOBAL CHROME ============== */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,250,247,0.92); backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule-thin);
+    padding: 14px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .topbar .brand { display: flex; align-items: baseline; gap: 16px; }
+  .topbar .brand .name {
+    font-family: 'Inter Tight', sans-serif; font-weight: 900;
+    font-size: 18pt; letter-spacing: -0.02em; color: var(--ink);
+  }
+  .topbar .brand .name .l { color: var(--lime); }
+  .topbar .brand .sub {
+    font-family: var(--mono); font-size: 8pt;
+    color: var(--gray-d); letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .topbar nav { display: flex; gap: 24px; }
+  .topbar nav a {
+    font-family: var(--mono); font-size: 8pt;
+    color: var(--gray-d); text-decoration: none;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    transition: color 0.15s;
+  }
+  .topbar nav a:hover { color: var(--ink); }
+  .topbar .live {
+    display: flex; align-items: center; gap: 6px;
+    font-family: var(--mono); font-size: 8pt; color: var(--gray-d);
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .topbar .live .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--lime); box-shadow: 0 0 8px rgba(166,245,12,0.7);
+  }
 
-/* ===== HERO ===== */
-.hero { padding: 88px 36px 56px; max-width: 1280px; margin: 0 auto; }
-.hero .kicker {
-  display: inline-block; background: var(--lime); color: var(--ink);
-  padding: 6px 12px; font-size: 10px; font-weight: 800; letter-spacing: 0.12em;
-  text-transform: uppercase; margin-bottom: 24px;
-}
-.hero h1 {
-  font-family: var(--font-display); font-size: 88px; font-weight: 900;
-  line-height: 0.92; letter-spacing: -0.04em; max-width: 1080px;
-  color: var(--ink);
-}
-.hero h1 .l { color: var(--lime); -webkit-text-stroke: 1px var(--ink); }
-.hero h1 .pink { color: var(--magenta); }
-.hero .lede {
-  font-size: 19px; color: var(--gray-d); line-height: 1.55;
-  margin-top: 28px; max-width: 740px; font-weight: 400;
-}
-.hero .lede em {
-  background: var(--lime); color: var(--ink); padding: 1px 6px;
-  font-style: normal; font-weight: 700; border-radius: 3px;
-}
+  /* ============== PAGE FRAME ============== */
+  section.page {
+    max-width: 1280px; margin: 0 auto;
+    padding: 80px 60px;
+    position: relative;
+    border-bottom: 1px solid var(--rule-thin);
+  }
+  section.page:last-child { border-bottom: none; }
+  .corner-tl {
+    position: absolute; top: 28px; left: 60px;
+    font-family: var(--mono); font-size: 8pt;
+    color: var(--gray-d); letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .corner-tr {
+    position: absolute; top: 28px; right: 60px;
+    font-family: var(--mono); font-size: 8pt;
+    color: var(--gray-d); letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .page-num {
+    position: absolute; bottom: 28px; right: 60px;
+    font-family: var(--mono); font-size: 8pt;
+    color: var(--gray-d); letter-spacing: 0.18em;
+  }
 
-/* ===== MANIFESTO STRIP · 3 columns ===== */
-.manifesto {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
-  max-width: 1280px; margin: 64px auto; padding: 0 36px;
-}
-.mcol {
-  border-left: 3px solid var(--lime); padding: 4px 0 4px 22px;
-}
-.mcol:nth-child(2) { border-left-color: var(--cyan); }
-.mcol:nth-child(3) { border-left-color: var(--magenta); }
-.mcol .num {
-  font-family: var(--font-display); font-size: 11px; font-weight: 800;
-  color: var(--lime); letter-spacing: 0.12em; margin-bottom: 10px;
-}
-.mcol:nth-child(2) .num { color: var(--cyan); }
-.mcol:nth-child(3) .num { color: var(--magenta); }
-.mcol h3 {
-  font-family: var(--font-display); font-size: 22px; font-weight: 900;
-  line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 12px;
-  color: var(--ink);
-}
-.mcol p {
-  font-size: 14px; color: var(--gray-d); line-height: 1.6;
-}
+  /* ============== HERO ============== */
+  .hero {
+    min-height: 80vh;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding-top: 120px; padding-bottom: 80px;
+  }
+  .hero .kicker {
+    display: inline-block; background: var(--lime); color: var(--ink);
+    padding: 5px 10px; font-family: var(--mono); font-size: 9pt;
+    font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .hero h1 {
+    font-family: 'Inter Tight', sans-serif; font-weight: 900;
+    font-size: 120pt; line-height: 0.86; letter-spacing: -0.045em;
+    color: var(--ink);
+  }
+  .hero h1 .l { color: var(--lime); }
+  .hero .lede {
+    font-size: 18pt; color: var(--gray-d); line-height: 1.45;
+    margin-top: 40px; max-width: 880px; font-weight: 400;
+  }
+  .hero .meta-block {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px; padding-top: 24px; margin-top: 60px;
+    border-top: 1px solid var(--ink);
+  }
+  .hero .meta-block .item .k {
+    font-family: var(--mono); font-size: 8pt;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gray-d); margin-bottom: 4px;
+  }
+  .hero .meta-block .item .v {
+    font-family: 'Inter Tight', sans-serif; font-weight: 800;
+    font-size: 14pt; color: var(--ink);
+  }
 
-/* ===== ENGINE PANEL · the actual tool ===== */
-.engine-wrap {
-  max-width: 1280px; margin: 24px auto 80px; padding: 0 36px;
-}
-.engine-head {
-  display: flex; justify-content: space-between; align-items: flex-end;
-  margin-bottom: 18px; padding-bottom: 14px;
-  border-bottom: 1px solid rgba(15,37,82,0.10);
-}
-.engine-head h2 {
-  font-family: var(--font-display); font-size: 32px; font-weight: 900;
-  letter-spacing: -0.02em; color: var(--ink);
-}
-.engine-head h2 .l { color: var(--lime); }
-.engine-head .meta {
-  font-size: 11px; color: var(--gray-d); font-style: italic;
-}
-.engine-head .meta .live {
-  display: inline-block; width: 6px; height: 6px; border-radius: 50%;
-  background: var(--lime); margin-right: 5px; box-shadow: 0 0 6px var(--lime);
-  animation: blink 2s ease-in-out infinite;
-}
-@keyframes blink { 50% { opacity: 0.4; } }
+  /* ============== SECTION HEADERS ============== */
+  .section-header {
+    margin-bottom: 56px; padding-bottom: 20px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .section-header .num {
+    font-family: var(--mono); font-size: 9pt;
+    color: var(--gray-d); letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .section-header h2 {
+    font-family: 'Inter Tight', sans-serif; font-weight: 900;
+    font-size: 56pt; line-height: 0.95; letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+  .section-header h2 .l { color: var(--lime); }
+  .section-header .lede {
+    font-size: 14pt; color: var(--gray-d); line-height: 1.5;
+    margin-top: 20px; max-width: 880px; font-style: italic;
+  }
 
-.engine { display: grid; grid-template-columns: 420px 1fr; gap: 18px; }
-.engine > .panel {
-  background: var(--white); border-radius: 14px; overflow: hidden;
-  color: var(--ink); box-shadow: 0 4px 24px rgba(15,37,82,0.06);
-  border: 1px solid rgba(15,37,82,0.06);
-}
+  /* ============== PHILOSOPHY ============== */
+  .phil-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .phil-col { border-left: 3px solid var(--lime); padding-left: 24px; }
+  .phil-col:nth-child(2) { border-left-color: var(--cyan); }
+  .phil-col:nth-child(3) { border-left-color: var(--magenta); }
+  .phil-col .num {
+    font-family: var(--mono); font-size: 9pt; font-weight: 600;
+    color: var(--lime); letter-spacing: 0.18em; margin-bottom: 16px;
+  }
+  .phil-col:nth-child(2) .num { color: var(--cyan); }
+  .phil-col:nth-child(3) .num { color: var(--magenta); }
+  .phil-col h3 {
+    font-family: 'Inter Tight', sans-serif; font-weight: 900;
+    font-size: 22pt; line-height: 1.05; letter-spacing: -0.02em;
+    margin-bottom: 16px; color: var(--ink);
+  }
+  .phil-col p { font-size: 12pt; color: var(--gray-d); line-height: 1.65; }
+  .phil-col p + p { margin-top: 12px; }
 
-/* LEFT panel · controls */
-.engine .controls { padding: 26px; display: flex; flex-direction: column; gap: 16px; }
-.label {
-  font-size: 10px; font-weight: 800; color: var(--gray-d);
-  text-transform: uppercase; letter-spacing: 0.08em;
-}
-textarea, input[type=text], select {
-  width: 100%; padding: 12px 14px; border: 1.5px solid var(--rule); border-radius: 6px;
-  font-family: var(--font-body); font-size: 13px; line-height: 1.55; color: var(--ink);
-  background: var(--card-2); resize: vertical;
-}
-select {
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230F2552' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 14px center;
-  padding-right: 36px; cursor: pointer;
-}
-textarea { min-height: 180px; }
-textarea::placeholder, input::placeholder { color: var(--gray); font-style: italic; }
-textarea:focus, input:focus, select:focus {
-  outline: none; border-color: var(--lime); background: var(--white);
-  box-shadow: 0 0 0 3px rgba(166,245,12,0.18);
-}
+  /* ============== COLOR SPEC SHEET ============== */
+  .swatches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .swatch { display: flex; flex-direction: column; }
+  .swatch .chip {
+    width: 100%; aspect-ratio: 1; border: 1px solid var(--rule-thin);
+  }
+  .swatch .meta { padding-top: 16px; }
+  .swatch .meta .name {
+    font-family: 'Inter Tight', sans-serif; font-weight: 900;
+    font-size: 20pt; letter-spacing: -0.02em; color: var(--ink);
+  }
+  .swatch .meta .role {
+    font-size: 11pt; color: var(--gray-d); line-height: 1.5; margin-top: 6px;
+  }
+  .swatch .specs {
+    margin-top: 16px; display: grid; grid-template-columns: auto 1fr;
+    column-gap: 16px; row-gap: 4px;
+    font-family: var(--mono); font-size: 9pt;
+  }
+  .swatch .specs .k { color: var(--gray-d); letter-spacing: 0.12em; text-transform: uppercase; }
+  .swatch .specs .v { color: var(--ink); font-weight: 500; }
 
-/* Steering row · two dropdowns side by side */
-.steering-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.steering-row .field { display: flex; flex-direction: column; gap: 6px; }
-.steering-row .field .label { font-size: 9px; }
+  /* ============== TYPOGRAPHY ============== */
+  .typo-row {
+    display: grid; grid-template-columns: 200px 1fr; gap: 32px;
+    padding: 24px 0; border-top: 1px solid var(--rule-thin);
+  }
+  .typo-row:last-child { border-bottom: 1px solid var(--rule-thin); }
+  .typo-row .role {
+    font-family: var(--mono); font-size: 9pt;
+    color: var(--gray-d); letter-spacing: 0.14em; text-transform: uppercase;
+    padding-top: 12px;
+  }
+  .typo-row .role .face {
+    display: block; font-size: 8pt; color: var(--gray);
+    text-transform: none; letter-spacing: 0; margin-top: 4px; font-style: italic;
+  }
+  .typo-row .sample.display-xxl {
+    font-family: 'Inter Tight', sans-serif; font-weight: 900;
+    font-size: 64pt; line-height: 1; letter-spacing: -0.04em;
+  }
+  .typo-row .sample.display-l {
+    font-family: 'Inter Tight', sans-serif; font-weight: 900;
+    font-size: 32pt; line-height: 1.05; letter-spacing: -0.02em;
+  }
+  .typo-row .sample.body {
+    font-family: 'Inter', sans-serif; font-size: 14pt; font-weight: 400; line-height: 1.5;
+  }
+  .typo-row .sample.kicker {
+    display: inline-block; background: var(--lime); color: var(--ink);
+    padding: 4px 10px; font-family: var(--mono); font-size: 9pt;
+    font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+  }
 
-/* File upload */
-.file-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.file-btn {
-  display: inline-block; cursor: pointer; background: var(--ink); color: var(--white);
-  padding: 10px 14px; border-radius: 5px; font-size: 11px; font-weight: 800; letter-spacing: 0.04em;
-  transition: background 0.15s;
-}
-.file-btn:hover { background: var(--lime); color: var(--ink); }
-#file-name { font-size: 11px; color: var(--gray-d); font-style: italic; flex: 1; }
-.file-formats { font-size: 9px; color: var(--gray); margin-top: 2px; letter-spacing: 0.04em; text-transform: uppercase; }
+  /* ============== MARK PAGE ============== */
+  .mark-statement {
+    background: var(--paper-2); padding: 48px; border-left: 6px solid var(--lime);
+  }
+  .mark-statement h3 {
+    font-family: 'Inter Tight', sans-serif; font-weight: 900;
+    font-size: 36pt; line-height: 1; letter-spacing: -0.02em; color: var(--ink);
+    margin-bottom: 24px;
+  }
+  .mark-statement p { font-size: 14pt; color: var(--gray-d); line-height: 1.6; }
+  .mark-wordmark {
+    text-align: center; padding: 64px 0;
+    font-family: 'Inter Tight', sans-serif; font-weight: 900;
+    font-size: 96pt; letter-spacing: -0.04em; color: var(--ink);
+  }
+  .mark-wordmark .l { color: var(--lime); }
 
-/* Buttons */
-.btn {
-  cursor: pointer; border: 0; border-radius: 6px; font-family: var(--font-display);
-  font-weight: 800; font-size: 13px; letter-spacing: 0.04em; padding: 12px 16px;
-  transition: all 0.15s;
-}
-.btn.primary { background: var(--lime); color: var(--ink); }
-.btn.primary:hover { background: var(--ink); color: var(--lime); }
-.btn.primary:disabled { background: var(--gray); color: var(--white); cursor: not-allowed; }
-.btn.big { padding: 16px 24px; font-size: 15px; }
-.btn.secondary {
-  background: var(--white); color: var(--ink);
-  border: 1.5px solid var(--rule);
-}
-.btn.secondary:hover:not([disabled]) { background: var(--ink); color: var(--white); border-color: var(--ink); }
-.btn.secondary[disabled] { color: var(--gray); cursor: not-allowed; opacity: 0.5; }
+  /* ============== COMPONENT GRID ============== */
+  .comp-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+  }
+  .comp-card {
+    background: white;
+    border: 1px solid var(--rule-thin);
+    overflow: hidden;
+  }
+  .comp-card header {
+    display: flex; align-items: baseline; gap: 12px;
+    padding: 16px 20px; border-bottom: 1px solid var(--rule-thin);
+    background: var(--paper-2);
+  }
+  .comp-card .comp-num {
+    font-family: var(--mono); font-weight: 600; font-size: 11pt;
+    color: var(--lime); letter-spacing: 0.1em;
+  }
+  .comp-card .comp-name {
+    font-family: 'Inter Tight', sans-serif; font-weight: 900;
+    font-size: 14pt; letter-spacing: -0.01em; color: var(--ink);
+  }
+  .comp-card .comp-demo {
+    padding: 20px; max-height: 340px; overflow: hidden;
+    background: white;
+    transform: scale(0.85); transform-origin: top left; width: 117%;
+  }
 
-.downloads { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
-.status {
-  background: rgba(166,245,12,0.12); border-left: 3px solid var(--lime);
-  padding: 10px 12px; border-radius: 3px; font-size: 11px; line-height: 1.5;
-  color: var(--ink-2); font-style: italic;
-}
-.status.error { background: rgba(245,12,122,0.10); border-left-color: var(--magenta); color: var(--ink); }
+  /* ============== ASSET GRID ============== */
+  .asset-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+  }
+  .asset-card { background: white; border: 1px solid var(--rule-thin); }
+  .asset-card .asset-thumb {
+    width: 100%; aspect-ratio: 1.5;
+    background-size: cover; background-position: center;
+    border-bottom: 1px solid var(--rule-thin);
+  }
+  .asset-card.icon .asset-thumb {
+    display: flex; align-items: center; justify-content: center; padding: 32px;
+    background: var(--paper-2);
+  }
+  .asset-card.icon .asset-thumb img { width: 100%; height: 100%; object-fit: contain; }
+  .asset-card .asset-name {
+    font-family: var(--mono); font-size: 9pt;
+    color: var(--gray-d); padding: 10px 14px;
+  }
 
-/* RIGHT panel · preview */
-.engine .preview { display: flex; flex-direction: column; min-height: 720px; }
-.preview-bar {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 14px 22px; background: var(--ink); color: var(--white);
-  font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
-}
-#preview { flex: 1; width: 100%; border: 0; background: var(--card-2); min-height: 680px; }
+  /* ============== ARCHETYPE GRID ============== */
+  .arch-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .arch-card {
+    background: white; border: 1px solid var(--rule-thin); padding: 28px;
+    border-top: 4px solid var(--lime);
+  }
+  .arch-card:nth-child(2n) { border-top-color: var(--cyan); }
+  .arch-card:nth-child(3n) { border-top-color: var(--magenta); }
+  .arch-card:nth-child(5n) { border-top-color: var(--orange); }
+  .arch-card:nth-child(7n) { border-top-color: var(--violet); }
+  .arch-card .arch-meta { margin-bottom: 14px; }
+  .arch-card .arch-kind {
+    display: inline-block; padding: 3px 8px;
+    font-family: var(--mono); font-size: 7.5pt; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray-d);
+    background: var(--paper-2);
+  }
+  .arch-card h3 {
+    font-family: 'Inter Tight', sans-serif; font-weight: 900;
+    font-size: 20pt; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 10px;
+  }
+  .arch-card .arch-when { font-size: 11pt; color: var(--gray-d); margin-bottom: 12px; }
+  .arch-card .arch-shape {
+    font-family: var(--mono); font-size: 9pt; color: var(--ink); line-height: 1.5;
+    background: var(--paper-2); padding: 10px 12px;
+  }
 
-/* ===== FOOTER ===== */
-.foot {
-  max-width: 1280px; margin: 0 auto; padding: 28px 36px 56px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  display: flex; justify-content: space-between; align-items: center;
-  font-size: 11px; color: rgba(255,255,255,0.5); flex-wrap: wrap; gap: 12px;
-}
-.foot .stack {
-  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-}
-.foot .chip {
-  background: rgba(255,255,255,0.06); padding: 5px 10px; border-radius: 12px;
-  font-size: 10px; letter-spacing: 0.04em;
-}
-.foot .chip strong { color: var(--lime); font-weight: 800; }
+  /* ============== ENGINE SECTION ============== */
+  .engine-section {
+    background: var(--ink); color: white;
+    padding: 80px 60px;
+  }
+  .engine-section .section-header { border-bottom-color: var(--lime); }
+  .engine-section .section-header .num,
+  .engine-section .section-header .lede { color: rgba(255,255,255,0.7); }
+  .engine-section .section-header h2 { color: white; }
+  .engine-section .section-header h2 .l { color: var(--lime); }
 
-/* ===== RESPONSIVE-ish ===== */
-@media (max-width: 980px) {
-  .hero h1 { font-size: 56px; }
-  .manifesto { grid-template-columns: 1fr; gap: 20px; }
-  .engine { grid-template-columns: 1fr; }
-}
+  .engine { display: grid; grid-template-columns: 420px 1fr; gap: 24px; max-width: 1280px; margin: 0 auto; }
+  .engine > .panel { background: white; color: var(--ink); border-radius: 8px; overflow: hidden; }
+  .engine .controls { padding: 28px; display: flex; flex-direction: column; gap: 14px; }
+  .engine .label {
+    font-family: var(--mono); font-size: 8pt; font-weight: 600;
+    color: var(--gray-d); letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .engine textarea, .engine input[type=text], .engine select {
+    width: 100%; padding: 11px 13px; border: 1.5px solid var(--rule);
+    font-family: 'Inter', sans-serif; font-size: 13px; line-height: 1.55; color: var(--ink);
+    background: var(--paper-2); border-radius: 5px; resize: vertical;
+  }
+  .engine textarea { min-height: 160px; }
+  .engine select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230F2552' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+    padding-right: 34px; cursor: pointer;
+  }
+  .engine textarea:focus, .engine input:focus, .engine select:focus {
+    outline: none; border-color: var(--lime); background: white;
+  }
+  .engine .steering-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .engine .field { display: flex; flex-direction: column; gap: 6px; }
+  .engine .file-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .engine .file-btn {
+    cursor: pointer; background: var(--ink); color: white;
+    padding: 10px 14px; border-radius: 4px; font-family: var(--mono);
+    font-size: 9pt; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .engine .file-btn:hover { background: var(--lime); color: var(--ink); }
+  .engine #file-name { font-size: 11px; color: var(--gray-d); font-style: italic; }
+  .engine .file-formats {
+    font-family: var(--mono); font-size: 8pt; color: var(--gray);
+    letter-spacing: 0.06em; text-transform: uppercase; margin-top: 2px;
+  }
+  .engine .btn {
+    cursor: pointer; border: 0; border-radius: 5px;
+    font-family: 'Inter Tight', sans-serif; font-weight: 800;
+    font-size: 13px; letter-spacing: 0.04em; padding: 14px 18px;
+  }
+  .engine .btn.primary { background: var(--lime); color: var(--ink); }
+  .engine .btn.primary:hover { background: var(--ink); color: var(--lime); }
+  .engine .btn.primary:disabled { background: var(--gray); color: white; cursor: not-allowed; }
+  .engine .btn.big { padding: 16px 24px; font-size: 15px; }
+  .engine .btn.secondary {
+    background: white; color: var(--ink);
+    border: 1.5px solid var(--rule);
+  }
+  .engine .btn.secondary:hover:not([disabled]) { background: var(--ink); color: white; border-color: var(--ink); }
+  .engine .btn.secondary[disabled] { color: var(--gray); cursor: not-allowed; opacity: 0.5; }
+  .engine .downloads { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+  .engine .status {
+    background: rgba(166,245,12,0.12); border-left: 3px solid var(--lime);
+    padding: 10px 12px; border-radius: 3px; font-size: 11px; line-height: 1.5;
+    color: var(--ink-2); font-style: italic;
+  }
+  .engine .status.error { background: rgba(245,12,122,0.10); border-left-color: var(--magenta); color: var(--ink); }
+  .engine .preview { display: flex; flex-direction: column; min-height: 720px; }
+  .engine .preview-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 22px; background: var(--ink-dk); color: white;
+    font-family: var(--mono); font-size: 9pt; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .engine #preview { flex: 1; width: 100%; border: 0; background: var(--paper-2); min-height: 680px; }
+
+  /* ============== FOOTER ============== */
+  footer.foot {
+    background: var(--ink-dk); color: white;
+    padding: 40px 60px; text-align: center;
+  }
+  footer.foot .line { font-family: var(--mono); font-size: 9pt; color: rgba(255,255,255,0.5); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 8px; }
+  footer.foot .tag { font-style: italic; color: rgba(255,255,255,0.7); }
 </style>
 </head>
 <body>
 
-<!-- ============== TOP BAR ============== -->
 <nav class="topbar">
   <div class="brand">
-    <div class="brand-text">
-      <span class="t1">OOF<span class="l">.</span> Engine</span>
-      <span class="t2">Office of the Future · Ipsen</span>
-    </div>
+    <span class="name">OOF<span class="l">.</span> Engine</span>
+    <span class="sub">Design Guidebook · v0.4</span>
   </div>
-  <div class="status-chip">
-    <span class="dot"></span>
-    <span>Live · v0.3</span>
-  </div>
+  <nav>
+    <a href="#philosophy">Philosophy</a>
+    <a href="#colour">Colour</a>
+    <a href="#typography">Typography</a>
+    <a href="#components">Components</a>
+    <a href="#assets">Assets</a>
+    <a href="#archetypes">Archetypes</a>
+    <a href="#engine">The Engine</a>
+  </nav>
+  <div class="live"><span class="dot"></span>Live</div>
 </nav>
 
 <!-- ============== HERO ============== -->
-<section class="hero">
-  <span class="kicker">From the people who live in the future</span>
-  <h1>Briefs at the speed of <span class="l">thought.</span><br>Design at the standard of <span class="pink">forever.</span></h1>
-  <p class="lede">
-    Paste anything — a Slack thread, a board pack, a 40-slide consultant deck — and
-    get back a <em>v23-designed, source-honest brief</em> in HTML, PDF and PowerPoint.
-    Built so the next generation of HR leaders can <em>spend their time deciding,</em>
-    not formatting.
-  </p>
+<section class="page hero">
+  <div class="corner-tl">OOF · Office of the Future · Ipsen</div>
+  <div class="corner-tr">Design Guidebook · Edition 0.4 · 2026</div>
+  <div>
+    <span class="kicker">From the people who live in the future</span>
+    <h1>OOF<br>Design<br><span class="l">Guidebook.</span></h1>
+    <p class="lede">A language for the next generation of HR leadership at Ipsen. 57 components, 13 brief archetypes, 27 canonical assets. Composed by the engine at the speed of thought, rendered at the standard of forever.</p>
+  </div>
+  <div>
+    <div class="meta-block">
+      <div class="item"><div class="k">Document</div><div class="v">OOF · v0.4</div></div>
+      <div class="item"><div class="k">Issued</div><div class="v">May 2026</div></div>
+      <div class="item"><div class="k">Owner</div><div class="v">Office of the Future</div></div>
+      <div class="item"><div class="k">Status</div><div class="v">Live</div></div>
+    </div>
+  </div>
+  <div class="page-num">01</div>
 </section>
 
-<!-- ============== MANIFESTO ============== -->
-<section class="manifesto">
-  <div class="mcol">
-    <div class="num">01 · WHY</div>
-    <h3>Form is the rate-limiter on insight.</h3>
-    <p>Every HR leader has decisions waiting on a deck. We removed the deck-making step. What's left is the thinking.</p>
+<!-- ============== PHILOSOPHY ============== -->
+<section class="page" id="philosophy">
+  <div class="corner-tl">OOF · Section 01</div>
+  <div class="corner-tr">Philosophy</div>
+  <div class="section-header">
+    <div class="num">Section 01 · Philosophy</div>
+    <h2>Why this system <span class="l">exists.</span></h2>
+    <p class="lede">Three convictions that shaped the language. They are the test every component must pass.</p>
   </div>
-  <div class="mcol">
-    <div class="num">02 · HOW</div>
-    <h3>One design system. Six archetypes. Zero blank pages.</h3>
-    <p>The v23 language — navy, lime, cyan, magenta — composed by an LLM that knows it. You bring the source. It brings the form.</p>
+  <div class="phil-grid">
+    <div class="phil-col">
+      <div class="num">01 · WHY</div>
+      <h3>Form is the rate-limiter on insight.</h3>
+      <p>Every HR leader has decisions waiting on a deck. The deck is rarely the hard part — the thinking is. The system removes the design-and-format tax so the thinking gets through.</p>
+      <p>Inspired by Dieter Rams: good design is as little design as possible — but never less.</p>
+    </div>
+    <div class="phil-col">
+      <div class="num">02 · HOW</div>
+      <h3>One language, ruthlessly applied.</h3>
+      <p>Navy ink. Lime accent. Cyan, magenta, orange, violet for hierarchy. Inter Tight for display, Inter for body. 57 components, all composable.</p>
+      <p>The constraint is the feature: a brief in v23 is recognisable across the company in two seconds.</p>
+    </div>
+    <div class="phil-col">
+      <div class="num">03 · FOR WHOM</div>
+      <h3>The next generation of HR leadership.</h3>
+      <p>Built for the HR professionals who will lead businesses, not just functions. Briefs that hold their own at the ELT, the Board, and the off-site.</p>
+      <p>Source-honest. Evidence-cited. Verdict-forward.</p>
+    </div>
   </div>
-  <div class="mcol">
-    <div class="num">03 · WHAT'S NEW</div>
-    <h3>Editable PowerPoint, honest data, your house style.</h3>
-    <p>Upload a .pptx and re-skin it. Upload a PDF and compress it. Pick an archetype, pick an audience, hit Generate.</p>
+  <div class="page-num">02</div>
+</section>
+
+<!-- ============== COLOUR ============== -->
+<section class="page" id="colour">
+  <div class="corner-tl">OOF · Section 02</div>
+  <div class="corner-tr">Colour</div>
+  <div class="section-header">
+    <div class="num">Section 02 · Colour</div>
+    <h2>The <span class="l">palette.</span></h2>
+    <p class="lede">Six colours carry the entire system. The palette is closed; do not extend it.</p>
   </div>
+  <div class="swatches">
+    <div class="swatch"><div class="chip" style="background: #0F2552;"></div><div class="meta"><div class="name">Ink</div><div class="role">Substrate. Type, headlines, slide backgrounds.</div><div class="specs"><span class="k">Hex</span><span class="v">#0F2552</span><span class="k">RGB</span><span class="v">15 37 82</span><span class="k">CMYK</span><span class="v">100 85 35 35</span><span class="k">Pantone</span><span class="v">280 C</span></div></div></div>
+    <div class="swatch"><div class="chip" style="background: #A6F50C;"></div><div class="meta"><div class="name">Lime</div><div class="role">Hero accent. Verdicts, highlights, CTA. The future.</div><div class="specs"><span class="k">Hex</span><span class="v">#A6F50C</span><span class="k">RGB</span><span class="v">166 245 12</span><span class="k">CMYK</span><span class="v">35 0 100 0</span><span class="k">Pantone</span><span class="v">389 C</span></div></div></div>
+    <div class="swatch"><div class="chip" style="background: #0CB8F5;"></div><div class="meta"><div class="name">Cyan</div><div class="role">Secondary signal. Data, evidence, "how we know".</div><div class="specs"><span class="k">Hex</span><span class="v">#0CB8F5</span><span class="k">RGB</span><span class="v">12 184 245</span><span class="k">CMYK</span><span class="v">75 10 0 0</span><span class="k">Pantone</span><span class="v">2925 C</span></div></div></div>
+    <div class="swatch"><div class="chip" style="background: #F50C7A;"></div><div class="meta"><div class="name">Magenta</div><div class="role">Risk, voice, rare emphasis.</div><div class="specs"><span class="k">Hex</span><span class="v">#F50C7A</span><span class="k">RGB</span><span class="v">245 12 122</span><span class="k">CMYK</span><span class="v">0 90 20 0</span><span class="k">Pantone</span><span class="v">219 C</span></div></div></div>
+    <div class="swatch"><div class="chip" style="background: #F5800C;"></div><div class="meta"><div class="name">Orange</div><div class="role">Warning, deadlines, "decide by".</div><div class="specs"><span class="k">Hex</span><span class="v">#F5800C</span><span class="k">RGB</span><span class="v">245 128 12</span><span class="k">CMYK</span><span class="v">0 60 95 0</span><span class="k">Pantone</span><span class="v">158 C</span></div></div></div>
+    <div class="swatch"><div class="chip" style="background: #8B5CF6;"></div><div class="meta"><div class="name">Violet</div><div class="role">People, profiles, perspectives.</div><div class="specs"><span class="k">Hex</span><span class="v">#8B5CF6</span><span class="k">RGB</span><span class="v">139 92 246</span><span class="k">CMYK</span><span class="v">55 65 0 0</span><span class="k">Pantone</span><span class="v">266 C</span></div></div></div>
+  </div>
+  <div class="page-num">03</div>
+</section>
+
+<!-- ============== TYPOGRAPHY ============== -->
+<section class="page" id="typography">
+  <div class="corner-tl">OOF · Section 03</div>
+  <div class="corner-tr">Typography</div>
+  <div class="section-header">
+    <div class="num">Section 03 · Typography</div>
+    <h2>Two fonts, eight <span class="l">jobs.</span></h2>
+    <p class="lede">Inter Tight 900 carries the verdict. Inter 400 carries the evidence. There are no other choices because there should not be.</p>
+  </div>
+  <div class="typo-row">
+    <div class="role">Display XXL<span class="face">Inter Tight 900 · 64pt / -4%</span></div>
+    <div class="sample display-xxl">Briefs at the speed of thought.</div>
+  </div>
+  <div class="typo-row">
+    <div class="role">Display L · Slide<span class="face">Inter Tight 900 · 32pt / -2%</span></div>
+    <div class="sample display-l">Turnover hit 16.7% — ACCELERATE the response.</div>
+  </div>
+  <div class="typo-row">
+    <div class="role">Body<span class="face">Inter 400 · 14pt / 1.5</span></div>
+    <div class="sample body">Recent studies indicate that the time-to-fill for senior commercial roles in oncology has risen 47% YoY across EU-15 pharma. The implication is structural, not cyclical.</div>
+  </div>
+  <div class="typo-row">
+    <div class="role">Kicker · Chip<span class="face">JetBrains Mono 600 · 9pt / +18% spacing / UPPER</span></div>
+    <div class="sample"><span class="kicker">From the people who live in the future</span></div>
+  </div>
+  <div class="page-num">04</div>
+</section>
+
+<!-- ============== MARK ============== -->
+<section class="page" id="mark">
+  <div class="corner-tl">OOF · Section 04</div>
+  <div class="corner-tr">The Mark</div>
+  <div class="section-header">
+    <div class="num">Section 04 · The Mark</div>
+    <h2>The wordmark is the <span class="l">mark.</span></h2>
+    <p class="lede">No symbol. No logomark. The wordmark in Inter Tight 900 is the OOF identity in full. This is a deliberate constraint, not a missing piece.</p>
+  </div>
+  <div class="mark-wordmark">OOF<span class="l">.</span> Engine</div>
+  <div class="mark-statement">
+    <h3>Why no symbol.</h3>
+    <p>Logos demand attention; words carry meaning. The OOF identity earns its presence through what it says, not how it sits in a frame. When you need an OOF stamp on a brief, use the wordmark — it works at any size, in any colour, on any background.</p>
+  </div>
+  <div class="page-num">05</div>
+</section>
+
+<!-- ============== COMPONENTS ============== -->
+<section class="page" id="components">
+  <div class="corner-tl">OOF · Section 05</div>
+  <div class="corner-tr">Components</div>
+  <div class="section-header">
+    <div class="num">Section 05 · Components</div>
+    <h2>The <span class="l">vocabulary.</span></h2>
+    <p class="lede">57 numbered components. Each one has a job. Composition is the discipline — not every slide needs every component.</p>
+  </div>
+  <div class="comp-grid">
+    
+<article class="comp-card" id="c01">
+  <header>
+    <span class="comp-num">01</span>
+    <h3 class="comp-name">Chrome rail</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Footer present on every body slide. Lime OOF stamp · section label · page number · IPSEN wordmark.</p>
+  <div class="demo" style="background: var(--white); position: relative; height: 80px;">
+    <div class="chrome" style="position: relative; bottom: auto; left: 0; right: 0;">
+      <span class="stamp"><span class="oof">OOF</span><span class="section">Current Workforce</span></span>
+      <span class="right"><span class="page-num">05 / 26</span><span class="ipsen">IPSEN</span></span>
+    </div>
+  </div>
+  <code class="classes">chrome</code><code class="classes">stamp</code><code class="classes">oof</code><code class="classes">section</code><code class="classes">page-num</code><code class="classes">ipsen</code>
+</section>
+
+<!-- PAGE TITLE -->
+<section id="page-title"></div>
+</article>
+
+<article class="comp-card" id="c02">
+  <header>
+    <span class="comp-num">02</span>
+    <h3 class="comp-name">Page title</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Kicker (cyan caps) + h1 (display, navy) + optional takeaway line below.</p>
+  <div class="demo">
+    <div class="page-title" style="padding: 0;">
+      <div class="kicker">Forward Look · Capacity &amp; Capability Drivers</div>
+      <h1>What will be</h1>
+    </div>
+    <p class="takeaway" style="padding: 0;"><b>Key Takeaways:</b> Field-heavy structure, with high-cost senior layers (14-17)</p>
+  </div>
+  <code class="classes">page-title</code><code class="classes">kicker</code><code class="classes">takeaway</code>
+</section>
+
+<!-- KPI TILE -->
+<section id="kpi"></div>
+</article>
+
+<article class="comp-card" id="c03">
+  <header>
+    <span class="comp-num">03</span>
+    <h3 class="comp-name">KPI tile</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Workhorse stat block. Color top accent encodes meaning. Rows of 3 (hero) or 6 (compact).</p>
+  <div class="demo">
+    <div class="kpi-row cols-3" style="padding: 0;">
+      <div class="kpi lime"><div class="value">548</div><div class="label">FTE</div></div>
+      <div class="kpi cyan"><div class="value">282 k€</div><div class="label">Avg cost</div></div>
+      <div class="kpi magenta"><div class="value">16.7%</div><div class="label">Turnover</div></div>
+    </div>
+    <div class="kpi-row cols-6" style="padding: 12px 0 0;">
+      <div class="kpi lime compact"><div class="value">548</div><div class="label">FTEs</div><div class="delta">+12% YoY</div></div>
+      <div class="kpi cyan compact"><div class="value">48</div><div class="label">Avg Age</div></div>
+      <div class="kpi violet compact"><div class="value">282 k€</div><div class="label">Avg Cost</div></div>
+      <div class="kpi magenta compact"><div class="value">54.4%</div><div class="label">% Female</div></div>
+      <div class="kpi orange compact"><div class="value">16.7%</div><div class="label">Turnover</div></div>
+      <div class="kpi gray compact"><div class="value">6%</div><div class="label">Retirement</div></div>
+    </div>
+  </div>
+  <code class="classes">kpi-row</code><code class="classes">cols-3</code><code class="classes">cols-6</code><code class="classes">kpi</code><code class="classes">compact</code><code class="classes">hero</code><code class="classes">value</code><code class="classes"</div>
+</article>
+
+<article class="comp-card" id="c04">
+  <header>
+    <span class="comp-num">04</span>
+    <h3 class="comp-name">SO WHAT bar</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">The navy insight rail. One per slide, max. Lime tag + lime vertical divider + white insight prose.</p>
+  <div class="demo">
+    <div class="sowhat" style="position: relative; left: 0; right: 0; bottom: auto;">
+      <span class="tag">SO WHAT</span>
+      <div class="divider"></div>
+      <p>Current workforce is optimized for past scale / model, not upcoming RD + access-driven growth. =&gt; Need to reshape role mix and capabilities.</p>
+    </div>
+  </div>
+  <code class="classes">sowhat</code><code class="classes">tag</code><code class="classes">divider</code>
+</section>
+
+<!-- PANEL -->
+<section id="panel"></div>
+</article>
+
+<article class="comp-card" id="c05">
+  <header>
+    <span class="comp-num">05</span>
+    <h3 class="comp-name">Panel</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Bordered card with left accent stripe. Header (color-matched caps) + body content. Six color variants.</p>
+  <div class="demo">
+    <div class="cols cols-3" style="padding: 0;">
+      <div class="panel cyan"><h3>Cyan · Data</h3><ul><li>Bullet item one</li><li>Bullet item two</li></ul></div>
+      <div class="panel magenta"><h3>Magenta · Risk</h3><ul><li>Bullet item one</li><li>Bullet item two</li></ul></div>
+      <div class="panel green"><h3>Green · Delivered</h3><ul><li>Bullet item one</li><li>Bullet item two</li></ul></div>
+    </div>
+  </div>
+  <code class="classes">panel</code><code class="classes">cyan</code><code class="classes">magenta</code><code class="classes">orange</code><code class="classes">violet</code><code class="classes">green</code><code class="classes">lime</code><code class="classes">gray</code>
+</section>
+
+<!-- CHIP -->
+<section id="chip"></div>
+</article>
+
+<article class="comp-card" id="c06">
+  <header>
+    <span class="comp-num">06</span>
+    <h3 class="comp-name">Chip vocabulary</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Small colored badge. Encodes a verdict (status, scope, layer). Reserved vocabularies below — don't reinvent.</p>
+  <div class="demo">
+    <p style="font-size: 11px; color: var(--gray-d); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">Verdicts</p>
+    <div class="chip-row">
+      <span class="chip on-plan">ON PLAN</span>
+      <span class="chip stable">STABLE</span>
+      <span class="chip flag">FLAG</span>
+      <span class="chip risk">RISK</span>
+    </div>
+    <p style="font-size: 11px; color: var(--gray-d); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 8px;">Scope (2¹ / 2² / 2³)</p>
+    <div class="chip-row">
+      <span class="chip scope-1">2¹ LIMITED</span>
+      <span class="chip scope-2">2² PARTIAL</span>
+      <span class="chip scope-3">2³ FULL SCOPE</span>
+    </div>
+    <p style="font-size: 11px; color: var(--gray-d); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 8px;">Layer tags</p>
+    <div class="chip-row">
+      <span class="chip layer">N-0</span>
+      <span class="chip layer">N-1</span>
+      <span class="chip layer">N-2</span>
+      <span class="chip layer">@eye-level</span>
+      <span class="chip layer">@stretch-zone</span>
+    </div>
+  </div>
+  <code class="classes">chip</code><code class="classes">on-plan</code><code class="classes">stable</code><code class="classes">flag</code><code class="classes">risk</code><code c</div>
+</article>
+
+<article class="comp-card" id="c07">
+  <header>
+    <span class="comp-num">07</span>
+    <h3 class="comp-name">Data table</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Navy header, alternating row fill, 0.5px rule. <code class="classes">compact</code> for 10-column reactor-style tables.</p>
+  <div class="demo">
+    <table class="v23">
+      <thead><tr><th>Role</th><th>Trends Impact</th><th>Market Pressure</th><th>Direction</th></tr></thead>
+      <tbody>
+        <tr><td><b>Value &amp; Access</b></td><td>●●●</td><td>●●</td><td>Up + reshape</td></tr>
+        <tr><td><b>MSL (oncology / rare)</b></td><td>●●●</td><td>●●●</td><td>Up significantly</td></tr>
+        <tr><td><b>Field Sales</b></td><td>●●●</td><td>●●</td><td>Reshape (skills)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <code class="classes">table.v23</code><code class="classes">compact</code>
+</section>
+
+<!-- ACTION CARD -->
+<section id="action"></div>
+</article>
+
+<article class="comp-card" id="c08">
+  <header>
+    <span class="comp-num">08</span>
+    <h3 class="comp-name">Numbered action card</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Numbered colored badge + headline + meta line. For recommendation lists, levers, top 5/10.</p>
+  <div class="demo">
+    <div class="actions" style="padding: 0;">
+      <div class="action cyan"><div class="num">1</div><div class="body"><div class="h">Project Apollo — NA Commercial Transformation</div><div class="m">Q1 2025 · Owner: Head of NA · $75–100M</div></div></div>
+      <div class="action lime"><div class="num lime">2</div><div class="body"><div class="h">Acquire digital health capability</div><div class="m">Q2 2025 · Owner: CEO · $200–500M</div></div></div>
+      <div class="action magenta"><div class="num">3</div><div class="body"><div class="h">Establish NA Rare Disease CoE</div><div class="m">Q3 2025 · Owner: Head of Rare Diseases</div></div></div>
+    </div>
+  </div>
+  <code class="classes">actions</code><code class="classes">action</code><code class="classes">num</code><code class="classes">body</code>
+</section>
+
+<!-- SCENARIO -->
+<section id="scenario"></div>
+</article>
+
+<article class="comp-card" id="c09">
+  <header>
+    <span class="comp-num">09</span>
+    <h3 class="comp-name">Scenario column</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">The Iterate / Accelerate / Leap comparison block. Color-coded headers, alternating row fills.</p>
+  <div class="demo">
+    <div class="scen" style="padding: 0;">
+      <div class="scen-col iterate">
+        <header><div class="title">ITERATE</div><div class="sub">Base Case</div></header>
+        <div class="row"><span class="key">Revenue Ambition</span><span class="val">XX</span></div>
+        <div class="row alt"><span class="key">Investment</span><span class="val">XX</span></div>
+      </div>
+      <div class="scen-col accelerate">
+        <header><div class="title">ACCELERATE</div><div class="sub">High Case</div></header>
+        <div class="row"><span class="key">Revenue Ambition</span><span class="val">XX</span></div>
+        <div class="row alt"><span class="key">Investment</span><span class="val">XX</span></div>
+      </div>
+      <div class="scen-col leap">
+        <header><div class="title">LEAP</div><div class="sub">Double in Ten</div></header>
+        <div class="row"><span class="key">Revenue Ambition</span><span class="val">XX</span></div>
+        <div class="row alt"><span class="key">Investment</span><span class="val">XX</span></div>
+      </div>
+    </div>
+  </div>
+  <code class="classes">scen</code><code class="classes">scen-col</code><code class="classes">iterate</code><code class="classes">accelerate</code><code class="classes">leap</code>
+</section>
+
+<!-- SLOPE -->
+<section id="slope"></div>
+</article>
+
+<article class="comp-card" id="c10">
+  <header>
+    <span class="comp-num">10</span>
+    <h3 class="comp-name">Slope tile</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">From → To with delta chip. For capacity modelling, growth, period comparison.</p>
+  <div class="demo">
+    <div class="slope-row" style="padding: 0;">
+      <div class="slope magenta">
+        <div class="name">LEAP</div>
+        <div class="flow"><span class="from">548</span><span class="arrow">→</span><span class="to">750</span></div>
+        <div class="delta">Δ +300 FTE</div>
+      </div>
+      <div class="slope cyan">
+        <div class="name">ACCELERATE</div>
+        <div class="flow"><span class="from">548</span><span class="arrow">→</span><span class="to">650</span></div>
+        <div class="delta">Δ +100 FTE</div>
+      </div>
+      <div class="slope orange">
+        <div class="name">ITERATE</div>
+        <div class="flow"><span class="from">548</span><span class="arrow">→</span><span class="to">570</span></div>
+        <div class="delta">Δ +20 FTE</div>
+      </div>
+    </div>
+  </div>
+  <code class="classes">slope-row</code><code class="classes">slope</code><code class="classes">flow</code><code class="classes">delta</code>
+</section>
+
+<!-- AMBITION -->
+<section id="ambition"></div>
+</article>
+
+<article class="comp-card" id="c11">
+  <header>
+    <span class="comp-num">11</span>
+    <h3 class="comp-name">Ambition row · From → To</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">2026 → 2030 comparison rows. One per dimension (Revenue, Margin, Workforce, Operating Model).</p>
+  <div class="demo">
+    <div class="ftt-head" style="padding: 0;">
+      <span>FROM → TO</span><span></span><span></span><span class="right">2030</span>
+    </div>
+    <div class="ftt" style="margin: 8px 0 0;"><span class="lbl">Revenue</span><span class="v">€1.2B</span><span class="arrow">→</span><span class="v target">€2.4B</span></div>
+    <div class="ftt cyan" style="margin: 8px 0 0;"><span class="lbl">Workforce size &amp; shape</span><span class="v">548</span><span class="arrow">→</span><span class="v target">750</span></div>
+    <div class="ftt magenta" style="margin: 8px 0 0;"><span class="lbl">Operating Model</span><span class="v">Field-led</span><span class="arrow">→</span><span class="v target">Omnichannel</span></div>
+  </div>
+  <code class="classes">ftt-head</code><code class="classes">ftt</code><code class="classes">cyan</code><code class="classes">magenta</code><code class="classes">orange</code><code class="classes">violet</code>
+</section>
+
+<!-- TA STRIPE -->
+<section id="ta-stripe"></div>
+</article>
+
+<article class="comp-card" id="c12">
+  <header>
+    <span class="comp-num">12</span>
+    <h3 class="comp-name">TA stripe</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Therapy area split. Colored block with % share + body text. For portfolio decks, BU summaries.</p>
+  <div class="demo">
+    <div class="ta" style="padding: 0;">
+      <div class="ta-row cyan">
+        <div class="ta-lbl"><div class="name">Oncology</div><div class="share">25%</div></div>
+        <div class="ta-body">Driven by Cabo lifecycle + 2 oncology launches by 2028</div>
+      </div>
+      <div class="ta-row magenta">
+        <div class="ta-lbl"><div class="name">Rare Disease</div><div class="share">60%</div></div>
+        <div class="ta-body">Bylvay BA, Fidri pipeline — Rare anchors NA growth thesis</div>
+      </div>
+    </div>
+  </div>
+  <code class="classes">ta</code><code class="classes">ta-row</code><code class="classes">ta-lbl</code><code class="classes">ta-body</code>
+</section>
+
+<!-- ===========================================================
+     EXTENDED COMPONENTS (added in Phase 5)
+     =========================================================== -->
+
+<!-- SECTION DIVIDER -->
+<section id="divider-comp"></div>
+</article>
+
+<article class="comp-card" id="c13">
+  <header>
+    <span class="comp-num">13</span>
+    <h3 class="comp-name">Section divider</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Full-bleed photo + chapter number + big title. Use between major chapters of a longer brief (ED10 pattern).</p>
+  <div class="preview-wrap">
+    <div class="slide-preview">
+      <section class="slide">
+        <div class="divider" style="background-image: url('assets/jenny_lab_bg.png');">
+          <div class="num">CHAPTER 01</div>
+          <h1>The people.</h1>
+          <p class="lede">Who is in the seats. Who left them. Who we wish we still had.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+  <code class="classes">divider</code><code class="classes">num</code><code class="classes">lede</code>
+</section>
+
+<!-- HERO NUMBER -->
+<section id="hero-num"></div>
+</article>
+
+<article class="comp-card" id="c14">
+  <header>
+    <span class="comp-num">14</span>
+    <h3 class="comp-name">Hero number</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Single giant statistic + supporting paragraph. Use when ONE number IS the slide.</p>
+  <div class="demo">
+    <div class="hero-num" style="height: 280px; padding: 0;">
+      <div class="lead">
+        <div class="kicker">12-month read</div>
+        <h2>Headcount up <span style="color: var(--lime);">+9%</span>. Critical-role turnover up <span style="color: var(--magenta);">+12%</span>.</h2>
+      </div>
+      <div class="stat" style="text-align: right; font-size: 120px;">16.7<span class="unit" style="font-size: 36px;">%</span></div>
+    </div>
+  </div>
+  <code class="classes">hero-num</code><code class="classes">lead</code><code class="classes">stat</code><code class="classes">unit</code>
+</section>
+
+<!-- SWOT -->
+<section id="swot"></div>
+</article>
+
+<article class="comp-card" id="c15">
+  <header>
+    <span class="comp-num">15</span>
+    <h3 class="comp-name">SWOT grid</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">2×2 quadrant. Strengths · Weaknesses · Opportunities · Threats. Color-coded by quadrant.</p>
+  <div class="demo">
+    <div class="swot" style="padding: 0; height: 280px;">
+      <div class="q strengths"><h3>Strengths</h3><ul><li>Marketing Academy launched</li><li>HiPo regret loss below industry</li></ul></div>
+      <div class="q weaknesses"><h3>Weaknesses</h3><ul><li>V&amp;A bench thin</li><li>Aging workforce, pyramid flat</li></ul></div>
+      <div class="q opportunities"><h3>Opportunities</h3><ul><li>Rare disease growth</li><li>AI co-pilot productivity uplift</li></ul></div>
+      <div class="q threats"><h3>Threats</h3><ul><li>IRA price negotiation pressure</li><li>Field force model collapse</li></ul></div>
+    </div>
+  </div>
+  <code class="classes">swot</code><code class="classes">q</code><code class="classes">strengths</code><code class="classes">weaknesses</code><code class="classes">opportunities</code><code class="classes">threats</code>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline"></div>
+</article>
+
+<article class="comp-card" id="c16">
+  <header>
+    <span class="comp-num">16</span>
+    <h3 class="comp-name">Timeline</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Horizontal milestones. Color-coded dots on a rule. For roadmaps, year-over-year evolution, strategic phases.</p>
+  <div class="demo">
+    <div class="timeline" style="--n: 4; padding: 0;">
+      <div class="ms cyan"><div class="date">2023</div><div class="label">Build era</div><div class="body">Data engineers, ML researchers.</div></div>
+      <div class="ms lime"><div class="date">2026</div><div class="label">Orchestrate era</div><div class="body">Platform owners, AI governance.</div></div>
+      <div class="ms orange"><div class="date">2028</div><div class="label">Translate era</div><div class="body">Hybrid domain × digital.</div></div>
+      <div class="ms magenta"><div class="date">2030</div><div class="label">Embed era</div><div class="body">Digital fluency = table stakes.</div></div>
+    </div>
+  </div>
+  <code class="classes">timeline</code><code class="classes">ms</code><code class="classes">date</code><code class="classes">label</code>
+</section>
+
+<!-- TROMBINOSCOPE -->
+<section id="trombi"></div>
+</article>
+
+<article class="comp-card" id="c17">
+  <header>
+    <span class="comp-num">17</span>
+    <h3 class="comp-name">Trombinoscope</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Avatar grid. For org maps, candidate slates, team rosters. Initials fallback when no photo.</p>
+  <div class="demo">
+    <div class="trombi" style="--cols: 6; padding: 0;">
+      <div class="person cyan"><div class="avatar">JB</div><div class="name">JB Cauneille</div><div class="role">Head of OI</div><div class="tag">N-0</div></div>
+      <div class="person magenta"><div class="avatar">MR</div><div class="name">M. Rodriguez</div><div class="role">VP Eng</div><div class="tag">N-1</div></div>
+      <div class="person lime"><div class="avatar">AK</div><div class="name">A. Kowalski</div><div class="role">Director RWE</div><div class="tag">@eye-level</div></div>
+      <div class="person orange"><div class="avatar">SP</div><div class="name">S. Patel</div><div class="role">Head V&amp;A</div><div class="tag">@stretch</div></div>
+      <div class="person violet"><div class="avatar">YT</div><div class="name">Y. Tanaka</div><div class="role">MSL Lead</div><div class="tag">N-1</div></div>
+      <div class="person"><div class="avatar">LM</div><div class="name">L. Mehta</div><div class="role">Launch Excellence</div><div class="tag">N-2</div></div>
+    </div>
+  </div>
+  <code class="classes">trombi</code><code class="classes">person</code><code class="classes">avatar</code><code class="classes">name</code><code class="classes">role</code><code class="classes">tag</code>
+</section>
+
+<!-- PICTOGRAM -->
+<section id="picto"></div>
+</article>
+
+<article class="comp-card" id="c18">
+  <header>
+    <span class="comp-num">18</span>
+    <h3 class="comp-name">Pictogram tile</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Icon-led card. For 3-or-4-up callouts where each item has an emblem. Icons can be Unicode, emoji, or SVG.</p>
+  <div class="demo">
+    <div class="picto-row" style="--cols: 3; padding: 0;">
+      <div class="picto magenta"><div class="icon">€</div><div class="title">Buy</div><div class="body">Open the req at +15% market premium.</div></div>
+      <div class="picto cyan"><div class="icon">🔗</div><div class="title">Bind</div><div class="body">3-year retention LTI for top performers.</div></div>
+      <div class="picto lime"><div class="icon">+</div><div class="title">Build</div><div class="body">Marketing Academy cohort 2.</div></div>
+    </div>
+  </div>
+  <code class="classes">picto-row</code><code class="classes">picto</code><code class="classes">icon</code><code class="classes">title</code><code class="classes">body</code>
+</section>
+
+<!-- DISCUSSION PROMPTS -->
+<section id="prompts"></div>
+</article>
+
+<article class="comp-card" id="c19">
+  <header>
+    <span class="comp-num">19</span>
+    <h3 class="comp-name">Discussion prompts</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">3 numbered questions at slide foot. The signature ELT pre-read pattern. Drives conversation, not consumption.</p>
+  <div class="demo">
+    <div class="prompts" style="position: relative; left: 0; right: 0; bottom: auto;">
+      <span class="tag">DISCUSS</span>
+      <div class="qs">
+        <div class="q">If we believe agentic AI compresses analytics headcount by 30% by 2028, do we hire ahead or into it?</div>
+        <div class="q">The CDIO role today does not exist on our org chart. Who owns the call to create it?</div>
+        <div class="q">If digital fluency becomes table stakes by 2027, what do we stop measuring?</div>
+      </div>
+    </div>
+  </div>
+  <code class="classes">prompts</code><code class="classes">tag</code><code class="classes">q</code>
+</section>
+
+<!-- WORLDMAP -->
+<section id="worldmap"></div>
+</article>
+
+<article class="comp-card" id="c20">
+  <header>
+    <span class="comp-num">20</span>
+    <h3 class="comp-name">Worldmap</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Geographic split — minimal map silhouette + region cards with values. For NA / EMEA / APAC views.</p>
+  <div class="demo">
+    <div class="worldmap" style="padding: 0; height: 280px;">
+      <div class="map">
+        <svg viewBox="0 0 1010 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <!-- Simplified Robinson-style world map · proper curves & geographic proportions -->
+          <!-- NORTH AMERICA · Alaska + Canada + USA + Mexico connected -->
+          <path class="hl" d="M70,135 C 80,115 110,100 145,95 C 175,90 210,85 245,82 C 280,80 305,90 320,105 C 335,118 348,128 358,132 C 372,128 388,132 395,142 C 400,155 392,168 380,172 C 365,175 348,170 332,165 C 320,175 308,188 305,200 C 312,215 318,228 315,242 C 308,256 298,268 285,275 C 268,278 252,275 240,262 C 232,250 228,238 222,230 C 215,225 208,228 202,238 C 198,250 195,265 195,275 C 188,280 175,278 165,272 C 152,265 142,255 138,242 C 132,228 128,215 122,202 C 115,188 108,175 100,162 C 92,150 82,142 72,142 Z"/>
+          <!-- CENTRAL AMERICA · Mexico narrow tail -->
+          <path d="M210,265 C 222,275 235,285 248,295 C 262,305 275,318 285,332 C 292,345 298,358 302,368 C 298,375 290,375 282,370 C 270,360 258,348 245,335 C 232,320 218,305 208,290 C 202,278 200,268 205,262 Z"/>
+          <!-- SOUTH AMERICA · narrow tapering south, Brazil bulge east -->
+          <path d="M298,335 C 318,328 340,328 360,335 C 378,345 388,360 392,378 C 396,398 395,418 390,438 C 382,458 </div>
+</article>
+
+<article class="comp-card" id="c21">
+  <header>
+    <span class="comp-num">21</span>
+    <h3 class="comp-name">Bar chart · horizontal</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">For ranked comparisons, KPI breakdowns. Color encodes meaning (lime = on-target, magenta = at risk).</p>
+  <div class="demo">
+    <div class="bar-chart" style="padding: 0;">
+      <div class="bar-row">
+        <div class="bar-label">US Business Excellence</div>
+        <div class="bar-track"><div class="bar-fill magenta" style="width: 76%;"></div></div>
+        <div class="bar-value">37.7%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">US V&amp;A</div>
+        <div class="bar-track"><div class="bar-fill orange" style="width: 36%;"></div></div>
+        <div class="bar-value">17.6%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">NACO total</div>
+        <div class="bar-track"><div class="bar-fill cyan" style="width: 34%;"></div></div>
+        <div class="bar-value">16.7%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">US MSL</div>
+        <div class="bar-track"><div class="bar-fill lime" style="width: 18%;"></div></div>
+        <div class="bar-value">8.9%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Ipsen avg</div>
+        <div class="bar-track"><div class="bar-fill ink" style="width: 26%;"></div></div>
+        <div class="bar-value">13.0%</div>
+      </div>
+    </div>
+  </div>
+  <code class="classes">bar-chart</code><code class="classes">bar-row</code><code class="classes">bar-label</code><code class="classes">bar-track</code><code cl</div>
+</article>
+
+<article class="comp-card" id="c22">
+  <header>
+    <span class="comp-num">22</span>
+    <h3 class="comp-name">Donut / ring</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Single-proportion display (e.g. 88% of expected departures are natural). Set <code class="classes">--pct</code> on the donut element.</p>
+  <div class="demo" style="display: flex; gap: 48px; align-items: center; justify-content: center;">
+    <div class="donut cyan" style="--pct: 88;">
+      <div class="center"><div class="pct">88%</div><div class="lbl">Natural leavings</div></div>
+    </div>
+    <div class="donut magenta" style="--pct: 37;">
+      <div class="center"><div class="pct">37.7%</div><div class="lbl">US Business Excellence</div></div>
+    </div>
+    <div class="donut lime" style="--pct: 54;">
+      <div class="center"><div class="pct">54%</div><div class="lbl">% Female NACO</div></div>
+    </div>
+  </div>
+  <code class="classes">donut</code><code class="classes">center</code><code class="classes">pct</code><code class="classes">lbl</code>
+</section>
+
+<section id="butterfly"></div>
+</article>
+
+<article class="comp-card" id="c23">
+  <header>
+    <span class="comp-num">23</span>
+    <h3 class="comp-name">Butterfly / tornado</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Back-to-back bars — compare two periods or two segments per category. Header sets the two side labels.</p>
+  <div class="demo">
+    <div class="butterfly" style="padding: 0;">
+      <div class="header">
+        <div class="h-left">2025 · Turnover</div>
+        <div></div>
+        <div class="h-right">2026 · Turnover</div>
+      </div>
+      <div class="row">
+        <div class="left"><div class="fill" style="width: 32%;"></div></div>
+        <div class="label">US Business Excellence</div>
+        <div class="right"><div class="fill" style="width: 76%;"></div></div>
+      </div>
+      <div class="row">
+        <div class="left"><div class="fill" style="width: 18%;"></div></div>
+        <div class="label">US V&amp;A</div>
+        <div class="right"><div class="fill" style="width: 36%;"></div></div>
+      </div>
+      <div class="row">
+        <div class="left"><div class="fill" style="width: 24%;"></div></div>
+        <div class="label">US MSL</div>
+        <div class="right"><div class="fill" style="width: 18%;"></div></div>
+      </div>
+      <div class="row">
+        <div class="left"><div class="fill" style="width: 32%;"></div></div>
+        <div class="label">US Field Force</div>
+        <div class="right"><div class="fill" style="width: 28%;"></div></div>
+      </div>
+    </div>
+  </div>
+  <code class="classes">butterfly</code><code class="classes">header</code><code class="classes">row</code><code class="classes">left</code><code class="classes">righ</div>
+</article>
+
+<article class="comp-card" id="c24">
+  <header>
+    <span class="comp-num">24</span>
+    <h3 class="comp-name">Waterfall</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Step bars from baseline showing +/− contributions. Use for capacity build-up, P&amp;L bridges, headcount roll-forward.</p>
+  <div class="demo">
+    <div class="waterfall" style="padding: 0;">
+      <div class="step total"><div class="val">548</div><div class="bar" style="height: 55%;"></div><div class="name">Apr 26</div></div>
+      <div class="step down"><div class="val">−42</div><div class="bar" style="height: 12%; margin-top: auto;"></div><div class="name">Attrition</div></div>
+      <div class="step up"><div class="val">+38</div><div class="bar" style="height: 10%;"></div><div class="name">Hires</div></div>
+      <div class="step up"><div class="val">+24</div><div class="bar" style="height: 7%;"></div><div class="name">Rare CoE</div></div>
+      <div class="step down"><div class="val">−14</div><div class="bar" style="height: 5%; margin-top: auto;"></div><div class="name">Retire</div></div>
+      <div class="step up"><div class="val">+30</div><div class="bar" style="height: 9%;"></div><div class="name">Apollo</div></div>
+      <div class="step up"><div class="val">+62</div><div class="bar" style="height: 17%;"></div><div class="name">Rebal.</div></div>
+      <div class="step total"><div class="val">646</div><div class="bar" style="height: 65%;"></div><div class="name">Apr 27</div></div>
+    </div>
+  </div>
+  <code class="classes">waterfall</code><code class="classes">step</code><code class="classes">up</code><code class="classes">down</code><code class</div>
+</article>
+
+<article class="comp-card" id="c25">
+  <header>
+    <span class="comp-num">25</span>
+    <h3 class="comp-name">Line chart · multi-series</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Trend over time, with optional multi-series. Pure inline SVG — set polyline points + axis labels manually for full control.</p>
+  <div class="demo">
+    <div class="line-chart" style="padding: 0; position: relative;">
+      <div style="position: relative; height: 220px;">
+        <svg viewBox="0 0 600 200" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+          <g class="grid">
+            <line x1="0" y1="0" x2="600" y2="0"/>
+            <line x1="0" y1="50" x2="600" y2="50"/>
+            <line x1="0" y1="100" x2="600" y2="100"/>
+            <line x1="0" y1="150" x2="600" y2="150"/>
+            <line x1="0" y1="199" x2="600" y2="199"/>
+          </g>
+          <polyline class="cyan" points="50,150 150,140 250,125 350,108 450,82 550,65"/>
+          <polyline class="magenta" points="50,170 150,168 250,160 350,155 450,140 550,130"/>
+          <polyline class="lime" points="50,130 150,118 250,105 350,88 450,72 550,50"/>
+        </svg>
+        <!-- Endpoint dots — HTML absolutely positioned so they stay circular -->
+        <div style="position: absolute; right: 6.5%; top: 32.5%; width: 12px; height: 12px; border-radius: 50%; background: #0CB8F5; border: 2px solid white; transform: translate(50%,-50%);"></div>
+        <div style="position: absolute; right: 6.5%; top: 65%; width: 12px; height: 12px; border-radius: 50%; background: #F50C7A; border: 2px solid white; transform: translate(50%,-50%);"></div>
+        <div style="position: absolute; </div>
+</article>
+
+<article class="comp-card" id="c26">
+  <header>
+    <span class="comp-num">26</span>
+    <h3 class="comp-name">Slope (2-point)</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Two periods, one line per series, slope encodes change. Edward Tufte's favorite — denser than a bar pair, more comparable than two pie charts.</p>
+  <div class="demo">
+    <div class="slope-2" style="padding: 0;">
+      <div class="chart">
+        <div class="left-labels">
+          <div class="endpoint left" style="top: 30%;">
+            <div class="name">NACO headcount</div>
+            <div class="val" style="--accent: #0CB8F5;">502</div>
+          </div>
+          <div class="endpoint left" style="top: 75%;">
+            <div class="name">US V&amp;A turnover</div>
+            <div class="val" style="--accent: #F50C7A;">12%</div>
+          </div>
+          <div class="endpoint left" style="top: 50%;">
+            <div class="name" style="color: var(--gray-d);">Ipsen avg</div>
+            <div class="val" style="--accent: #808AA0;">13%</div>
+          </div>
+        </div>
+        <div class="canvas">
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+            <line x1="0" y1="30" x2="100" y2="12" stroke="#0CB8F5"/>
+            <line x1="0" y1="75" x2="100" y2="35" stroke="#F50C7A"/>
+            <line x1="0" y1="50" x2="100" y2="50" stroke="#808AA0" stroke-dasharray="3 3"/>
+          </svg>
+          <div class="dot" style="background: #0CB8F5; left: -6px; top: calc(30% - 6px);"></div>
+          <div class="dot" style="background: #0CB8F5; right: -6px; top: calc(12% - 6px);"></div>
+          <div class="dot" style="background: #F50C7A;</div>
+</article>
+
+<article class="comp-card" id="c27">
+  <header>
+    <span class="comp-num">27</span>
+    <h3 class="comp-name">Before / After split</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Hardest-working transformation slide. Left side is the old world (gray, ×); right side is the new world (navy, →, lime accents).</p>
+  <div class="preview-wrap">
+    <div class="slide-preview">
+      <section class="slide">
+        <div class="beforeafter">
+          <div class="before" data-tag="BEFORE · 2026">
+            <h2>Field-led commercial model.</h2>
+            <ul>
+              <li>231 medical reps · &lt;1/3 access to HCPs</li>
+              <li>Account-based selling underdeveloped</li>
+              <li>Capability building delivered headlines, not lift</li>
+            </ul>
+          </div>
+          <div class="after" data-tag="AFTER · 2030">
+            <h2>AI-augmented, <span class="l">specialist-led.</span></h2>
+            <ul>
+              <li>Reps down −15 to −25%, sharper KAM/MSL bench</li>
+              <li>Account-based + AI co-pilot orchestration</li>
+              <li>Capability building wired to measurable role lift</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <code class="classes">beforeafter</code><code class="classes">before</code><code class="classes">after</code>
+</section>
+
+<section id="quote"></div>
+</article>
+
+<article class="comp-card" id="c28">
+  <header>
+    <span class="comp-num">28</span>
+    <h3 class="comp-name">Editorial quote</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">When credibility comes from someone else's words. Reserved for ELT-grade decks — use sparingly.</p>
+  <div class="preview-wrap">
+    <div class="slide-preview">
+      <section class="slide">
+        <div class="quote">
+          <div class="body">
+            "By 2028, the commercial model in North America pharma will <em>look more like SaaS</em> than like classic detailing — <b>account-based, evidence-led, AI-orchestrated.</b> The teams that win the next decade are being hired this year."
+          </div>
+          <div class="attribution">
+            <div class="lime-rule"></div>
+            <div class="who">Pratap Khedkar <span class="role">· Managing Principal, ZS Associates · 2026 NA Commercial Outlook</span></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <code class="classes">quote</code><code class="classes">body</code><code class="classes">attribution</code><code class="classes">lime-rule</code><code class="classes">who</code>
+</section>
+
+<section id="narrative"></div>
+</article>
+
+<article class="comp-card" id="c29">
+  <header>
+    <span class="comp-num">29</span>
+    <h3 class="comp-name">Problem · Insight · Resolution</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Three stacked bands force a clear narrative arc. The HR brief equivalent of the McKinsey pyramid — problem on top, insight middle, resolution bottom.</p>
+  <div class="demo">
+    <div class="narrative" style="padding: 0;">
+      <div class="band problem">
+        <div class="marker">PROBLEM</div>
+        <div>
+          <h3>Critical-role turnover up 12% YoY while headcount grew 9%.</h3>
+          <p>NACO is hitting growth targets but losing the people who matter — US Business Excellence voluntary attrition reached 37.7%, the highest in any function. Successor bench at N-1 is thin in 4 of 6 territories.</p>
+        </div>
+      </div>
+      <div class="band insight">
+        <div class="marker">INSIGHT</div>
+        <div>
+          <h3>The losses cluster in three roles that map to three external forces.</h3>
+          <p>V&amp;A bleed tracks IRA pricing pressure. MSL demand outstrips PharmD supply. Field force shrinkage forces hybrid rep-MSL profiles that don't yet exist in the org. The problem is structural, not cultural.</p>
+        </div>
+      </div>
+      <div class="band resolution">
+        <div class="marker">RESOLUTION</div>
+        <div>
+          <h3>Buy / Bind / Build — €3.4M, decision by Jun 15.</h3>
+          <p>Open the V&amp;A req at +15% premium. 3-year retention LTI for top 12 V&amp;A + 8 MSL Oncology. Marketing Academy cohort 2 with explicit RWE storytelling track. Outcome: critical-role voluntary turnover → 8–10% by Q4 26.</p>
+        <</div>
+</article>
+
+<article class="comp-card" id="c30">
+  <header>
+    <span class="comp-num">30</span>
+    <h3 class="comp-name">Three-act arc</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Setup · Conflict · Resolution as three vertical columns with chevron flow. For change-management decks and transformation narratives.</p>
+  <div class="preview-wrap">
+    <div class="slide-preview">
+      <section class="slide">
+        <div class="three-act">
+          <div class="act setup">
+            <div class="label">Act I · Setup</div>
+            <h3>The model that worked.</h3>
+            <p>For two decades, NACO ran on scale field deployment. Reps + MSL + V&amp;A in fixed proportions. Hire the seats, fill the territories, repeat. The system rewarded headcount discipline.</p>
+          </div>
+          <div class="act conflict">
+            <div class="label">Act II · Conflict</div>
+            <h3>The ground moved.</h3>
+            <p>IRA priced launches differently. HCP access collapsed. AI compressed analytics. The reps the system optimised for are no longer the reps the market values. Top performers leave first because they see it first.</p>
+          </div>
+          <div class="act resolution">
+            <div class="label">Act III · Resolution</div>
+            <h3>Specialise. Embed. Compound.</h3>
+            <p>Smaller, deeper field force. Account-based motion. AI co-pilot as table stakes. Hire for hybridity, not depth. Decide which lens — architectural, federated, transformative — and design backward.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <code class="classes">three-act</code><code class="classes"></div>
+</article>
+
+<article class="comp-card" id="c31">
+  <header>
+    <span class="comp-num">31</span>
+    <h3 class="comp-name">Process flow</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Sequence of arrow-shaped steps. Use for journey, workflow, or before/now/next narratives.</p>
+  <div class="demo">
+    <div class="process" style="padding: 0;">
+      <div class="step cyan"><div class="num">STEP 01</div><div class="title">Detect</div><div class="body">SWP data flags critical-role attrition</div></div>
+      <div class="step orange"><div class="num">STEP 02</div><div class="title">Diagnose</div><div class="body">OOF traces signal to root cause</div></div>
+      <div class="step magenta"><div class="num">STEP 03</div><div class="title">Design</div><div class="body">Buy / Bind / Build response shaped</div></div>
+      <div class="step lime"><div class="num">STEP 04</div><div class="title">Decide</div><div class="body">CHRO / ELT approves envelope</div></div>
+      <div class="step ink"><div class="num">STEP 05</div><div class="title">Deploy</div><div class="body">Hire · LTI · Academy go live</div></div>
+    </div>
+  </div>
+  <code class="classes">process</code><code class="classes">step</code><code class="classes">num</code><code class="classes">title</code><code class="classes">body</code>
+</section>
+
+<!-- 2x2 MATRIX -->
+<section id="matrix"></div>
+</article>
+
+<article class="comp-card" id="c32">
+  <header>
+    <span class="comp-num">32</span>
+    <h3 class="comp-name">2×2 matrix</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Stakeholder map, BCG growth-share, decision quadrants. Four corners with axis labels.</p>
+  <div class="demo">
+    <div class="matrix" style="padding: 0;">
+      <div class="y-label">
+        <span class="low">LOW</span>
+        <span class="axis-name">INFLUENCE</span>
+        <span class="high">HIGH</span>
+      </div>
+      <div class="quad tl">
+        <div class="q-label tl-c">KEEP SATISFIED</div>
+        <div class="item">Board Audit Committee</div>
+        <div class="item">Finance · Group CFO</div>
+      </div>
+      <div class="quad tr">
+        <div class="q-label tr-c">MANAGE CLOSELY</div>
+        <div class="item">CHRO · CEO</div>
+        <div class="item">Head of NACO BU</div>
+        <div class="item">ELT (collective)</div>
+      </div>
+      <div class="quad bl">
+        <div class="q-label bl-c">MONITOR</div>
+        <div class="item">External search firms</div>
+        <div class="item">Adjacent BU heads</div>
+      </div>
+      <div class="quad br">
+        <div class="q-label br-c">KEEP INFORMED</div>
+        <div class="item">NACO BU directors</div>
+        <div class="item">L&amp;D · Total Rewards</div>
+        <div class="item">DEI Council</div>
+      </div>
+      <div class="x-label">
+        <span>LOW</span>
+        <span style="color: var(--ink); font-weight: 900;">INTEREST</span>
+        <span>HIGH</span>
+      </div>
+    </div>
+  </div>
+  <code class="classes">matrix</code><code class="classes">y-label</code><code class="classes"</div>
+</article>
+
+<article class="comp-card" id="c33">
+  <header>
+    <span class="comp-num">33</span>
+    <h3 class="comp-name">Heatmap</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Density / intensity across two dimensions. Cells take <code class="classes">l1–l3</code> (lime ramp = good) or <code class="classes">h1–h4</code> (orange→magenta = hot risk).</p>
+  <div class="demo">
+    <div class="heatmap" style="padding: 0;">
+      <div class="col-labels-row" style="--cols: repeat(7, 1fr); margin-left: 140px;">
+        <div>Onco</div><div>Rare</div><div>Neuro</div><div>V&amp;A</div><div>MSL</div><div>Reps</div><div>Patient</div>
+      </div>
+      <div class="row" style="--cols: repeat(7, 1fr);">
+        <div class="row-label">Value &amp; Access</div>
+        <div class="cell l1">●</div><div class="cell l2">●●</div><div class="cell l1">●</div>
+        <div class="cell h4">●●●●</div><div class="cell h2">●●</div><div class="cell l1">●</div><div class="cell h1">●</div>
+      </div>
+      <div class="row" style="--cols: repeat(7, 1fr);">
+        <div class="row-label">MSL (onco / rare)</div>
+        <div class="cell h4">●●●●</div><div class="cell h4">●●●●</div><div class="cell l2">●●</div>
+        <div class="cell l1">●</div><div class="cell h3">●●●</div><div class="cell l1">●</div><div class="cell l1">●</div>
+      </div>
+      <div class="row" style="--cols: repeat(7, 1fr);">
+        <div class="row-label">Launch Excellence</div>
+        <div class="cell h2">●●</div><div class="cell h3">●●●</div><div class="cell l1">●</div>
+        <div class="cell h1">●</div><div class="cell l2">●●</div><div class="cell l1">●</div><div class="cell l1">●</div>
+</article>
+
+<article class="comp-card" id="c34">
+  <header>
+    <span class="comp-num">34</span>
+    <h3 class="comp-name">Vertical timeline</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Chronological narrative — when order matters and items have prose. Better than horizontal when you have more than 5 events.</p>
+  <div class="demo">
+    <div class="vtimeline" style="padding: 0;">
+      <div class="vt-row lime"><div class="vt-date">Q1 26</div><div class="vt-dot"><span></span></div><div class="vt-content"><div class="vt-title">Project Apollo launched</div><div class="vt-body">$75M committed · Wave 1 in Berkeley Heights · Head of NA accountable</div></div></div>
+      <div class="vt-row cyan"><div class="vt-date">Q2 26</div><div class="vt-dot"><span></span></div><div class="vt-content"><div class="vt-title">Marketing Academy cohort 1 cleared</div><div class="vt-body">17 graduates · RWE + payer translation tracks · cohort 2 chartered</div></div></div>
+      <div class="vt-row magenta"><div class="vt-date">Q2 26</div><div class="vt-dot"><span></span></div><div class="vt-content"><div class="vt-title">NA Rare Disease CoE chartered</div><div class="vt-body">Boston site selected · 24 hires authorised for FY27 H1</div></div></div>
+      <div class="vt-row orange"><div class="vt-date">Q3 26</div><div class="vt-dot"><span></span></div><div class="vt-content"><div class="vt-title">Hybrid rep-MSL pilot in 3 oncology territories</div><div class="vt-body">Early signal: +14% HCP engagement quality vs control</div></div></div>
+      <div class="vt-row violet"><div class="vt-date">Q3 26</div><div class="vt-dot"><span></span></div><div class="vt-content"><</div>
+</article>
+
+<article class="comp-card" id="c35">
+  <header>
+    <span class="comp-num">35</span>
+    <h3 class="comp-name">Roadmap / Gantt</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Bars across a horizontal time axis. For multi-workstream execution plans. Today line lands as magenta vertical rule.</p>
+  <div class="demo">
+    <div class="roadmap" style="padding: 0;">
+      <div class="rm-header" style="--quarters: 8;">
+        <div>Workstream</div>
+        <div>Q1 26</div><div>Q2 26</div><div>Q3 26</div><div>Q4 26</div>
+        <div>Q1 27</div><div>Q2 27</div><div>Q3 27</div><div>Q4 27</div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-label">Project Apollo · NA Commercial</div>
+        <div class="rm-track">
+          <div class="rm-bar cyan" style="left: 0%; right: 25%;">Apollo Wave 1 + 2</div>
+          <div class="rm-today" style="left: 31%;"></div>
+        </div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-label">Marketing Academy</div>
+        <div class="rm-track">
+          <div class="rm-bar lime" style="left: 12.5%; width: 25%;">Cohort 1+2</div>
+          <div class="rm-bar lime" style="left: 50%; width: 25%; opacity: 0.6;">Cohort 3</div>
+          <div class="rm-today" style="left: 31%;"></div>
+        </div>
+      </div>
+      <div class="rm-row">
+        <div class="rm-label">NA Rare CoE</div>
+        <div class="rm-track">
+          <div class="rm-bar magenta" style="left: 25%; width: 18%;">Charter</div>
+          <div class="rm-bar magenta" style="left: 50%; right: 12.5%;">Hiring + go-live</div>
+          <div class="rm-today" style="left: 31%;"></div>
+        </div>
+      </div>
+  </div>
+</article>
+
+<article class="comp-card" id="c36">
+  <header>
+    <span class="comp-num">36</span>
+    <h3 class="comp-name">Stacked bar chart</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Composition over categories — what's the mix? Each bar adds to 100% (or to its total). For TA mix, role mix, geo mix.</p>
+  <div class="demo">
+    <div class="stacked-bar" style="padding: 0;">
+      <div class="sb-row">
+        <div class="sb-label">NACO 2026 · job mix</div>
+        <div class="sb-track">
+          <div class="sb-seg magenta" style="width: 42%;">Reps 42%</div>
+          <div class="sb-seg cyan" style="width: 19%;">MSL 19%</div>
+          <div class="sb-seg violet" style="width: 13%;">Brand 13%</div>
+          <div class="sb-seg orange" style="width: 12%;">PM 12%</div>
+          <div class="sb-seg lime" style="width: 10%;">V&amp;A 10%</div>
+          <div class="sb-seg green" style="width: 4%;">CBA</div>
+        </div>
+      </div>
+      <div class="sb-row">
+        <div class="sb-label">NACO 2030 · ACCELERATE</div>
+        <div class="sb-track">
+          <div class="sb-seg magenta" style="width: 30%;">Reps 30%</div>
+          <div class="sb-seg cyan" style="width: 26%;">MSL 26%</div>
+          <div class="sb-seg violet" style="width: 13%;">Brand 13%</div>
+          <div class="sb-seg orange" style="width: 11%;">PM 11%</div>
+          <div class="sb-seg lime" style="width: 14%;">V&amp;A 14%</div>
+          <div class="sb-seg green" style="width: 6%;">CBA+</div>
+        </div>
+      </div>
+      <div class="sb-row">
+        <div class="sb-label">NACO 2030 · LEAP</div>
+        <div class="sb-track">
+          <div class="sb-seg magenta" sty</div>
+</article>
+
+<article class="comp-card" id="c37">
+  <header>
+    <span class="comp-num">37</span>
+    <h3 class="comp-name">Marimekko / Mosaic chart</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">The McKinsey market-mix signature. Column width = category size, segment height = share within. Two dimensions encoded at once.</p>
+  <div class="demo">
+    <div class="marimekko" style="padding: 0;">
+      <div class="col" style="width: 35%;">
+        <div class="seg magenta" style="height: 42%;">Reps 42%</div>
+        <div class="seg cyan"    style="height: 19%;">MSL 19%</div>
+        <div class="seg violet"  style="height: 13%;">Brand 13%</div>
+        <div class="seg orange"  style="height: 12%;">PM 12%</div>
+        <div class="seg lime"    style="height: 10%;">V&amp;A 10%</div>
+        <div class="seg green"   style="height: 4%;">CBA</div>
+        <div class="col-label">NACO · 548 FTE</div>
+      </div>
+      <div class="col" style="width: 28%;">
+        <div class="seg magenta" style="height: 35%;">Reps</div>
+        <div class="seg cyan"    style="height: 24%;">MSL</div>
+        <div class="seg violet"  style="height: 14%;">Brand</div>
+        <div class="seg orange"  style="height: 12%;">PM</div>
+        <div class="seg lime"    style="height: 11%;">V&amp;A</div>
+        <div class="seg green"   style="height: 4%;">CBA</div>
+        <div class="col-label">Int'l · 540 FTE</div>
+      </div>
+      <div class="col" style="width: 18%;">
+        <div class="seg magenta" style="height: 28%;">Reps</div>
+        <div class="seg cyan"    style="height: 26%;">MSL</div>
+        <div class="seg violet"  style="height: 16%;">Brand</div>
+        <div class="se</div>
+</article>
+
+<article class="comp-card" id="c38">
+  <header>
+    <span class="comp-num">38</span>
+    <h3 class="comp-name">Pyramid · MECE / Maslow</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Layered hierarchy — strategic priorities, foundational capabilities, Maslow's needs. Bottom is broadest, top is narrowest. Use <code class="classes">l1–l5</code> for layer width.</p>
+  <div class="demo">
+    <div class="pyramid" style="padding: 0;">
+      <div class="layer l1 lime">VISION<span class="sub">Reshape NACO for 2030</span></div>
+      <div class="layer l2 cyan">3 STRATEGIC PILLARS<span class="sub">Specialise · Embed · Compound</span></div>
+      <div class="layer l3 magenta">6 CRITICAL ROLES<span class="sub">V&amp;A · MSL · Launch · Patient Services · Field · Commercial Lead</span></div>
+      <div class="layer l4 orange">12 CAPABILITIES<span class="sub">Payer fluency · AI · RWE · Account-based · Patient journey · Launch sequencing · &amp; 6 more</span></div>
+      <div class="layer l5 ink">548 FTE · €154M ANNUAL COST<span class="sub">The base — every initiative funded from here</span></div>
+    </div>
+  </div>
+  <code class="classes">pyramid</code><code class="classes">layer</code><code class="classes">l1 l2 l3 l4 l5</code><code class="classes">sub</code>
+</section>
+
+<!-- BCG MATRIX -->
+<section id="bcg"></div>
+</article>
+
+<article class="comp-card" id="c39">
+  <header>
+    <span class="comp-num">39</span>
+    <h3 class="comp-name">BCG growth-share matrix</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Named 2×2 portfolio matrix. Stars get investment, Cash Cows fund growth, Question marks need decision, Dogs get divested. The Bruce Henderson original.</p>
+  <div class="demo">
+    <div class="bcg" style="padding: 0;">
+      <div class="y-axis"><span>LOW</span><span>MARKET GROWTH</span><span>HIGH</span></div>
+      <div class="cell star">
+        <div class="name">★ STARS</div>
+        <div class="desc">Invest aggressively</div>
+        <ul class="items">
+          <li>MSL Oncology</li>
+          <li>NA Rare Disease CoE</li>
+          <li>Patient Services</li>
+        </ul>
+      </div>
+      <div class="cell question">
+        <div class="name">? QUESTION MARKS</div>
+        <div class="desc">Decide: invest or divest</div>
+        <ul class="items">
+          <li>AI / data literacy roles</li>
+          <li>Hybrid rep-MSL pilot</li>
+          <li>Launch Excellence (net new)</li>
+        </ul>
+      </div>
+      <div class="cell cow">
+        <div class="name">$ CASH COWS</div>
+        <div class="desc">Milk for funding</div>
+        <ul class="items">
+          <li>Established brand teams</li>
+          <li>Product Management</li>
+          <li>Commercial Bus Analytics</li>
+        </ul>
+      </div>
+      <div class="cell dog">
+        <div class="name">○ DOGS</div>
+        <div class="desc">Divest or restructure</div>
+        <ul class="items">
+          <li>Generalist Field Force</li>
+          <li>Pure call-center Patient Support</li>
+        </ul>
+  </div>
+</article>
+
+<article class="comp-card" id="c40">
+  <header>
+    <span class="comp-num">40</span>
+    <h3 class="comp-name">McKinsey 9-box · talent matrix</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">3×3 grid for performance × potential. Standard talent calibration tool — counts per box, color encodes priority (lime = stars, magenta = at risk).</p>
+  <div class="demo">
+    <div class="nine-box" style="padding: 0;">
+      <div class="y-axis"><span>LOW</span><span>POTENTIAL</span><span>HIGH</span></div>
+      <div class="box t2"><div class="box-label">Enigma</div><div class="box-count">8</div></div>
+      <div class="box t1"><div class="box-label">Growth Employee</div><div class="box-count">12</div></div>
+      <div class="box t1"><div class="box-label">Future Leader</div><div class="box-count">6</div></div>
+      <div class="box t3"><div class="box-label">Dilemma</div><div class="box-count">14</div></div>
+      <div class="box t2"><div class="box-label">Core Employee</div><div class="box-count">48</div></div>
+      <div class="box t2"><div class="box-label">High Impact</div><div class="box-count">18</div></div>
+      <div class="box t4"><div class="box-label">Underperformer</div><div class="box-count">6</div></div>
+      <div class="box t3"><div class="box-label">Effective</div><div class="box-count">22</div></div>
+      <div class="box t2"><div class="box-label">Trusted Pro</div><div class="box-count">11</div></div>
+      <div class="x-axis"><span>LOW</span><span>PERFORMANCE</span><span>HIGH</span></div>
+    </div>
+  </div>
+  <code class="classes">nine-box</code><code class="classes">box</code><code class="classes">t1 t2 t3 t4</code><code class="class</div>
+</article>
+
+<article class="comp-card" id="c41">
+  <header>
+    <span class="comp-num">41</span>
+    <h3 class="comp-name">Bubble chart</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Three dimensions in one view — X axis, Y axis, size (and optionally color). For competitive positioning, portfolio prioritisation.</p>
+  <div class="demo">
+    <div class="bubble-chart" style="padding: 0;">
+      <div class="y-label">Strategic value</div>
+      <div class="x-label">Execution complexity</div>
+      <div class="canvas">
+        <div class="bubble cyan"    style="left: 15%; top: 60%; width: 70px;  height: 70px;">V&amp;A</div>
+        <div class="bubble magenta" style="left: 35%; top: 18%; width: 110px; height: 110px;">MSL</div>
+        <div class="bubble lime"    style="left: 58%; top: 28%; width: 80px;  height: 80px;">Patient</div>
+        <div class="bubble orange"  style="left: 72%; top: 55%; width: 60px;  height: 60px;">Launch</div>
+        <div class="bubble violet"  style="left: 22%; top: 78%; width: 40px;  height: 40px;">CBA</div>
+        <div class="bubble cyan"    style="left: 80%; top: 80%; width: 30px;  height: 30px;">Brand</div>
+      </div>
+    </div>
+  </div>
+  <code class="classes">bubble-chart</code><code class="classes">canvas</code><code class="classes">bubble</code><code class="classes">y-label x-label</code>
+</section>
+
+<!-- FUNNEL -->
+<section id="funnel"></div>
+</article>
+
+<article class="comp-card" id="c42">
+  <header>
+    <span class="comp-num">42</span>
+    <h3 class="comp-name">Funnel</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Top-down drop-off — pipeline, recruitment, customer journey. Each stage narrower than the last, with drop-off rates between.</p>
+  <div class="demo">
+    <div class="funnel" style="padding: 0;">
+      <div class="stage s1 cyan"><div class="num">PIPELINE</div>847 candidates sourced</div>
+      <div class="drop">↓ 62% qualified out</div>
+      <div class="stage s2 violet"><div class="num">SCREEN</div>322 first-round interviews</div>
+      <div class="drop">↓ 78% screened out</div>
+      <div class="stage s3 magenta"><div class="num">PANEL</div>71 panel interviews</div>
+      <div class="drop">↓ 63% panel-out</div>
+      <div class="stage s4 orange"><div class="num">FINAL</div>26 final-round candidates</div>
+      <div class="drop">↓ 73% offer decline / lost to comp</div>
+      <div class="stage s5 lime"><div class="num">HIRES</div>7 NACO hires landed</div>
+    </div>
+  </div>
+  <code class="classes">funnel</code><code class="classes">stage</code><code class="classes">s1 s2 s3 s4 s5</code><code class="classes">drop</code>
+</section>
+
+<!-- SANKEY -->
+<section id="sankey"></div>
+</article>
+
+<article class="comp-card" id="c43">
+  <header>
+    <span class="comp-num">43</span>
+    <h3 class="comp-name">Sankey · flow</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Quantitative flow between source nodes and destination nodes. Headcount movement, budget allocation, customer migration.</p>
+  <div class="demo">
+    <div class="sankey" style="padding: 0;">
+      <div class="nodes left">
+        <div class="node cyan">Field Sales<span class="val">231 FTE</span></div>
+        <div class="node magenta">MSL Today<span class="val">105 FTE</span></div>
+        <div class="node violet">V&amp;A<span class="val">53 FTE</span></div>
+      </div>
+      <div class="ribbons">
+        <svg viewBox="0 0 200 320" preserveAspectRatio="none">
+          <path d="M0,30 C100,30 100,30 200,40 L200,90 C100,90 100,90 0,80 Z" style="fill: var(--cyan); opacity: 0.40;"/>
+          <path d="M0,80 C100,80 100,80 200,160 L200,200 C100,200 100,200 0,110 Z" style="fill: var(--cyan); opacity: 0.25;"/>
+          <path d="M0,140 C100,140 100,140 200,90 L200,160 C100,160 100,160 0,200 Z" style="fill: var(--magenta); opacity: 0.40;"/>
+          <path d="M0,210 C100,210 100,210 200,200 L200,250 C100,250 100,250 0,250 Z" style="fill: var(--violet); opacity: 0.40;"/>
+          <path d="M0,250 C100,250 100,250 200,270 L200,310 C100,310 100,310 0,290 Z" style="fill: var(--violet); opacity: 0.25;"/>
+        </svg>
+      </div>
+      <div class="nodes right">
+        <div class="node cyan">Field 2030<span class="val">175 FTE</span></div>
+        <div class="node magenta">MSL 2030<span class="val">160 FTE</span></div>
+        <div class="node violet">V&amp;A 2030<</div>
+</article>
+
+<article class="comp-card" id="c44">
+  <header>
+    <span class="comp-num">44</span>
+    <h3 class="comp-name">Radar / wheel</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Multi-dimension comparison — 5+ axes radiating from center. For capability assessment, team profile, competency scoring.</p>
+  <div class="demo">
+    <div class="radar" style="padding: 0;">
+      <svg viewBox="-220 -220 440 440">
+        <!-- 4 concentric grid rings at 25/50/75/100 levels -->
+        <g class="grid">
+          <polygon points="0,-50 48,-15 29,40 -29,40 -48,-15"/>
+          <polygon points="0,-100 95,-31 59,80 -59,80 -95,-31"/>
+          <polygon points="0,-150 143,-46 88,121 -88,121 -143,-46"/>
+          <polygon class="outer" points="0,-200 190,-62 117,161 -117,161 -190,-62"/>
+        </g>
+        <!-- 5 spoke axes -->
+        <g class="axis">
+          <line x1="0" y1="0" x2="0"    y2="-200"/>
+          <line x1="0" y1="0" x2="190"  y2="-62"/>
+          <line x1="0" y1="0" x2="117"  y2="161"/>
+          <line x1="0" y1="0" x2="-117" y2="161"/>
+          <line x1="0" y1="0" x2="-190" y2="-62"/>
+        </g>
+        <!-- Ring value labels along top axis -->
+        <text class="ring-label" x="6" y="-46">25</text>
+        <text class="ring-label" x="6" y="-96">50</text>
+        <text class="ring-label" x="6" y="-146">75</text>
+        <text class="ring-label" x="6" y="-196">100</text>
+        <!-- Series 2 (today, lower): values 45/55/40/50/60 -->
+        <g class="series-2">
+          <polygon points="0,-110 105,-34 47,65 -59,80 -75,-25"/>
+          <circle cx="0"    cy="-110" r="5"/>
+          <circle cx="105"  cy="-34"  r="5"/>
+        </div>
+</article>
+
+<article class="comp-card" id="c45">
+  <header>
+    <span class="comp-num">45</span>
+    <h3 class="comp-name">Manifesto · Uncommon Studios</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Numbered truths, one per line. The slide that says "this is what we believe." Use sparingly — its power is in conviction.</p>
+  <div class="preview-wrap">
+    <div class="slide-preview">
+      <section class="slide">
+        <div class="manifesto">
+          <div class="kicker">The OOF Manifesto</div>
+          <ol>
+            <li><div class="truth">The future of HR is <em>strategic intelligence,</em> not service delivery.</div></li>
+            <li><div class="truth">Every workforce decision is a <em>portfolio decision</em> in disguise.</div></li>
+            <li><div class="truth">Briefs should <em>move rooms,</em> not fill folders.</div></li>
+            <li><div class="truth">A good slide is one <em>idea, one number, one verb.</em></div></li>
+            <li><div class="truth">If it can't be <em>copied and pasted</em> into a memo, it isn't an insight.</div></li>
+          </ol>
+        </div>
+      </section>
+    </div>
+  </div>
+  <code class="classes">manifesto</code><code class="classes">kicker</code><code class="classes">ol li</code><code class="classes">truth</code>
+</section>
+
+<!-- IF / THEN -->
+<section id="if-then"></div>
+</article>
+
+<article class="comp-card" id="c46">
+  <header>
+    <span class="comp-num">46</span>
+    <h3 class="comp-name">If / Then</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Single conditional slide. Forces the room to follow the logic — if we accept the premise, the conclusion is inescapable.</p>
+  <div class="preview-wrap">
+    <div class="slide-preview">
+      <section class="slide">
+        <div class="if-then">
+          <div class="clause if">
+            <div class="marker">IF</div>
+            <div class="text">IRA pricing compresses our launch economics by <em>38–79%</em> from 2026 onward,</div>
+          </div>
+          <div class="divider"></div>
+          <div class="clause then">
+            <div class="marker">THEN</div>
+            <div class="text">we cannot afford to keep hiring for the <em>commercial model that priced drugs in 2018.</em></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <code class="classes">if-then</code><code class="classes">clause</code><code class="classes">if then</code><code class="classes">marker</code><code class="classes">text</code>
+</section>
+
+<!-- ANTI-TITLE -->
+<section id="anti-title"></div>
+</article>
+
+<article class="comp-card" id="c47">
+  <header>
+    <span class="comp-num">47</span>
+    <h3 class="comp-name">Anti-title · restraint</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Almost-empty slide. Single micro-caption. The breathing space between heavy slides. The "pause" pattern.</p>
+  <div class="preview-wrap">
+    <div class="slide-preview">
+      <section class="slide">
+        <div class="anti-title">
+          <div>
+            <div class="caption">The honest read · before the next chapter</div>
+          </div>
+          <div class="corner">OOF / 06 of 12</div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <code class="classes">anti-title</code><code class="classes">caption</code><code class="classes">corner</code>
+</section>
+
+<!-- IMAGE + ONE LINE -->
+<section id="image-line"></div>
+</article>
+
+<article class="comp-card" id="c48">
+  <header>
+    <span class="comp-num">48</span>
+    <h3 class="comp-name">Image + one line · Cannes minimalism</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Full-bleed photo, single line at the bottom. The Cannes Lion / Apple-keynote pattern. Maximum emotional pickup, minimum cognitive load.</p>
+  <div class="preview-wrap">
+    <div class="slide-preview">
+      <section class="slide">
+        <div class="image-line" style="background-image: url('assets/lab_atmos.jpg');">
+          <div class="line">The reps we hired for 2018 are not the reps the <span class="l">market will value in 2030.</span></div>
+          <div class="attribution">OOF · NACO 2027-30</div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <code class="classes">image-line</code><code class="classes">line</code><code class="classes">attribution</code>
+</section>
+
+<!-- PYRAMID PRINCIPLE -->
+<section id="pyramid-principle"></div>
+</article>
+
+<article class="comp-card" id="c49">
+  <header>
+    <span class="comp-num">49</span>
+    <h3 class="comp-name">Pyramid principle · Minto</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Governing thought at top, three mutually exclusive supporting points below. Barbara Minto's gift to clear thinking — the slide that makes a McKinsey deck a McKinsey deck.</p>
+  <div class="demo">
+    <div class="pyramid-principle" style="padding: 0;">
+      <div class="top">
+        <div class="label">GOVERNING THOUGHT</div>
+        <h3>Approve ACCELERATE before Jun 15 — €3.4M unlocks the workforce reshape NACO needs to be ready for 2030.</h3>
+      </div>
+      <div class="supports">
+        <div class="support cyan">
+          <div class="label">BECAUSE 1 · MARKET</div>
+          <h4>The forces are operational, not forecast.</h4>
+          <p>IRA priced launches. AI compressed analytics. MSL became the channel. Three trends are now ground truth.</p>
+        </div>
+        <div class="support magenta">
+          <div class="label">BECAUSE 2 · WORKFORCE</div>
+          <h4>Critical-role turnover is up 12% in 12 months.</h4>
+          <p>US Business Excellence at 37.7% voluntary loss. V&amp;A bench thin. The system is bleeding where it matters most.</p>
+        </div>
+        <div class="support lime">
+          <div class="label">BECAUSE 3 · ECONOMICS</div>
+          <h4>€3.4M is small relative to the cost of delay.</h4>
+          <p>2030 gap closes or widens at Q3. The cost of being structurally wrong for one extra year exceeds the ACCELERATE envelope.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <code class="classes">pyramid-principle</code><co</div>
+</article>
+
+<article class="comp-card" id="c50">
+  <header>
+    <span class="comp-num">50</span>
+    <h3 class="comp-name">Five-act · Effie</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">The award-winning case study arc — Challenge → Insight → Idea → Activation → Results. The structure that wins Effies, Cannes, and grants.</p>
+  <div class="preview-wrap">
+    <div class="slide-preview">
+      <section class="slide">
+        <div class="five-act">
+          <div class="act a1">
+            <div class="num">01</div>
+            <div class="marker">CHALLENGE</div>
+            <h3>NACO grew 9% — and lost 16.7% to turnover.</h3>
+            <p>Hiring landed the seats. The bench under the 14–17 layer stayed thin. Three roles bled out.</p>
+          </div>
+          <div class="act a2">
+            <div class="num">02</div>
+            <div class="marker">INSIGHT</div>
+            <h3>The losses cluster around three external forces.</h3>
+            <p>IRA, AI, and the rare-disease pivot. Workforce gaps map to market forces, not internal failures.</p>
+          </div>
+          <div class="act a3">
+            <div class="num">03</div>
+            <div class="marker">IDEA</div>
+            <h3>Buy / Bind / Build — surgical, not sweeping.</h3>
+            <p>Three levers on three roles. Reject the urge to reorg. Reject the urge to wait.</p>
+          </div>
+          <div class="act a4">
+            <div class="num">04</div>
+            <div class="marker">ACTIVATION</div>
+            <h3>€3.4M envelope, three owners, one quarter.</h3>
+            <p>CHRO on Bind LTI. NACO BU lead on Buy req. L&amp;D on Build Academy cohort 2.</p>
+          </div</div>
+</article>
+
+<article class="comp-card" id="c51">
+  <header>
+    <span class="comp-num">51</span>
+    <h3 class="comp-name">Three-act · diamond variant</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">The same setup/conflict/resolution arc, but each act is a rotated diamond connected by a lime arrow. More dramatic, more editorial.</p>
+  <div class="preview-wrap">
+    <div class="slide-preview">
+      <section class="slide">
+        <div class="three-act-diamond">
+          <div class="diamond setup">
+            <div class="inner">
+              <div class="label">Act I · Setup</div>
+              <h3>The model that worked.</h3>
+              <p>Scale field deployment. Reps + MSL + V&amp;A in fixed proportions.</p>
+            </div>
+          </div>
+          <div class="connector"></div>
+          <div class="diamond conflict">
+            <div class="inner">
+              <div class="label">Act II · Conflict</div>
+              <h3>The ground moved.</h3>
+              <p>IRA. AI. Rare disease pivot. Top performers leave first.</p>
+            </div>
+          </div>
+          <div class="connector"></div>
+          <div class="diamond resolution">
+            <div class="inner">
+              <div class="label">Act III · Resolution</div>
+              <h3>Specialise. Embed. Compound.</h3>
+              <p>Hire for hybridity. Account-based. AI table stakes.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <code class="classes">three-act-diamond</code><code class="classes">diamond</code><code class="classes">setup conflict resolution</code><code class="classes">connector</code>
+</section>
+
+<!-- HERO QUOTE W</div>
+</article>
+
+<article class="comp-card" id="c52">
+  <header>
+    <span class="comp-num">52</span>
+    <h3 class="comp-name">Hero quote with portrait</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Big quote, named source, accompanying portrait photo. The slide that says "credibility lives here." Heavier than the editorial quote — portrait does the work.</p>
+  <div class="preview-wrap">
+    <div class="slide-preview">
+      <section class="slide">
+        <div class="hero-quote">
+          <div class="portrait" style="background-image: url('assets/gill_window.jpg');"></div>
+          <div class="body">
+            <div class="text">
+              The reps we hired for <em>2018 won't sell the drugs we're launching in 2028.</em> <b>This is the most underestimated talent crisis in pharma.</b>
+            </div>
+            <div class="who">
+              <div class="lime-rule"></div>
+              <div>
+                <div class="name">Pratap Khedkar</div>
+                <div class="role">Managing Principal, ZS Associates · NA Commercial Outlook 2026</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <code class="classes">hero-quote</code><code class="classes">portrait</code><code class="classes">body</code><code class="classes">text</code><code class="classes">who</code>
+</section>
+
+<!-- COMPARISON COLUMNS -->
+<section id="comparison"></div>
+</article>
+
+<article class="comp-card" id="c53">
+  <header>
+    <span class="comp-num">53</span>
+    <h3 class="comp-name">Comparison · this vs that</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Two columns — the new way (navy, lime checks) vs the old way (gray, magenta crosses). Forces a binary choice without subtlety.</p>
+  <div class="preview-wrap">
+    <div class="slide-preview">
+      <section class="slide">
+        <div class="comparison" style="height: 100%;">
+          <div class="side this">
+            <div class="marker">THIS · ACCELERATE</div>
+            <h2>Buy / Bind / Build, surgical.</h2>
+            <ul>
+              <li>€3.4M envelope · three roles · one quarter</li>
+              <li>Bind top 12 V&amp;A + 8 MSL Oncology with 3-yr LTI</li>
+              <li>Marketing Academy cohort 2 in flight by Sep 1</li>
+              <li>Critical-role turnover → 8–10% by Q4 26</li>
+              <li>2030 readiness on glide path</li>
+            </ul>
+          </div>
+          <div class="side not">
+            <div class="marker">NOT THIS · ITERATE</div>
+            <h2>Hold and hope.</h2>
+            <ul>
+              <li>€0 envelope · no targeted action</li>
+              <li>Critical-role turnover stays at 16–18%</li>
+              <li>Successor bench thins further</li>
+              <li>2030 readiness at risk</li>
+              <li>Decision delay past Q3 collapses optionality</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <code class="classes">comparison</code><code class="classes">side</code><code class="classes">this not</code><code class="classes">marker</code>
+</section>
+
+<div class=</div>
+</article>
+
+<article class="comp-card" id="c54">
+  <header>
+    <span class="comp-num">54</span>
+    <h3 class="comp-name">Org chart tree</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Hierarchy with connecting lines. CEO → ELT → N-1 reports. For org maps, succession views, governance structures.</p>
+  <div class="demo">
+    <div class="orgchart" style="padding: 0;">
+      <div class="level">
+        <div class="node ceo">
+          <div class="name">D. Loew</div>
+          <div class="role">CEO · Group</div>
+        </div>
+      </div>
+      <div class="level branch">
+        <div class="node elt"><div class="name">A. Coquelet</div><div class="role">CHRO</div></div>
+        <div class="node elt"><div class="name">N. Carre-Goldberg</div><div class="role">CMO</div></div>
+        <div class="node elt"><div class="name">F. Wilfert</div><div class="role">CFO</div></div>
+        <div class="node elt"><div class="name">B. Bernard</div><div class="role">Head of NACO</div></div>
+      </div>
+      <div class="level branch">
+        <div class="node n1"><div class="name">Head V&amp;A · US</div><div class="role">— vacant —</div></div>
+        <div class="node n1"><div class="name">Head MSL · onco</div><div class="role">Filled · 2 yrs</div></div>
+        <div class="node n1"><div class="name">Head Launch</div><div class="role">Net new</div></div>
+        <div class="node n1"><div class="name">Head Patient Svcs</div><div class="role">Filled · 4 yrs</div></div>
+      </div>
+    </div>
+  </div>
+  <code class="classes">orgchart</code><code class="classes">level</code><code class="classes">node</code><code class="classes">ceo elt n1 n2</code><code clas</div>
+</article>
+
+<article class="comp-card" id="c55">
+  <header>
+    <span class="comp-num">55</span>
+    <h3 class="comp-name">Decision tree</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">Root question + branched outcomes with probability / cost tags. For investment decisions, scenario branching, go/no-go gates.</p>
+  <div class="demo">
+    <div class="dtree" style="padding: 0;">
+      <div class="root">
+        <div class="q">Decision · Jun 15</div>
+        <div class="text">Approve ACCELERATE €3.4M envelope for NACO?</div>
+      </div>
+      <div class="branches">
+        <div class="branch yes">
+          <div class="label">YES</div>
+          <div class="outcome">Critical-role turnover → 8–10% by Q4 26. 2030 readiness on glide path. Successor pipeline 2× coverage.</div>
+          <div class="chip-stat">P(success) 70%</div>
+        </div>
+        <div class="branch maybe">
+          <div class="label">DEFER</div>
+          <div class="outcome">Decision moves to Q3 off-site. Top performers continue to leave. €1.2M extra cost from delay.</div>
+          <div class="chip-stat">P(success) 35%</div>
+        </div>
+        <div class="branch no">
+          <div class="label">NO</div>
+          <div class="outcome">ITERATE scenario. 2030 readiness at risk. Q3 turnover holds at 16–18%. Structural workforce gap by 2028.</div>
+          <div class="chip-stat">P(success) 12%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <code class="classes">dtree</code><code class="classes">root</code><code class="classes">branches</code><code class="classes">branch</code><code class="classes">yes no maybe</code>
+</section>
+
+<!-- MATURITY MODEL -->
+<sec</div>
+</article>
+
+<article class="comp-card" id="c56">
+  <header>
+    <span class="comp-num">56</span>
+    <h3 class="comp-name">Maturity model · 5 stages</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">CMMI-style capability assessment — Initial → Repeatable → Defined → Managed → Optimised. Bottom indicator shows current state.</p>
+  <div class="demo">
+    <div class="maturity" style="padding: 0;">
+      <div class="stage l1">
+        <div class="num">01</div>
+        <div class="level">Initial</div>
+        <div class="name">Reactive</div>
+        <div class="desc">Ad-hoc. No defined process. Outcomes depend on individuals.</div>
+      </div>
+      <div class="stage l2">
+        <div class="num">02</div>
+        <div class="level">Repeatable</div>
+        <div class="name">Workflow defined</div>
+        <div class="desc">Basic process documented. Repeated for similar projects.</div>
+      </div>
+      <div class="stage l3">
+        <div class="num">03</div>
+        <div class="level">Defined</div>
+        <div class="name">Standardised</div>
+        <div class="desc">Cross-org process. Tailored to function but consistent rules.</div>
+      </div>
+      <div class="stage l4">
+        <div class="num">04</div>
+        <div class="level">Managed</div>
+        <div class="name">Measured · Q3 26 target</div>
+        <div class="desc">Quantitative quality data. Statistical process control.</div>
+      </div>
+      <div class="stage l5">
+        <div class="num">05</div>
+        <div class="level">Optimised</div>
+        <div class="name">Continuously improving</div>
+        <div class="desc">Innovation built in. Predictive, not reactive.</div>
+      </div>
+  </div>
+</article>
+
+<article class="comp-card" id="c57">
+  <header>
+    <span class="comp-num">57</span>
+    <h3 class="comp-name">Risk matrix · severity × likelihood</h3>
+  </header>
+  <div class="comp-demo"><p class="comp-when">5×5 grid with named risks placed by likelihood (x) × severity (y). Cell color encodes risk tier — green (low) through red (critical).</p>
+  <div class="demo">
+    <div class="risk-matrix" style="padding: 0;">
+      <div class="y-axis"><span>HIGH</span><span>SEVERITY</span><span>LOW</span></div>
+      <!-- Row 1 (severity high) -->
+      <div class="cell r3"></div>
+      <div class="cell r4"></div>
+      <div class="cell r4"><div class="risk">V&amp;A bench thinning</div></div>
+      <div class="cell r5"><div class="risk">IRA pricing on negotiated drugs</div></div>
+      <div class="cell r5"><div class="risk">Critical-role HiPo regret loss</div></div>
+      <!-- Row 2 -->
+      <div class="cell r2"></div>
+      <div class="cell r3"></div>
+      <div class="cell r4"><div class="risk">MSL PhD supply gap</div></div>
+      <div class="cell r4"><div class="risk">AI co-pilot adoption lag</div></div>
+      <div class="cell r4"></div>
+      <!-- Row 3 (middle) -->
+      <div class="cell r2"></div>
+      <div class="cell r3"><div class="risk">Launch Excellence vacancies</div></div>
+      <div class="cell r3"></div>
+      <div class="cell r3"><div class="risk">Field force model collapse</div></div>
+      <div class="cell r4"></div>
+      <!-- Row 4 -->
+      <div class="cell r1"></div>
+      <div class="cell r2"></div>
+      <div class="cell r3"></div>
+      <div class="cell r3"><div class="risk">Marketing Academy underdelivery</div></div>
+      <div class="cell r3"></div>
+</article>
+  </div>
+  <div class="page-num">06</div>
+</section>
+
+<!-- ============== ASSETS ============== -->
+<section class="page" id="assets">
+  <div class="corner-tl">OOF · Section 06</div>
+  <div class="corner-tr">Asset library</div>
+  <div class="section-header">
+    <div class="num">Section 06 · Asset library</div>
+    <h2>27 canonical <span class="l">assets.</span></h2>
+    <p class="lede">Every cover background, every chapter divider, every icon. Used by the engine when composing briefs.</p>
+  </div>
+  <h3 style="font-family: 'Inter Tight'; font-weight: 900; font-size: 18pt; margin: 24px 0 16px;">Cover backgrounds</h3>
+  <div class="asset-grid"><div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/gill_atmos.jpg');"></div><div class="asset-name">gill_atmos.jpg</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/gill_leaf_portrait.jpg');"></div><div class="asset-name">gill_leaf_portrait.jpg</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/gill_park.png');"></div><div class="asset-name">gill_park.png</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/gill_park_clean.jpg');"></div><div class="asset-name">gill_park_clean.jpg</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/gill_window.jpg');"></div><div class="asset-name">gill_window.jpg</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/gill_window_raw.jpg');"></div><div class="asset-name">gill_window_raw.jpg</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/jenny_lab_bg.png');"></div><div class="asset-name">jenny_lab_bg.png</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/jenny_lab_portrait.png');"></div><div class="asset-name">jenny_lab_portrait.png</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/lab_atmos.jpg');"></div><div class="asset-name">lab_atmos.jpg</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/park_atmos.jpg');"></div><div class="asset-name">park_atmos.jpg</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/park_garden.jpg');"></div><div class="asset-name">park_garden.jpg</div></div></div>
+  <h3 style="font-family: 'Inter Tight'; font-weight: 900; font-size: 18pt; margin: 32px 0 16px;">Chapter divider backgrounds</h3>
+  <div class="asset-grid"><div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/banner_wide.png');"></div><div class="asset-name">banner_wide.png</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/ed10_image1.png');"></div><div class="asset-name">ed10_image1.png</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/ed10_image2.png');"></div><div class="asset-name">ed10_image2.png</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/ed10_image3.png');"></div><div class="asset-name">ed10_image3.png</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/science_cell.png');"></div><div class="asset-name">science_cell.png</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/science_liver.png');"></div><div class="asset-name">science_liver.png</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/science_neuron.png');"></div><div class="asset-name">science_neuron.png</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/science_petri.png');"></div><div class="asset-name">science_petri.png</div></div>
+<div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/trees.jpg');"></div><div class="asset-name">trees.jpg</div></div></div>
+  <h3 style="font-family: 'Inter Tight'; font-weight: 900; font-size: 18pt; margin: 32px 0 16px;">Pictogram icons</h3>
+  <div class="asset-grid"><div class="asset-card icon"><div class="asset-thumb"><img src="assets/icon_a.svg" alt="icon_a.svg"></div><div class="asset-name">icon_a.svg</div></div>
+<div class="asset-card icon"><div class="asset-thumb"><img src="assets/icon_b.svg" alt="icon_b.svg"></div><div class="asset-name">icon_b.svg</div></div>
+<div class="asset-card icon"><div class="asset-thumb"><img src="assets/icon_c.svg" alt="icon_c.svg"></div><div class="asset-name">icon_c.svg</div></div>
+<div class="asset-card icon"><div class="asset-thumb"><img src="assets/icon_d.svg" alt="icon_d.svg"></div><div class="asset-name">icon_d.svg</div></div>
+<div class="asset-card icon"><div class="asset-thumb"><img src="assets/icon_e.svg" alt="icon_e.svg"></div><div class="asset-name">icon_e.svg</div></div></div>
+  <div class="page-num">07</div>
+</section>
+
+<!-- ============== ARCHETYPES ============== -->
+<section class="page" id="archetypes">
+  <div class="corner-tl">OOF · Section 07</div>
+  <div class="corner-tr">Brief archetypes</div>
+  <div class="section-header">
+    <div class="num">Section 07 · Brief archetypes</div>
+    <h2>13 brief <span class="l">archetypes.</span></h2>
+    <p class="lede">Every brief is one of these shapes. The engine asks you which one before composing — or auto-detects from your source.</p>
+  </div>
+  <div class="arch-grid"><div class="arch-card">
+  <div class="arch-meta">
+    <span class="arch-kind kind-tight">tight</span>
+  </div>
+  <h3>Executive Brief</h3>
+  <p class="arch-when">1-page, decision-forward</p>
+  <p class="arch-shape">Cover · Verdict · Why · Ask · Closer</p>
+</div>
+<div class="arch-card">
+  <div class="arch-meta">
+    <span class="arch-kind kind-narrative">narrative</span>
+  </div>
+  <h3>ELT Pre-Read</h3>
+  <p class="arch-when">Off-site / call pre-read</p>
+  <p class="arch-shape">Hero photo + 3 prompts · The shift · Three lenses · Closer</p>
+</div>
+<div class="arch-card">
+  <div class="arch-meta">
+    <span class="arch-kind kind-numbers">numbers</span>
+  </div>
+  <h3>Analytical Dashboard</h3>
+  <p class="arch-when">KPI-led status / scorecard</p>
+  <p class="arch-shape">KPI row · Charts · Heatmap · So-what · Actions</p>
+</div>
+<div class="arch-card">
+  <div class="arch-meta">
+    <span class="arch-kind kind-narrative">narrative</span>
+  </div>
+  <h3>Strategy Narrative</h3>
+  <p class="arch-when">Multi-page strategy with pillars</p>
+  <p class="arch-shape">Pyramid principle · 3 pillars · Evidence per pillar · Closer</p>
+</div>
+<div class="arch-card">
+  <div class="arch-meta">
+    <span class="arch-kind kind-operational">operational</span>
+  </div>
+  <h3>Project Briefing</h3>
+  <p class="arch-when">Status update with milestones</p>
+  <p class="arch-shape">Status board · Gantt · Risks · Decisions needed</p>
+</div>
+<div class="arch-card">
+  <div class="arch-meta">
+    <span class="arch-kind kind-interactive">interactive</span>
+  </div>
+  <h3>Working Session</h3>
+  <p class="arch-when">Workshop pre-read</p>
+  <p class="arch-shape">Context · Prompts · Options · Decisions captured</p>
+</div>
+<div class="arch-card">
+  <div class="arch-meta">
+    <span class="arch-kind kind-narrative">narrative</span>
+  </div>
+  <h3>Point of View</h3>
+  <p class="arch-when">Single opinion made unmistakable</p>
+  <p class="arch-shape">Position · Counter · Evidence · Implication</p>
+</div>
+<div class="arch-card">
+  <div class="arch-meta">
+    <span class="arch-kind kind-narrative">narrative</span>
+  </div>
+  <h3>Conviction Memo</h3>
+  <p class="arch-when">Bezos-style narrative memo</p>
+  <p class="arch-shape">Long-form prose with embedded panels</p>
+</div>
+<div class="arch-card">
+  <div class="arch-meta">
+    <span class="arch-kind kind-narrative">narrative</span>
+  </div>
+  <h3>Transformation Story</h3>
+  <p class="arch-when">Before vs After journey</p>
+  <p class="arch-shape">From · Through · To · Lessons · Closer</p>
+</div>
+<div class="arch-card">
+  <div class="arch-meta">
+    <span class="arch-kind kind-decision">decision</span>
+  </div>
+  <h3>Strategic Choice</h3>
+  <p class="arch-when">A vs B vs C decision frame</p>
+  <p class="arch-shape">Frame · A · B · C · Trade-offs · Recommendation</p>
+</div>
+<div class="arch-card">
+  <div class="arch-meta">
+    <span class="arch-kind kind-operational">operational</span>
+  </div>
+  <h3>First 90 Days</h3>
+  <p class="arch-when">New-hire playbook</p>
+  <p class="arch-shape">Context · 30 · 60 · 90 · Stakeholders · Derailers</p>
+</div>
+<div class="arch-card">
+  <div class="arch-meta">
+    <span class="arch-kind kind-operational">operational</span>
+  </div>
+  <h3>Search Brief</h3>
+  <p class="arch-when">Executive search role brief</p>
+  <p class="arch-shape">Role · Market map · Profile · Pipeline · Calibration</p>
+</div>
+<div class="arch-card">
+  <div class="arch-meta">
+    <span class="arch-kind kind-numbers">numbers</span>
+  </div>
+  <h3>Field Pulse</h3>
+  <p class="arch-when">Quarterly field / commercial pulse</p>
+  <p class="arch-shape">KPI row · Movements · Pulse signals · Recommendations</p>
+</div></div>
+  <div class="page-num">08</div>
 </section>
 
 <!-- ============== ENGINE ============== -->
-<section class="engine-wrap" id="engine">
-  <div class="engine-head">
-    <h2>The Engine<span class="l">.</span></h2>
-    <div class="meta"><span class="live"></span>Powered by Claude Sonnet · v23 design system · python-pptx + weasyprint</div>
+<section class="engine-section" id="engine">
+  <div class="section-header">
+    <div class="num">Section 08 · The Engine</div>
+    <h2>Compose a brief <span class="l">now.</span></h2>
+    <p class="lede">Paste source · pick archetype + audience · hit Generate · download in HTML / PDF / PPTX. ~10 seconds end-to-end.</p>
   </div>
-
   <div class="engine">
-
-    <!-- ===== LEFT · CONTROLS ===== -->
     <div class="panel controls">
-      <div class="label">Paste source · or describe what you need</div>
-      <textarea id="input" placeholder="Examples to try:
-
-1.  NACO turnover hit 16.7% — €3.4M ask for ELT decision by Jun 15. Three roles bleeding: Business Excellence, V&A, MSL Oncology. Recommend ACCELERATE scenario.
-
-2.  ELT pre-read on CDIO talent horizon — three discussion prompts on architectural vs federated vs transformative.
-
-3.  Leave blank for a starter brief with placeholders."></textarea>
+      <div class="label">Source · paste or describe</div>
+      <textarea id="input" placeholder="Paste your source: a Slack thread, a board pack, an SWP file, an executive thought. Or describe what you need."></textarea>
 
       <div class="steering-row">
         <div class="field">
           <div class="label">Archetype</div>
           <select id="archetype">
             <option value="auto">Auto-detect</option>
-            <option value="exec_brief">Executive brief</option>
-            <option value="elt_preread">ELT pre-read</option>
-            <option value="analytical_dashboard">Analytical dashboard</option>
-            <option value="strategy_narrative">Strategy narrative</option>
-            <option value="project_briefing">Project briefing</option>
-            <option value="working_session">Working session</option>
+            <option value="exec_brief">Executive Brief</option>
+<option value="elt_preread">ELT Pre-Read</option>
+<option value="analytical_dashboard">Analytical Dashboard</option>
+<option value="strategy_narrative">Strategy Narrative</option>
+<option value="project_briefing">Project Briefing</option>
+<option value="working_session">Working Session</option>
+<option value="point_of_view">Point of View</option>
+<option value="conviction_memo">Conviction Memo</option>
+<option value="transformation_story">Transformation Story</option>
+<option value="strategic_choice">Strategic Choice</option>
+<option value="first_90_days">First 90 Days</option>
+<option value="search_brief">Search Brief</option>
+<option value="field_pulse">Field Pulse</option>
           </select>
         </div>
         <div class="field">
@@ -317,10 +2374,10 @@ textarea:focus, input:focus, select:focus {
           <select id="audience">
             <option value="auto">Auto-detect</option>
             <option value="elt">ELT</option>
-            <option value="hrlt">HRLT</option>
-            <option value="chro">CHRO</option>
-            <option value="team">Project team</option>
-            <option value="board">Board</option>
+<option value="hrlt">HRLT</option>
+<option value="chro">CHRO</option>
+<option value="team">Project team</option>
+<option value="board">Board</option>
           </select>
         </div>
       </div>
@@ -340,12 +2397,12 @@ textarea:focus, input:focus, select:focus {
           <div class="label">Cover style</div>
           <select id="cover_style">
             <option value="auto">Auto</option>
-            <option value="exec_split">Exec Split · Jenny lab</option>
-            <option value="elt_hero">ELT Hero · full-bleed photo</option>
-            <option value="park_hero">Park Hero · Gill outdoor</option>
-            <option value="gill_window">Gill Window · POV</option>
-            <option value="naco">NACO (NACO briefs only)</option>
-            <option value="minimal">Minimal · no photo</option>
+            <option value="exec_split">Exec Split · Left text panel + right lab_atmos.jpg photo</option>
+<option value="elt_hero">ELT Hero · Full-bleed photo + 3 discussion prompts overlay</option>
+<option value="park_hero">Park Hero · Full-bleed park_atmos.jpg outdoor</option>
+<option value="gill_window">Gill Window · Full-bleed gill_window.jpg portrait</option>
+<option value="naco">NACO · Exec split with NACO illustration</option>
+<option value="minimal">Minimal · Ink background, no photo</option>
           </select>
         </div>
       </div>
@@ -355,10 +2412,10 @@ textarea:focus, input:focus, select:focus {
           <div class="label">Chapter dividers</div>
           <select id="divider_style">
             <option value="auto">Auto</option>
-            <option value="people">People · lab_atmos</option>
-            <option value="science">Science · cell / liver / neuron / petri</option>
-            <option value="future">Future · park / garden</option>
-            <option value="ed10">ED10 · premium abstract</option>
+            <option value="people">People · lab_atmos.jpg</option>
+<option value="science">Science · science_cell / liver / neuron / petri</option>
+<option value="future">Future · park / garden</option>
+<option value="ed10">ED10 · Premium high-contrast abstract</option>
           </select>
         </div>
         <div class="field">
@@ -369,10 +2426,7 @@ textarea:focus, input:focus, select:focus {
 
       <div>
         <div class="file-row">
-          <label class="file-btn">
-            ↑ Upload source
-            <input type="file" id="file" accept=".txt,.md,.csv,.json,.pptx,.docx,.pdf" style="display: none;">
-          </label>
+          <label class="file-btn">↑ Upload source<input type="file" id="file" accept=".txt,.md,.csv,.json,.pptx,.docx,.pdf" style="display:none;"></label>
           <span id="file-name">No file selected</span>
         </div>
         <div class="file-formats">.pptx · .docx · .pdf · .txt · .md · .csv · .json</div>
@@ -385,91 +2439,67 @@ textarea:focus, input:focus, select:focus {
         <button id="dl-pdf"  class="btn secondary" disabled>↓ PDF</button>
         <button id="dl-pptx" class="btn secondary" disabled>↓ PPTX</button>
       </div>
-
-      <div id="status" class="status" style="display: none;"></div>
+      <div id="status" class="status" style="display:none;"></div>
     </div>
 
-    <!-- ===== RIGHT · PREVIEW ===== -->
     <div class="panel preview">
       <div class="preview-bar">
-        <span>Live Preview</span>
+        <span>Live preview</span>
         <span id="preview-meta" style="opacity: 0.7;">Hit Generate to render</span>
       </div>
-      <iframe id="preview" srcdoc="<style>body{font-family:'Inter Tight',sans-serif;color:#46526E;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;background:linear-gradient(135deg,#F6F8FA 0%,#EDF1F5 100%);text-align:center;padding:40px}h2{font-size:28px;color:#0F2552;letter-spacing:-0.02em;margin-bottom:14px}p{max-width:340px;font-size:13px;color:#5A6275;line-height:1.6}span{display:inline-block;background:#A6F50C;color:#0F2552;padding:4px 10px;font-size:10px;font-weight:800;letter-spacing:0.1em;margin-bottom:20px}</style><span>READY</span><h2>Your brief renders here.</h2><p>Paste a source on the left, pick an archetype + audience if you have an opinion, hit Generate. The first call after the engine wakes up takes ~30s; subsequent calls are ~10s.</p>"></iframe>
+      <iframe id="preview" srcdoc="<style>body{font-family:'Inter Tight',sans-serif;color:#46526E;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;background:linear-gradient(135deg,#F6F8FA 0%,#EDF1F5 100%);text-align:center;padding:40px}h2{font-size:28px;color:#0F2552;letter-spacing:-0.02em;margin-bottom:14px}p{max-width:340px;font-size:13px;color:#5A6275;line-height:1.6}span{display:inline-block;background:#A6F50C;color:#0F2552;padding:4px 10px;font-size:10px;font-weight:800;letter-spacing:0.1em;margin-bottom:20px}</style><span>READY</span><h2>Your brief renders here.</h2><p>Paste a source on the left, pick an archetype + audience if you have an opinion, hit Generate.</p>"></iframe>
     </div>
   </div>
 </section>
 
-<!-- ============== FOOTER ============== -->
 <footer class="foot">
-  <div class="stack">
-    <span>OOF Engine v0.2 · 2026</span>
-    <span class="chip">Built with <strong>Claude Code</strong></span>
-    <span class="chip">Deployed on <strong>Render</strong></span>
-    <span class="chip">Open source on <strong>GitHub</strong></span>
-  </div>
-  <div>
-    <em>From the people who live in the future. Our future.</em>
-  </div>
+  <div class="line">OOF Engine v0.4 · 2026 · Built with Claude Code · Deployed on Render · Open source</div>
+  <div class="tag">From the people who live in the future. Our future.</div>
 </footer>
 
 <script>
 const API = location.origin;
 let lastHTML = '';
-
-// ============== FILE UPLOAD ==============
-// .txt/.md/.csv/.json read locally; .pptx/.docx/.pdf go to /api/upload for extraction.
-const TEXT_EXTS = ['txt', 'md', 'csv', 'json'];
-const BINARY_EXTS = ['pptx', 'docx', 'pdf'];
+const TEXT_EXTS = ['txt','md','csv','json'];
+const BINARY_EXTS = ['pptx','docx','pdf'];
 
 document.getElementById('file').addEventListener('change', async (e) => {
   const f = e.target.files[0];
   if (!f) return;
   const ext = (f.name.split('.').pop() || '').toLowerCase();
-  const nameEl = document.getElementById('file-name');
-  nameEl.textContent = `${f.name} · ${Math.round(f.size/1024)}KB`;
-
+  document.getElementById('file-name').textContent = `${f.name} · ${Math.round(f.size/1024)}KB`;
   if (TEXT_EXTS.includes(ext)) {
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      document.getElementById('input').value = ev.target.result;
-      setStatus(`✓ Loaded ${f.name} (${ev.target.result.length} chars)`);
-    };
-    reader.readAsText(f);
+    const r = new FileReader();
+    r.onload = (ev) => { document.getElementById('input').value = ev.target.result; setStatus(`✓ Loaded ${f.name} (${ev.target.result.length}ch)`); };
+    r.readAsText(f);
   } else if (BINARY_EXTS.includes(ext)) {
     setStatus(`Parsing ${ext.toUpperCase()}…`);
     try {
-      const fd = new FormData();
-      fd.append('file', f);
+      const fd = new FormData(); fd.append('file', f);
       const r = await fetch(`${API}/api/upload`, { method: 'POST', body: fd });
       const data = await r.json();
       if (data.error) throw new Error(data.error);
       document.getElementById('input').value = data.text;
-      setStatus(`✓ Extracted ${data.chars} chars from ${data.filename}`);
-    } catch (err) {
-      setStatus('Upload failed: ' + err.message, true);
-    }
-  } else {
-    setStatus(`Unsupported format: .${ext}`, true);
-  }
+      setStatus(`✓ Extracted ${data.chars}ch from ${data.filename}`);
+    } catch (err) { setStatus('Upload failed: '+err.message, true); }
+  } else { setStatus(`Unsupported: .${ext}`, true); }
 });
 
-function setStatus(msg, isError = false) {
+function setStatus(msg, isError=false) {
   const el = document.getElementById('status');
   el.textContent = msg;
-  el.className = 'status' + (isError ? ' error' : '');
+  el.className = 'status'+(isError?' error':'');
   el.style.display = msg ? 'block' : 'none';
 }
 
-// ============== GENERATE ==============
 document.getElementById('make').addEventListener('click', async () => {
   const payload = {
-    source:        document.getElementById('input').value.trim(),
-    constraint:    document.getElementById('constraint').value.trim(),
-    archetype:     document.getElementById('archetype').value,
-    audience:      document.getElementById('audience').value,
-    slide_count:   document.getElementById('slide_count').value,
-    cover_style:   document.getElementById('cover_style').value,
+    source: document.getElementById('input').value.trim(),
+    constraint: document.getElementById('constraint').value.trim(),
+    archetype: document.getElementById('archetype').value,
+    audience: document.getElementById('audience').value,
+    slide_count: document.getElementById('slide_count').value,
+    cover_style: document.getElementById('cover_style').value,
     divider_style: document.getElementById('divider_style').value,
   };
   const btn = document.getElementById('make');
@@ -478,54 +2508,39 @@ document.getElementById('make').addEventListener('click', async () => {
   const t0 = Date.now();
   try {
     const r = await fetch(`${API}/api/generate`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(payload)
+      method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)
     });
     const data = await r.json();
     if (data.error) throw new Error(data.error);
     lastHTML = data.html;
     document.getElementById('preview').srcdoc = data.html;
-    const secs = ((Date.now() - t0) / 1000).toFixed(1);
-    document.getElementById('preview-meta').textContent = `Live · ${(data.len/1024).toFixed(1)}KB · ${secs}s · ${new Date().toLocaleTimeString()}`;
+    const secs = ((Date.now()-t0)/1000).toFixed(1);
+    document.getElementById('preview-meta').textContent = `Live · ${(data.len/1024).toFixed(1)}KB · ${secs}s`;
     document.getElementById('dl-html').disabled = false;
     document.getElementById('dl-pdf').disabled = false;
     document.getElementById('dl-pptx').disabled = false;
-    setStatus(`✓ Brief generated in ${secs}s. Use the download buttons.`);
-  } catch (e) {
-    setStatus('Error: ' + e.message, true);
-  } finally {
-    btn.disabled = false; btn.textContent = 'Generate brief →';
-  }
+    setStatus(`✓ Generated in ${secs}s`);
+  } catch (e) { setStatus('Error: '+e.message, true); }
+  finally { btn.disabled = false; btn.textContent = 'Generate brief →'; }
 });
 
-// ============== DOWNLOADS ==============
 document.getElementById('dl-html').addEventListener('click', () => {
-  const blob = new Blob([lastHTML], {type: 'text/html'});
+  const blob = new Blob([lastHTML], {type:'text/html'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = 'OOF_brief.html';
-  a.click(); URL.revokeObjectURL(url);
+  a.href = url; a.download = 'OOF_brief.html'; a.click(); URL.revokeObjectURL(url);
 });
-
 async function exportBinary(path, name) {
-  setStatus('Building ' + name + '…');
+  setStatus('Building '+name+'…');
   try {
-    const r = await fetch(`${API}${path}`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({html: lastHTML})
-    });
+    const r = await fetch(`${API}${path}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({html:lastHTML}) });
     if (!r.ok) throw new Error(await r.text());
     const blob = await r.blob();
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = name;
-    a.click(); URL.revokeObjectURL(url);
-    setStatus('✓ ' + name + ' downloaded.');
-  } catch (e) {
-    setStatus(name + ' export failed: ' + e.message, true);
-  }
+    a.href = url; a.download = name; a.click(); URL.revokeObjectURL(url);
+    setStatus('✓ '+name+' downloaded');
+  } catch (e) { setStatus(name+' failed: '+e.message, true); }
 }
 document.getElementById('dl-pdf').addEventListener('click',  () => exportBinary('/api/export/pdf',  'OOF_brief.pdf'));
 document.getElementById('dl-pptx').addEventListener('click', () => exportBinary('/api/export/pptx', 'OOF_brief.pptx'));
