@@ -140,15 +140,24 @@ def build_html() -> str:
     """Generate the full NASA-style guidebook front-end with engine at bottom."""
 
     # Build the components grid HTML
+    # Strip the .comp-when description out of demo_html and surface it under the card
+    import re as _re
     comp_cards = []
     for c in COMPONENTS:
+        demo = c['demo_html']
+        # Pull out the leading <p class="comp-when">…</p> as the card description
+        m = _re.match(r'\s*<p[^>]*class="comp-when"[^>]*>(.*?)</p>\s*', demo, _re.S)
+        desc = m.group(1).strip() if m else ""
+        if m:
+            demo = demo[m.end():]
         comp_cards.append(f"""
 <article class="comp-card" id="c{c['n']:02d}">
   <header>
     <span class="comp-num">{c['n']:02d}</span>
     <h3 class="comp-name">{c['name']}</h3>
   </header>
-  <div class="comp-demo">{c['demo_html']}</div>
+  <div class="comp-demo-wrap"><div class="comp-demo">{demo}</div></div>
+  {f'<div class="comp-desc"><p>{desc}</p></div>' if desc else ''}
 </article>""")
     comp_grid_html = "\n".join(comp_cards)
 
@@ -417,17 +426,18 @@ def build_html() -> str:
 
   /* ============== COMPONENT GRID ============== */
   .comp-grid {{
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px;
   }}
   .comp-card {{
     background: white;
     border: 1px solid var(--rule-thin);
     overflow: hidden;
+    display: flex; flex-direction: column;
   }}
   .comp-card header {{
     display: flex; align-items: baseline; gap: 12px;
-    padding: 16px 20px; border-bottom: 1px solid var(--rule-thin);
-    background: var(--paper-2);
+    padding: 14px 20px; border-bottom: 1px solid var(--rule-thin);
+    background: var(--paper-2); flex-shrink: 0;
   }}
   .comp-card .comp-num {{
     font-family: var(--mono); font-weight: 600; font-size: 11pt;
@@ -437,11 +447,26 @@ def build_html() -> str:
     font-family: 'Inter Tight', sans-serif; font-weight: 900;
     font-size: 14pt; letter-spacing: -0.01em; color: var(--ink);
   }}
-  .comp-card .comp-demo {{
-    padding: 20px; max-height: 340px; overflow: hidden;
-    background: white;
-    transform: scale(0.85); transform-origin: top left; width: 117%;
+  /* Demo container: fixed aspect ratio (16:9), demo content fills + scales by CSS zoom */
+  .comp-demo-wrap {{
+    position: relative; width: 100%; aspect-ratio: 16 / 9;
+    background: white; overflow: hidden;
   }}
+  .comp-card .comp-demo {{
+    position: absolute; inset: 0;
+    padding: 16px; overflow: hidden;
+    background: white;
+    /* Use zoom so the inner demo HTML scales as a unit and stays inside the box */
+    zoom: 0.55;
+  }}
+  /* Description below the demo, not inside it */
+  .comp-card .comp-desc {{
+    padding: 12px 20px 16px;
+    font-size: 10pt; color: var(--gray-d); line-height: 1.5;
+    font-style: italic; border-top: 1px solid var(--rule-thin);
+    flex-shrink: 0;
+  }}
+  .comp-card .comp-desc p {{ margin: 0; }}
 
   /* ============== ASSET GRID ============== */
   .asset-grid {{
@@ -587,13 +612,13 @@ def build_html() -> str:
     <span class="sub">Design Guidebook · v0.4</span>
   </div>
   <nav>
+    <a href="#engine" style="color: var(--lime); font-weight: 700;">→ Try the engine</a>
     <a href="#philosophy">Philosophy</a>
     <a href="#colour">Colour</a>
     <a href="#typography">Typography</a>
     <a href="#components">Components</a>
     <a href="#assets">Assets</a>
     <a href="#archetypes">Archetypes</a>
-    <a href="#engine">The Engine</a>
   </nav>
   <div class="live"><span class="dot"></span>Live</div>
 </nav>
@@ -616,6 +641,97 @@ def build_html() -> str:
     </div>
   </div>
   <div class="page-num">01</div>
+</section>
+
+<!-- ============== ENGINE (top placement — try it first) ============== -->
+<section class="engine-section" id="engine">
+  <div class="section-header">
+    <div class="num">The Engine · Try it now</div>
+    <h2>Compose a brief <span class="l">now.</span></h2>
+    <p class="lede">Paste source · pick archetype + audience · hit Generate · download in HTML / PDF / PPTX. ~10 seconds end-to-end. Guidebook below.</p>
+  </div>
+  <div class="engine">
+    <div class="panel controls">
+      <div class="label">Source · paste or describe</div>
+      <textarea id="input" placeholder="Paste your source: a Slack thread, a board pack, an SWP file, an executive thought. Or describe what you need."></textarea>
+
+      <div class="steering-row">
+        <div class="field">
+          <div class="label">Archetype</div>
+          <select id="archetype">
+            <option value="auto">Auto-detect</option>
+            {arch_opts}
+          </select>
+        </div>
+        <div class="field">
+          <div class="label">Audience</div>
+          <select id="audience">
+            <option value="auto">Auto-detect</option>
+            {audience_opts}
+          </select>
+        </div>
+      </div>
+
+      <div class="steering-row">
+        <div class="field">
+          <div class="label">Slide count</div>
+          <select id="slide_count">
+            <option value="auto">Auto</option>
+            <option value="3">3 · Tight</option>
+            <option value="5">5 · Standard</option>
+            <option value="8">8 · Full</option>
+            <option value="12">12 · Deep</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="label">Cover style</div>
+          <select id="cover_style">
+            <option value="auto">Auto</option>
+            {cover_opts}
+          </select>
+        </div>
+      </div>
+
+      <div class="steering-row">
+        <div class="field">
+          <div class="label">Chapter dividers</div>
+          <select id="divider_style">
+            <option value="auto">Auto</option>
+            {divider_opts}
+          </select>
+        </div>
+        <div class="field">
+          <div class="label">Free-text override</div>
+          <input type="text" id="constraint" placeholder="e.g. 'use waterfall'">
+        </div>
+      </div>
+
+      <div>
+        <div class="file-row">
+          <label class="file-btn">↑ Upload source<input type="file" id="file" accept=".txt,.md,.csv,.json,.pptx,.docx,.pdf" style="display:none;"></label>
+          <span id="file-name">No file selected</span>
+        </div>
+        <div class="file-formats">.pptx · .docx · .pdf · .txt · .md · .csv · .json</div>
+      </div>
+
+      <button id="make" class="btn primary big">Generate brief →</button>
+
+      <div class="downloads">
+        <button id="dl-html" class="btn secondary" disabled>↓ HTML</button>
+        <button id="dl-pdf"  class="btn secondary" disabled>↓ PDF</button>
+        <button id="dl-pptx" class="btn secondary" disabled>↓ PPTX</button>
+      </div>
+      <div id="status" class="status" style="display:none;"></div>
+    </div>
+
+    <div class="panel preview">
+      <div class="preview-bar">
+        <span>Live preview</span>
+        <span id="preview-meta" style="opacity: 0.7;">Hit Generate to render</span>
+      </div>
+      <iframe id="preview" srcdoc="<style>body{{font-family:'Inter Tight',sans-serif;color:#46526E;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;background:linear-gradient(135deg,#F6F8FA 0%,#EDF1F5 100%);text-align:center;padding:40px}}h2{{font-size:28px;color:#0F2552;letter-spacing:-0.02em;margin-bottom:14px}}p{{max-width:340px;font-size:13px;color:#5A6275;line-height:1.6}}span{{display:inline-block;background:#A6F50C;color:#0F2552;padding:4px 10px;font-size:10px;font-weight:800;letter-spacing:0.1em;margin-bottom:20px}}</style><span>READY</span><h2>Your brief renders here.</h2><p>Paste a source on the left, pick an archetype + audience if you have an opinion, hit Generate.</p>"></iframe>
+    </div>
+  </div>
 </section>
 
 <!-- ============== PHILOSOPHY ============== -->
@@ -759,97 +875,6 @@ def build_html() -> str:
   </div>
   <div class="arch-grid">{arch_cards}</div>
   <div class="page-num">08</div>
-</section>
-
-<!-- ============== ENGINE ============== -->
-<section class="engine-section" id="engine">
-  <div class="section-header">
-    <div class="num">Section 08 · The Engine</div>
-    <h2>Compose a brief <span class="l">now.</span></h2>
-    <p class="lede">Paste source · pick archetype + audience · hit Generate · download in HTML / PDF / PPTX. ~10 seconds end-to-end.</p>
-  </div>
-  <div class="engine">
-    <div class="panel controls">
-      <div class="label">Source · paste or describe</div>
-      <textarea id="input" placeholder="Paste your source: a Slack thread, a board pack, an SWP file, an executive thought. Or describe what you need."></textarea>
-
-      <div class="steering-row">
-        <div class="field">
-          <div class="label">Archetype</div>
-          <select id="archetype">
-            <option value="auto">Auto-detect</option>
-            {arch_opts}
-          </select>
-        </div>
-        <div class="field">
-          <div class="label">Audience</div>
-          <select id="audience">
-            <option value="auto">Auto-detect</option>
-            {audience_opts}
-          </select>
-        </div>
-      </div>
-
-      <div class="steering-row">
-        <div class="field">
-          <div class="label">Slide count</div>
-          <select id="slide_count">
-            <option value="auto">Auto</option>
-            <option value="3">3 · Tight</option>
-            <option value="5">5 · Standard</option>
-            <option value="8">8 · Full</option>
-            <option value="12">12 · Deep</option>
-          </select>
-        </div>
-        <div class="field">
-          <div class="label">Cover style</div>
-          <select id="cover_style">
-            <option value="auto">Auto</option>
-            {cover_opts}
-          </select>
-        </div>
-      </div>
-
-      <div class="steering-row">
-        <div class="field">
-          <div class="label">Chapter dividers</div>
-          <select id="divider_style">
-            <option value="auto">Auto</option>
-            {divider_opts}
-          </select>
-        </div>
-        <div class="field">
-          <div class="label">Free-text override</div>
-          <input type="text" id="constraint" placeholder="e.g. 'use waterfall'">
-        </div>
-      </div>
-
-      <div>
-        <div class="file-row">
-          <label class="file-btn">↑ Upload source<input type="file" id="file" accept=".txt,.md,.csv,.json,.pptx,.docx,.pdf" style="display:none;"></label>
-          <span id="file-name">No file selected</span>
-        </div>
-        <div class="file-formats">.pptx · .docx · .pdf · .txt · .md · .csv · .json</div>
-      </div>
-
-      <button id="make" class="btn primary big">Generate brief →</button>
-
-      <div class="downloads">
-        <button id="dl-html" class="btn secondary" disabled>↓ HTML</button>
-        <button id="dl-pdf"  class="btn secondary" disabled>↓ PDF</button>
-        <button id="dl-pptx" class="btn secondary" disabled>↓ PPTX</button>
-      </div>
-      <div id="status" class="status" style="display:none;"></div>
-    </div>
-
-    <div class="panel preview">
-      <div class="preview-bar">
-        <span>Live preview</span>
-        <span id="preview-meta" style="opacity: 0.7;">Hit Generate to render</span>
-      </div>
-      <iframe id="preview" srcdoc="<style>body{{font-family:'Inter Tight',sans-serif;color:#46526E;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;background:linear-gradient(135deg,#F6F8FA 0%,#EDF1F5 100%);text-align:center;padding:40px}}h2{{font-size:28px;color:#0F2552;letter-spacing:-0.02em;margin-bottom:14px}}p{{max-width:340px;font-size:13px;color:#5A6275;line-height:1.6}}span{{display:inline-block;background:#A6F50C;color:#0F2552;padding:4px 10px;font-size:10px;font-weight:800;letter-spacing:0.1em;margin-bottom:20px}}</style><span>READY</span><h2>Your brief renders here.</h2><p>Paste a source on the left, pick an archetype + audience if you have an opinion, hit Generate.</p>"></iframe>
-    </div>
-  </div>
 </section>
 
 <footer class="foot">
