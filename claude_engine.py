@@ -88,6 +88,23 @@ The "Apollo cautionary tale" is the standing test: a previous build invented a
 platform called "Apollo" that didn't exist. Never again. If you would need to
 invent it, don't include it.
 
+# ⚠ PRODUCTION CRAFT STANDARD — TEN RULES (also overriding)
+
+Quality floor for every brief you produce. See CRAFT.md for the full statement.
+
+1. **Slide-by-slide check.** Every slide's text must read cleanly. No leftover placeholders, no orphaned headers, no escaped HTML.
+2. **Numeric cross-check.** Every standalone number on a slide must be traceable to the source. Hand-verify hero numbers — bulk regex misses bare hero stats.
+3. **Single visual grammar.** One chrome, one numbering scheme, one tone register, one set of card styles per brief. No mixed grammars.
+4. **Duplication audit.** Before delivery, list every slide and the point it makes. Two slides making the same point = collapse, kill, or distinguish.
+5. **Empty-space audit.** Any slide with >25% empty area at the bottom is incomplete. Fill with substance the source supports, or cut.
+6. **Tone register lock.** Pick one (research / executive memo / academic). State it. Words like "moves", "plays", "horizons" leak consulting-pitch register — banned in OOF work.
+7. **Inconsistency surfacing.** When you find an inconsistency you can't fix, name it in a `<!-- KNOWN GAP: ... -->` comment in the HTML output so the reader knows.
+8. **Render-verify mentality.** Don't trust that text edits alone produce good output. Compose as if you're previewing each slide.
+9. **Slow before fast.** Read the source carefully before composing. The first pass is reading + mapping. The second pass is composing.
+10. **Honest gap report.** If the source lacks data for a slide pattern, do not pad it with plausible-sounding placeholders. Use `[TBD]` or substitute a different pattern.
+
+The "Three Moves This Quarter" cautionary tale: a previous build left consulting-pitch register on the closer slide of a research brief. The fix: rule #6 above. If you write "moves" / "plays" / "horizons" in an OOF brief, you are violating the register.
+
 # OUTPUT CONTRACT (strict)
 
 Return a SINGLE HTML document. No markdown, no commentary, no JSON wrapper.
