@@ -1,11 +1,13 @@
 """
 OOF Engine — Flask backend
-Three endpoints:
+Endpoints:
+  POST /api/upload          → binary file (.pptx/.docx/.pdf/.txt/.md/.csv/.json) → extracted text
   POST /api/generate        → source text → HTML brief (calls Claude)
   POST /api/export/pdf      → HTML brief → PDF binary
   POST /api/export/pptx     → HTML brief → PPTX binary
+  GET  /api/health          → liveness check
 
-Frontend (static) is served from /frontend.
+Frontend (static) is served from the same directory.
 """
 import os
 from io import BytesIO
@@ -16,6 +18,7 @@ from flask_cors import CORS
 
 from claude_engine import generate_brief
 from pptx_export import html_to_pptx, html_to_pdf
+from file_parser import extract_text
 
 
 FRONTEND_DIR = Path(__file__).parent
@@ -49,9 +52,11 @@ def api_generate():
     data = request.get_json(silent=True) or {}
     source = (data.get("source") or "").strip()
     constraint = (data.get("constraint") or "").strip()
+    archetype = (data.get("archetype") or "auto").strip()
+    audience = (data.get("audience") or "auto").strip()
+    slide_count = (data.get("slide_count") or "auto").strip()
 
     if not source:
-        # Empty source → use a starter
         source = (
             "Build me a starter v23 brief — 4 slides. "
             "Cover, a hero number, a SO WHAT slide, and a closer. "
@@ -59,8 +64,38 @@ def api_generate():
         )
 
     try:
-        html = generate_brief(source, constraint)
+        html = generate_brief(
+            source=source,
+            constraint=constraint,
+            archetype=archetype,
+            audience=audience,
+            slide_count=slide_count,
+        )
         return jsonify({"html": html, "len": len(html)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+# API · UPLOAD (binary files → extracted text)
+# Accepts multipart/form-data with field `file`.
+# Returns: { "text": "...", "filename": "...", "chars": N }
+# ============================================================
+
+@app.route("/api/upload", methods=["POST"])
+def api_upload():
+    if "file" not in request.files:
+        return jsonify({"error": "no file in request"}), 400
+    f = request.files["file"]
+    if not f.filename:
+        return jsonify({"error": "empty filename"}), 400
+    try:
+        text = extract_text(f.filename, f.read())
+        return jsonify({
+            "text": text,
+            "filename": f.filename,
+            "chars": len(text),
+        })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

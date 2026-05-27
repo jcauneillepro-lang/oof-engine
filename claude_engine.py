@@ -172,16 +172,88 @@ def get_client():
     return Anthropic(api_key=api_key)
 
 
-def generate_brief(source: str, constraint: str = "") -> str:
+ARCHETYPE_HINTS = {
+    "auto": "",
+    "exec_brief": (
+        "Archetype: EXECUTIVE BRIEF. 1 page, decision-forward. Cover with a "
+        "headline-as-verdict, then the recommendation, the why, the ask. End "
+        "with a closer. No appendix. Aim 1–3 slides."
+    ),
+    "elt_preread": (
+        "Archetype: ELT PRE-READ. Hero photo cover with 3 discussion prompts. "
+        "Body slides walk through the shift / three lenses / closer. 4–5 slides."
+    ),
+    "analytical_dashboard": (
+        "Archetype: ANALYTICAL DASHBOARD. KPI tiles up top, deeper charts "
+        "below (slope, waterfall, donut, bar). Numbers-led. 4–8 slides."
+    ),
+    "strategy_narrative": (
+        "Archetype: STRATEGY NARRATIVE. Pyramid principle — headline first, "
+        "then 3 supporting pillars, then evidence per pillar. 6–10 slides."
+    ),
+    "project_briefing": (
+        "Archetype: PROJECT BRIEFING. Status board, milestones, RAG, owners, "
+        "decisions needed. Operational tone. 4–7 slides."
+    ),
+    "working_session": (
+        "Archetype: WORKING SESSION. Prompts to debate, decisions to capture, "
+        "options to compare. Participation-friendly format. 4–6 slides."
+    ),
+}
+
+AUDIENCE_HINTS = {
+    "auto": "",
+    "elt": "Audience: ELT (CEO + executive committee). Maximum 12-minute read. Verdict-first, evidence-second, no jargon.",
+    "hrlt": "Audience: HRLT (HR leadership). Comfortable with talent/SWP terminology. Show the methodology and the trade-offs.",
+    "chro": "Audience: CHRO. Single decision-maker. Frame as a recommendation with the ask explicit and the alternatives named.",
+    "team": "Audience: project team. Operational detail, names, owners, dates. Less polish, more clarity.",
+    "board": "Audience: Board of Directors. Strategic level only. Numbers must be unimpeachable. Cite every source.",
+}
+
+SLIDE_COUNT_HINTS = {
+    "auto": "",
+    "3": "Hard cap: 3 slides total. Be ruthless.",
+    "5": "Target: 5 slides. Cover + 3 body + closer.",
+    "8": "Target: 8 slides. Cover + 6 body + closer.",
+    "12": "Target: 12 slides. Full deck with section dividers.",
+}
+
+
+def generate_brief(
+    source: str,
+    constraint: str = "",
+    archetype: str = "auto",
+    audience: str = "auto",
+    slide_count: str = "auto",
+) -> str:
     """
     Send source + optional constraint to Claude.
+    archetype / audience / slide_count are explicit steering knobs that get
+    woven into the user message as additional constraints.
     Returns a complete standalone HTML brief.
     """
     client = get_client()
 
     user_msg = f"SOURCE CONTENT:\n\n{source}"
+
+    steering_lines = []
+    if archetype and archetype != "auto":
+        hint = ARCHETYPE_HINTS.get(archetype, "")
+        if hint:
+            steering_lines.append(hint)
+    if audience and audience != "auto":
+        hint = AUDIENCE_HINTS.get(audience, "")
+        if hint:
+            steering_lines.append(hint)
+    if slide_count and slide_count != "auto":
+        hint = SLIDE_COUNT_HINTS.get(slide_count, "")
+        if hint:
+            steering_lines.append(hint)
+    if steering_lines:
+        user_msg += "\n\nSTEERING:\n" + "\n".join(f"- {line}" for line in steering_lines)
+
     if constraint:
-        user_msg += f"\n\nCONSTRAINT:\n{constraint}"
+        user_msg += f"\n\nCONSTRAINT (free-text override):\n{constraint}"
     user_msg += "\n\nReturn the complete HTML brief. No commentary, no markdown — just the HTML starting with <!DOCTYPE html>."
 
     response = client.messages.create(

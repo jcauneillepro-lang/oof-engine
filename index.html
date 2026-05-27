@@ -3,55 +3,181 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OOF Engine</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Inter+Tight:wght@800;900&display=swap" rel="stylesheet">
+<title>OOF Engine · From the people who live in the future</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink: #0F2552; --ink-dk: #07152E; --lime: #A6F50C; --cyan: #0CB8F5;
-  --magenta: #F50C7A; --orange: #F5800C; --white: #fff; --gray: #808AA0;
-  --gray-d: #5A6275; --card: #EDF1F5; --card-2: #F6F8FA; --rule: #D8DFE8;
+  --ink: #0F2552; --ink-dk: #07152E; --ink-2: #1B3370;
+  --lime: #A6F50C; --cyan: #0CB8F5; --magenta: #F50C7A;
+  --orange: #F5800C; --violet: #8B5CF6;
+  --white: #fff; --gray: #808AA0; --gray-d: #5A6275;
+  --card: #EDF1F5; --card-2: #F6F8FA; --rule: #D8DFE8;
   --font-display: 'Inter Tight', system-ui, sans-serif;
   --font-body: Inter, system-ui, sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-body); background: #2a2e3a; color: var(--ink); min-height: 100vh; }
-.shell { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
-header { color: var(--white); margin-bottom: 24px; }
-header h1 { font-family: var(--font-display); font-size: 36px; font-weight: 900; letter-spacing: -0.02em; }
-header h1 .l { color: var(--lime); }
-header .sub { font-size: 14px; color: rgba(255,255,255,0.75); margin-top: 6px; font-style: italic; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body); background: var(--ink-dk); color: var(--white);
+  min-height: 100vh; overflow-x: hidden;
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(166,245,12,0.10) 0%, transparent 38%),
+    radial-gradient(circle at 86% 8%, rgba(12,184,245,0.08) 0%, transparent 42%),
+    radial-gradient(circle at 50% 95%, rgba(245,12,122,0.06) 0%, transparent 45%);
+}
 
-.engine { display: grid; grid-template-columns: 380px 1fr; gap: 16px; }
-.left, .right { background: var(--white); border-radius: 12px; overflow: hidden; }
+/* ===== TOP CHROME · brand bar ===== */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 36px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.topbar .left { display: flex; align-items: center; gap: 18px; }
+.brand-mark {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--magenta); color: var(--white); width: 38px; height: 38px;
+  border-radius: 50%; font-family: var(--font-display); font-size: 14px;
+  font-weight: 900; transform: rotate(-8deg); letter-spacing: -0.02em;
+}
+.brand-text { display: flex; flex-direction: column; }
+.brand-text .t1 {
+  font-family: var(--font-display); font-size: 18px; font-weight: 900;
+  letter-spacing: -0.02em; line-height: 1;
+}
+.brand-text .t1 .l { color: var(--lime); }
+.brand-text .t2 {
+  font-size: 10px; color: rgba(255,255,255,0.55); margin-top: 3px;
+  font-style: italic; letter-spacing: 0.04em;
+}
+.topbar .right {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 11px; color: rgba(255,255,255,0.55);
+}
+.topbar .right .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 8px var(--lime); }
 
-.left { padding: 24px; display: flex; flex-direction: column; gap: 14px; }
-.label { font-size: 11px; font-weight: 700; color: var(--gray-d); text-transform: uppercase; letter-spacing: 0.06em; }
-textarea, input[type=text] {
+/* ===== HERO ===== */
+.hero { padding: 88px 36px 56px; max-width: 1280px; margin: 0 auto; }
+.hero .kicker {
+  display: inline-block; background: var(--lime); color: var(--ink);
+  padding: 6px 12px; font-size: 10px; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 24px;
+}
+.hero h1 {
+  font-family: var(--font-display); font-size: 88px; font-weight: 900;
+  line-height: 0.92; letter-spacing: -0.04em; max-width: 1080px;
+}
+.hero h1 .l { color: var(--lime); }
+.hero h1 .pink { color: var(--magenta); }
+.hero .lede {
+  font-size: 19px; color: rgba(255,255,255,0.78); line-height: 1.55;
+  margin-top: 28px; max-width: 740px; font-weight: 400;
+}
+.hero .lede em { color: var(--lime); font-style: normal; font-weight: 600; }
+
+/* ===== MANIFESTO STRIP · 3 columns ===== */
+.manifesto {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  max-width: 1280px; margin: 64px auto; padding: 0 36px;
+}
+.mcol {
+  border-left: 3px solid var(--lime); padding: 4px 0 4px 22px;
+}
+.mcol:nth-child(2) { border-left-color: var(--cyan); }
+.mcol:nth-child(3) { border-left-color: var(--magenta); }
+.mcol .num {
+  font-family: var(--font-display); font-size: 11px; font-weight: 800;
+  color: var(--lime); letter-spacing: 0.12em; margin-bottom: 10px;
+}
+.mcol:nth-child(2) .num { color: var(--cyan); }
+.mcol:nth-child(3) .num { color: var(--magenta); }
+.mcol h3 {
+  font-family: var(--font-display); font-size: 22px; font-weight: 900;
+  line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 12px;
+}
+.mcol p {
+  font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6;
+}
+
+/* ===== ENGINE PANEL · the actual tool ===== */
+.engine-wrap {
+  max-width: 1280px; margin: 24px auto 80px; padding: 0 36px;
+}
+.engine-head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 18px; padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.engine-head h2 {
+  font-family: var(--font-display); font-size: 32px; font-weight: 900;
+  letter-spacing: -0.02em;
+}
+.engine-head h2 .l { color: var(--lime); }
+.engine-head .meta {
+  font-size: 11px; color: rgba(255,255,255,0.5); font-style: italic;
+}
+.engine-head .meta .live {
+  display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--lime); margin-right: 5px; box-shadow: 0 0 6px var(--lime);
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 50% { opacity: 0.4; } }
+
+.engine { display: grid; grid-template-columns: 420px 1fr; gap: 18px; }
+.left, .right { background: var(--white); border-radius: 14px; overflow: hidden; color: var(--ink); }
+
+/* LEFT panel · controls */
+.left { padding: 26px; display: flex; flex-direction: column; gap: 16px; }
+.label {
+  font-size: 10px; font-weight: 800; color: var(--gray-d);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+textarea, input[type=text], select {
   width: 100%; padding: 12px 14px; border: 1.5px solid var(--rule); border-radius: 6px;
   font-family: var(--font-body); font-size: 13px; line-height: 1.55; color: var(--ink);
   background: var(--card-2); resize: vertical;
 }
-textarea { min-height: 200px; }
-textarea::placeholder, input::placeholder { color: var(--gray); font-style: italic; }
-textarea:focus, input:focus {
-  outline: none; border-color: var(--lime); background: var(--white);
-  box-shadow: 0 0 0 3px rgba(166,245,12,0.15);
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230F2552' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
+  padding-right: 36px; cursor: pointer;
 }
-.file-row { display: flex; align-items: center; gap: 12px; }
+textarea { min-height: 180px; }
+textarea::placeholder, input::placeholder { color: var(--gray); font-style: italic; }
+textarea:focus, input:focus, select:focus {
+  outline: none; border-color: var(--lime); background: var(--white);
+  box-shadow: 0 0 0 3px rgba(166,245,12,0.18);
+}
+
+/* Steering row · two dropdowns side by side */
+.steering-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.steering-row .field { display: flex; flex-direction: column; gap: 6px; }
+.steering-row .field .label { font-size: 9px; }
+
+/* File upload */
+.file-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .file-btn {
   display: inline-block; cursor: pointer; background: var(--ink); color: var(--white);
-  padding: 9px 14px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+  padding: 10px 14px; border-radius: 5px; font-size: 11px; font-weight: 800; letter-spacing: 0.04em;
+  transition: background 0.15s;
 }
 .file-btn:hover { background: var(--lime); color: var(--ink); }
-#file-name { font-size: 11px; color: var(--gray); font-style: italic; }
+#file-name { font-size: 11px; color: var(--gray-d); font-style: italic; flex: 1; }
+.file-formats { font-size: 9px; color: var(--gray); margin-top: 2px; letter-spacing: 0.04em; text-transform: uppercase; }
 
-.btn { cursor: pointer; border: 0; border-radius: 4px; font-family: var(--font-display);
-  font-weight: 800; font-size: 13px; letter-spacing: 0.04em; padding: 12px 16px; }
+/* Buttons */
+.btn {
+  cursor: pointer; border: 0; border-radius: 6px; font-family: var(--font-display);
+  font-weight: 800; font-size: 13px; letter-spacing: 0.04em; padding: 12px 16px;
+  transition: all 0.15s;
+}
 .btn.primary { background: var(--lime); color: var(--ink); }
 .btn.primary:hover { background: var(--ink); color: var(--lime); }
 .btn.primary:disabled { background: var(--gray); color: var(--white); cursor: not-allowed; }
 .btn.big { padding: 16px 24px; font-size: 15px; }
-.btn.secondary { background: var(--white); color: var(--ink); border: 1px solid var(--rule); }
+.btn.secondary {
+  background: var(--white); color: var(--ink);
+  border: 1.5px solid var(--rule);
+}
 .btn.secondary:hover:not([disabled]) { background: var(--ink); color: var(--white); border-color: var(--ink); }
 .btn.secondary[disabled] { color: var(--gray); cursor: not-allowed; opacity: 0.5; }
 
@@ -63,25 +189,97 @@ textarea:focus, input:focus {
 }
 .status.error { background: rgba(245,12,122,0.10); border-left-color: var(--magenta); color: var(--ink); }
 
+/* RIGHT panel · preview */
 .right { display: flex; flex-direction: column; min-height: 720px; }
 .preview-bar {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 14px 20px; background: var(--ink); color: var(--white);
-  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 14px 22px; background: var(--ink); color: var(--white);
+  font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
 }
 #preview { flex: 1; width: 100%; border: 0; background: var(--card-2); min-height: 680px; }
+
+/* ===== FOOTER ===== */
+.foot {
+  max-width: 1280px; margin: 0 auto; padding: 28px 36px 56px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px; color: rgba(255,255,255,0.5); flex-wrap: wrap; gap: 12px;
+}
+.foot .stack {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.foot .chip {
+  background: rgba(255,255,255,0.06); padding: 5px 10px; border-radius: 12px;
+  font-size: 10px; letter-spacing: 0.04em;
+}
+.foot .chip strong { color: var(--lime); font-weight: 800; }
+
+/* ===== RESPONSIVE-ish ===== */
+@media (max-width: 980px) {
+  .hero h1 { font-size: 56px; }
+  .manifesto { grid-template-columns: 1fr; gap: 20px; }
+  .engine { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
-<div class="shell">
 
-  <header>
-    <h1>OOF<span class="l">.</span> Engine</h1>
-    <div class="sub">Paste source · Generate v23 brief · Download HTML / PDF / PPTX</div>
-  </header>
+<!-- ============== TOP BAR ============== -->
+<nav class="topbar">
+  <div class="left">
+    <span class="brand-mark">OOF</span>
+    <div class="brand-text">
+      <span class="t1">OOF<span class="l">.</span> Engine</span>
+      <span class="t2">Office of the Future · Ipsen</span>
+    </div>
+  </div>
+  <div class="right">
+    <span class="dot"></span>
+    <span>Live · v0.2</span>
+  </div>
+</nav>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <span class="kicker">From the people who live in the future</span>
+  <h1>Briefs at the speed of <span class="l">thought.</span><br>Design at the standard of <span class="pink">forever.</span></h1>
+  <p class="lede">
+    Paste anything — a Slack thread, a board pack, a 40-slide consultant deck — and
+    get back a <em>v23-designed, source-honest brief</em> in HTML, PDF and PowerPoint.
+    Built so the next generation of HR leaders can <em>spend their time deciding,</em>
+    not formatting.
+  </p>
+</section>
+
+<!-- ============== MANIFESTO ============== -->
+<section class="manifesto">
+  <div class="mcol">
+    <div class="num">01 · WHY</div>
+    <h3>Form is the rate-limiter on insight.</h3>
+    <p>Every HR leader has decisions waiting on a deck. We removed the deck-making step. What's left is the thinking.</p>
+  </div>
+  <div class="mcol">
+    <div class="num">02 · HOW</div>
+    <h3>One design system. Six archetypes. Zero blank pages.</h3>
+    <p>The v23 language — navy, lime, cyan, magenta — composed by an LLM that knows it. You bring the source. It brings the form.</p>
+  </div>
+  <div class="mcol">
+    <div class="num">03 · WHAT'S NEW</div>
+    <h3>Editable PowerPoint, honest data, your house style.</h3>
+    <p>Upload a .pptx and re-skin it. Upload a PDF and compress it. Pick an archetype, pick an audience, hit Generate.</p>
+  </div>
+</section>
+
+<!-- ============== ENGINE ============== -->
+<section class="engine-wrap" id="engine">
+  <div class="engine-head">
+    <h2>The Engine<span class="l">.</span></h2>
+    <div class="meta"><span class="live"></span>Powered by Claude Sonnet · v23 design system · python-pptx + weasyprint</div>
+  </div>
 
   <div class="engine">
 
+    <!-- ===== LEFT · CONTROLS ===== -->
     <div class="left">
       <div class="label">Paste source · or describe what you need</div>
       <textarea id="input" placeholder="Examples to try:
@@ -92,15 +290,58 @@ textarea:focus, input:focus {
 
 3.  Leave blank for a starter brief with placeholders."></textarea>
 
-      <div class="label">Optional constraint (length / format / archetype)</div>
-      <input type="text" id="constraint" placeholder="e.g. '5 slides max', 'ELT pre-read', 'use waterfall + pyramid principle'">
+      <div class="steering-row">
+        <div class="field">
+          <div class="label">Archetype</div>
+          <select id="archetype">
+            <option value="auto">Auto-detect</option>
+            <option value="exec_brief">Executive brief</option>
+            <option value="elt_preread">ELT pre-read</option>
+            <option value="analytical_dashboard">Analytical dashboard</option>
+            <option value="strategy_narrative">Strategy narrative</option>
+            <option value="project_briefing">Project briefing</option>
+            <option value="working_session">Working session</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="label">Audience</div>
+          <select id="audience">
+            <option value="auto">Auto-detect</option>
+            <option value="elt">ELT</option>
+            <option value="hrlt">HRLT</option>
+            <option value="chro">CHRO</option>
+            <option value="team">Project team</option>
+            <option value="board">Board</option>
+          </select>
+        </div>
+      </div>
 
-      <div class="file-row">
-        <label class="file-btn">
-          ↑ Upload file (.txt / .md / .csv / .json)
-          <input type="file" id="file" accept=".txt,.md,.csv,.json" style="display: none;">
-        </label>
-        <span id="file-name"></span>
+      <div class="steering-row">
+        <div class="field">
+          <div class="label">Slide count</div>
+          <select id="slide_count">
+            <option value="auto">Auto</option>
+            <option value="3">3 · Tight</option>
+            <option value="5">5 · Standard</option>
+            <option value="8">8 · Full</option>
+            <option value="12">12 · Deep</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="label">Free-text override</div>
+          <input type="text" id="constraint" placeholder="e.g. 'use waterfall'">
+        </div>
+      </div>
+
+      <div>
+        <div class="file-row">
+          <label class="file-btn">
+            ↑ Upload source
+            <input type="file" id="file" accept=".txt,.md,.csv,.json,.pptx,.docx,.pdf" style="display: none;">
+          </label>
+          <span id="file-name">No file selected</span>
+        </div>
+        <div class="file-formats">.pptx · .docx · .pdf · .txt · .md · .csv · .json</div>
       </div>
 
       <button id="make" class="btn primary big">Generate brief →</button>
@@ -114,28 +355,69 @@ textarea:focus, input:focus {
       <div id="status" class="status" style="display: none;"></div>
     </div>
 
+    <!-- ===== RIGHT · PREVIEW ===== -->
     <div class="right">
       <div class="preview-bar">
-        <span>Preview</span>
+        <span>Live Preview</span>
         <span id="preview-meta" style="opacity: 0.7;">Hit Generate to render</span>
       </div>
-      <iframe id="preview" srcdoc="<style>body{font-family:Inter,sans-serif;color:#46526E;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#F6F8FA}p{max-width:280px;text-align:center;font-size:13px;font-style:italic}</style><p>Your live brief preview will render here once you hit Generate.</p>"></iframe>
+      <iframe id="preview" srcdoc="<style>body{font-family:'Inter Tight',sans-serif;color:#46526E;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;background:linear-gradient(135deg,#F6F8FA 0%,#EDF1F5 100%);text-align:center;padding:40px}h2{font-size:28px;color:#0F2552;letter-spacing:-0.02em;margin-bottom:14px}p{max-width:340px;font-size:13px;color:#5A6275;line-height:1.6}span{display:inline-block;background:#A6F50C;color:#0F2552;padding:4px 10px;font-size:10px;font-weight:800;letter-spacing:0.1em;margin-bottom:20px}</style><span>READY</span><h2>Your brief renders here.</h2><p>Paste a source on the left, pick an archetype + audience if you have an opinion, hit Generate. The first call after the engine wakes up takes ~30s; subsequent calls are ~10s.</p>"></iframe>
     </div>
   </div>
-</div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="foot">
+  <div class="stack">
+    <span>OOF Engine v0.2 · 2026</span>
+    <span class="chip">Built with <strong>Claude Code</strong></span>
+    <span class="chip">Deployed on <strong>Render</strong></span>
+    <span class="chip">Open source on <strong>GitHub</strong></span>
+  </div>
+  <div>
+    <em>From the people who live in the future. Our future.</em>
+  </div>
+</footer>
 
 <script>
-const API = location.origin;  // same-origin (Flask serves both)
+const API = location.origin;
 let lastHTML = '';
 
-// File upload → read into textarea
-document.getElementById('file').addEventListener('change', e => {
+// ============== FILE UPLOAD ==============
+// .txt/.md/.csv/.json read locally; .pptx/.docx/.pdf go to /api/upload for extraction.
+const TEXT_EXTS = ['txt', 'md', 'csv', 'json'];
+const BINARY_EXTS = ['pptx', 'docx', 'pdf'];
+
+document.getElementById('file').addEventListener('change', async (e) => {
   const f = e.target.files[0];
   if (!f) return;
-  document.getElementById('file-name').textContent = `${f.name} · ${Math.round(f.size/1024)}KB`;
-  const reader = new FileReader();
-  reader.onload = (ev) => { document.getElementById('input').value = ev.target.result; };
-  reader.readAsText(f);
+  const ext = (f.name.split('.').pop() || '').toLowerCase();
+  const nameEl = document.getElementById('file-name');
+  nameEl.textContent = `${f.name} · ${Math.round(f.size/1024)}KB`;
+
+  if (TEXT_EXTS.includes(ext)) {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      document.getElementById('input').value = ev.target.result;
+      setStatus(`✓ Loaded ${f.name} (${ev.target.result.length} chars)`);
+    };
+    reader.readAsText(f);
+  } else if (BINARY_EXTS.includes(ext)) {
+    setStatus(`Parsing ${ext.toUpperCase()}…`);
+    try {
+      const fd = new FormData();
+      fd.append('file', f);
+      const r = await fetch(`${API}/api/upload`, { method: 'POST', body: fd });
+      const data = await r.json();
+      if (data.error) throw new Error(data.error);
+      document.getElementById('input').value = data.text;
+      setStatus(`✓ Extracted ${data.chars} chars from ${data.filename}`);
+    } catch (err) {
+      setStatus('Upload failed: ' + err.message, true);
+    }
+  } else {
+    setStatus(`Unsupported format: .${ext}`, true);
+  }
 });
 
 function setStatus(msg, isError = false) {
@@ -145,27 +427,35 @@ function setStatus(msg, isError = false) {
   el.style.display = msg ? 'block' : 'none';
 }
 
+// ============== GENERATE ==============
 document.getElementById('make').addEventListener('click', async () => {
-  const source = document.getElementById('input').value.trim();
-  const constraint = document.getElementById('constraint').value.trim();
+  const payload = {
+    source:      document.getElementById('input').value.trim(),
+    constraint:  document.getElementById('constraint').value.trim(),
+    archetype:   document.getElementById('archetype').value,
+    audience:    document.getElementById('audience').value,
+    slide_count: document.getElementById('slide_count').value,
+  };
   const btn = document.getElementById('make');
   btn.disabled = true; btn.textContent = '⏳ Calling Claude…';
   setStatus('Generating brief…');
+  const t0 = Date.now();
   try {
     const r = await fetch(`${API}/api/generate`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({source, constraint})
+      body: JSON.stringify(payload)
     });
     const data = await r.json();
     if (data.error) throw new Error(data.error);
     lastHTML = data.html;
     document.getElementById('preview').srcdoc = data.html;
-    document.getElementById('preview-meta').textContent = `Live · ${(data.len/1024).toFixed(1)}KB · ${new Date().toLocaleTimeString()}`;
+    const secs = ((Date.now() - t0) / 1000).toFixed(1);
+    document.getElementById('preview-meta').textContent = `Live · ${(data.len/1024).toFixed(1)}KB · ${secs}s · ${new Date().toLocaleTimeString()}`;
     document.getElementById('dl-html').disabled = false;
     document.getElementById('dl-pdf').disabled = false;
     document.getElementById('dl-pptx').disabled = false;
-    setStatus('✓ Brief generated. Use the download buttons.');
+    setStatus(`✓ Brief generated in ${secs}s. Use the download buttons.`);
   } catch (e) {
     setStatus('Error: ' + e.message, true);
   } finally {
@@ -173,7 +463,7 @@ document.getElementById('make').addEventListener('click', async () => {
   }
 });
 
-// Downloads
+// ============== DOWNLOADS ==============
 document.getElementById('dl-html').addEventListener('click', () => {
   const blob = new Blob([lastHTML], {type: 'text/html'});
   const url = URL.createObjectURL(blob);
