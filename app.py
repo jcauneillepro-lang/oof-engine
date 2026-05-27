@@ -19,6 +19,7 @@ from flask_cors import CORS
 from claude_engine import generate_brief
 from pptx_export import html_to_pptx, html_to_pdf
 from file_parser import extract_text
+from engine_audit import audit_brief, lint_brief
 
 
 FRONTEND_DIR = Path(__file__).parent
@@ -65,6 +66,11 @@ def api_generate():
             "Use NACO Pulse as the example topic with placeholder content."
         )
 
+    # Audit toggle — default ON; skip with ?audit=false or audit:false in body
+    audit_param = (data.get("audit", request.args.get("audit", "true")))
+    run_audit = str(audit_param).lower() != "false"
+    skip_critic = str(data.get("skip_critic", request.args.get("skip_critic", "false"))).lower() == "true"
+
     try:
         html = generate_brief(
             source=source,
@@ -75,7 +81,38 @@ def api_generate():
             cover_style=cover_style,
             divider_style=divider_style,
         )
-        return jsonify({"html": html, "len": len(html)})
+
+        response_payload = {"html": html, "len": len(html)}
+
+        if run_audit:
+            try:
+                audit = audit_brief(html, source=source, skip_critic=skip_critic)
+                response_payload["audit"] = audit
+            except Exception as audit_err:
+                response_payload["audit"] = {"error": f"audit failed: {audit_err}"}
+
+        return jsonify(response_payload)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+# API · AUDIT (standalone — re-audit existing brief HTML)
+# Accepts: { "html": "...", "source": "..." (optional), "skip_critic": false }
+# Returns: { "audit": {...} }
+# ============================================================
+
+@app.route("/api/audit", methods=["POST"])
+def api_audit():
+    data = request.get_json(silent=True) or {}
+    html = data.get("html", "")
+    source = data.get("source", "")
+    skip_critic = bool(data.get("skip_critic", False))
+    if not html:
+        return jsonify({"error": "no html provided"}), 400
+    try:
+        audit = audit_brief(html, source=source, skip_critic=skip_critic)
+        return jsonify({"audit": audit})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

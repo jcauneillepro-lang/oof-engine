@@ -535,6 +535,15 @@
         <span id="preview-meta" style="opacity: 0.7;">Hit Generate to render</span>
       </div>
       <iframe id="preview" srcdoc="<style>body{font-family:'Inter Tight',sans-serif;color:#46526E;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;background:linear-gradient(135deg,#F6F8FA 0%,#EDF1F5 100%);text-align:center;padding:40px}h2{font-size:28px;color:#0F2552;letter-spacing:-0.02em;margin-bottom:14px}p{max-width:340px;font-size:13px;color:#5A6275;line-height:1.6}span{display:inline-block;background:#A6F50C;color:#0F2552;padding:4px 10px;font-size:10px;font-weight:800;letter-spacing:0.1em;margin-bottom:20px}</style><span>READY</span><h2>Your brief renders here.</h2><p>Paste a source on the left, pick an archetype + audience if you have an opinion, hit Generate.</p>"></iframe>
+      <div id="audit-panel" style="display:none; background: white; color: var(--ink); padding: 16px 22px; border-top: 1px solid var(--rule-thin); font-size: 12px; max-height: 280px; overflow-y: auto;">
+        <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px;">
+          <span style="font-family: 'Inter Tight'; font-weight: 900; font-size: 16pt;" id="audit-score">—</span>
+          <span style="font-family: var(--mono); font-size: 9pt; letter-spacing: 0.1em; color: var(--gray-d); text-transform: uppercase;" id="audit-shippable">awaiting</span>
+          <span style="font-family: var(--mono); font-size: 9pt; color: var(--gray); flex: 1; text-align: right;" id="audit-summary"></span>
+        </div>
+        <div id="audit-dimensions" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-bottom: 12px;"></div>
+        <div id="audit-issues" style="font-size: 11px; line-height: 1.5;"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -2513,6 +2522,12 @@ document.getElementById('make').addEventListener('click', async () => {
     document.getElementById('dl-html').disabled = false;
     document.getElementById('dl-pdf').disabled = false;
     document.getElementById('dl-pptx').disabled = false;
+
+    // Render audit panel if present
+    if (data.audit) {
+      renderAuditPanel(data.audit);
+    }
+
     setStatus(`✓ Generated in ${secs}s`);
   } catch (e) { setStatus('Error: '+e.message, true); }
   finally { btn.disabled = false; btn.textContent = 'Generate brief →'; }
@@ -2538,6 +2553,51 @@ async function exportBinary(path, name) {
 }
 document.getElementById('dl-pdf').addEventListener('click',  () => exportBinary('/api/export/pdf',  'OOF_brief.pdf'));
 document.getElementById('dl-pptx').addEventListener('click', () => exportBinary('/api/export/pptx', 'OOF_brief.pptx'));
+
+// ============== AUDIT PANEL ==============
+function renderAuditPanel(audit) {
+  const panel = document.getElementById('audit-panel');
+  panel.style.display = 'block';
+  const score = audit.overall_score || (audit.lint && audit.lint.lint_score) || 0;
+  const shippable = audit.shippable;
+  document.getElementById('audit-score').textContent = score.toFixed(1) + ' / 10';
+  document.getElementById('audit-score').style.color = shippable ? '#A6F50C' : (score >= 7 ? '#F5800C' : '#F50C7A');
+  const shipEl = document.getElementById('audit-shippable');
+  shipEl.textContent = shippable ? '✓ Shippable' : '⚠ Not yet shippable';
+  shipEl.style.color = shippable ? '#0F2552' : '#F50C7A';
+  document.getElementById('audit-summary').textContent = audit.summary || '';
+
+  // Dimensions
+  const dimsEl = document.getElementById('audit-dimensions');
+  dimsEl.innerHTML = '';
+  const critic = audit.critic;
+  if (critic && critic.scores) {
+    const labels = {argument_clarity: 'Argument', design_impact: 'Design', tone_of_voice: 'Tone', data_integrity: 'Data', editorial_discipline: 'Editorial', production_craft: 'Craft'};
+    Object.keys(labels).forEach(k => {
+      const v = critic.scores[k] || 0;
+      const cell = document.createElement('div');
+      cell.style.cssText = 'background: #F4F4EF; padding: 6px 8px; border-top: 2px solid ' + (v >= 8.5 ? '#A6F50C' : v >= 7 ? '#F5800C' : '#F50C7A') + ';';
+      cell.innerHTML = '<div style="font-family: var(--mono); font-size: 7pt; color: var(--gray-d); text-transform: uppercase; letter-spacing: 0.08em;">' + labels[k] + '</div><div style="font-family: \'Inter Tight\'; font-weight: 900; font-size: 14pt; color: var(--ink);">' + v.toFixed(1) + '</div>';
+      dimsEl.appendChild(cell);
+    });
+  }
+
+  // Issues
+  const issuesEl = document.getElementById('audit-issues');
+  issuesEl.innerHTML = '';
+  const allIssues = [...(audit.lint && audit.lint.issues || []), ...(critic && critic.top_issues || [])];
+  if (allIssues.length === 0) {
+    issuesEl.innerHTML = '<div style="color: #5A6275; font-style: italic;">No issues flagged. Brief is clean.</div>';
+  } else {
+    allIssues.slice(0, 6).forEach(issue => {
+      const div = document.createElement('div');
+      div.style.cssText = 'padding: 6px 0; border-bottom: 1px solid #E5E5E0;';
+      const sevColor = issue.severity === 'block' ? '#F50C7A' : issue.severity === 'warn' ? '#F5800C' : '#0CB8F5';
+      div.innerHTML = '<span style="display: inline-block; padding: 1px 6px; font-family: var(--mono); font-size: 7.5pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: ' + sevColor + '; color: white; margin-right: 6px;">' + issue.severity + '</span><strong>' + (issue.rule || issue.dimension || '') + '</strong> · ' + (issue.location || '') + '<br><span style="color: #5A6275;">' + issue.message + (issue.suggestion ? ' → ' + issue.suggestion : '') + '</span>';
+      issuesEl.appendChild(div);
+    });
+  }
+}
 </script>
 </body>
 </html>
