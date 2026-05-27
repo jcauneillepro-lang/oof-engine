@@ -130,6 +130,21 @@ said it. Either: (a) use atmospheric/landscape photos that don't read as
 attribution, (b) caption the photo explicitly ("Ipsen research culture"), or
 (c) leave the slide quote-only. Never silently attribute.
 
+### 15 · Inherited canonical work still requires render-verify
+When taking another tool's, another person's, or your own earlier output as the
+canonical base — do NOT assume it's polish-clean. Apply Rules 1 and 8 to
+inherited work as if you'd produced it yourself. The most common drift
+patterns in inherited decks:
+- **Stale TOC page numbers** (the table-of-contents on a section divider still points to old positions before a resequence)
+- **Stale chapter rail labels** (the rail still names a previous content layout)
+- **Watermark drift** (footers reading "ipsen 30" on slide 28)
+- **Title overlap on a single slide** (a longer headline that wrapped after a resequence)
+- **Suffix leftover** (crumbs ending "· THE BRIEF" when they should say "· THE EVIDENCE")
+
+The failure mode: trusting the inherited base "looks done" because it shipped
+once. It often shipped with these drifts already present. The render-verify
+pass is non-negotiable on inherited work, not just net-new work.
+
 ---
 
 ## Part 3 · The Design Rules
