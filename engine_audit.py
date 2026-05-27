@@ -124,15 +124,20 @@ def lint_brief(html: str, source: str = "") -> dict:
         ))
 
     # ----- Rule 3 · Page numbering consistency -----
-    # Look for page numbers like "01 / 28" or "1 of 28" and check totals match
-    page_patterns = re.findall(r"(\d{1,2})\s*/\s*(\d{1,3})", html)
-    totals = {tot for _, tot in page_patterns}
-    if len(totals) > 1:
+    # Look for likely page-number chrome — require leading zero on the page (01/28 style)
+    # or two-digit page with two-digit total, AND count occurrences per total.
+    # Only flag if MULTIPLE distinct totals each appear 2+ times (real chrome inconsistency).
+    page_patterns = re.findall(r"(?:^|>|\s)(0\d|[1-9]\d?)\s*/\s*(\d{2,3})(?:<|\s|$)", html)
+    from collections import Counter
+    totals_counter = Counter(tot for _, tot in page_patterns)
+    # Keep only totals that appear 2+ times (real chrome, not body ratios)
+    real_totals = {t for t, n in totals_counter.items() if n >= 2}
+    if len(real_totals) > 1:
         issues.append(AuditIssue(
             severity="block",
             rule="CRAFT 3 · Single visual grammar",
-            location=f"{len(page_patterns)} page tokens",
-            message=f"Mixed page-number totals found: {sorted(totals)}",
+            location=f"{len(page_patterns)} candidate tokens",
+            message=f"Mixed page-number totals (each ≥2 occurrences): {sorted(real_totals)}",
             suggestion="Sweep all page tokens to one consistent total"
         ))
 
