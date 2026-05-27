@@ -158,6 +158,115 @@ If asked to constrain ("make this 5 slides", "ELT pre-read format", "use waterfa
 
 ALWAYS include the chrome footer on body slides (except cover and closer).
 ALWAYS include `__INLINE_CSS__` in the `<style>` tag.
+
+# CANONICAL ASSET LIBRARY (use these — DO NOT invent image URLs)
+
+All assets live at `/assets/` (served from the engine root). Use them by referencing
+`background-image: url('assets/FILENAME')`.
+
+### COVER backgrounds (full-bleed, used in cover .right or .elt-hero)
+- `assets/lab_atmos.jpg`      — Jenny in lab, soft focus, navy tint. Use for: science, R&D, scientific narrative.
+- `assets/park_atmos.jpg`     — Gill in park, green outdoor. Use for: people, growth, future-facing.
+- `assets/gill_atmos.jpg`     — Gill close-up atmospheric. Use for: leadership profile, single-person hero.
+- `assets/gill_window.jpg`    — Gill at window, contemplative. Use for: quote/POV slides, hero portraits.
+- `assets/gill_park.png`      — Gill in park, daylight. Use for: lighter, optimistic covers.
+- `assets/gill_leaf_portrait.jpg` — Gill cropped to leaf shape. Use inside .portrait insets.
+- `assets/jenny_lab_bg.png`   — Jenny lab, broader composition. Cover alt for science briefs.
+- `assets/jenny_lab_portrait.png` — Jenny cropped portrait. Use in .portrait insets.
+- `assets/trees.jpg`          — Tree canopy, abstract nature. Use for: pause / breath dividers.
+- `assets/park_garden.jpg`    — Garden, lush green. Use for: growth, ambition, future state.
+- `assets/banner_wide.png`    — Wide ink-band illustration. Use for: cover bands, section breaks.
+
+### CHAPTER DIVIDER backgrounds (the big "02 · The evidence" pages)
+- `assets/science_cell.png`   — Abstract embryonic cell, organic textures. Use for: science, R&D, biology chapters.
+- `assets/science_liver.png`  — Abstract organ tissue, warm tones. Use for: therapeutic area, medical chapters.
+- `assets/science_neuron.png` — Neural network image. Use for: complexity, intelligence, decision chapters.
+- `assets/science_petri.png`  — Petri dish abstract. Use for: experimentation, pilot, discovery chapters.
+- `assets/lab_atmos.jpg`      — Reused for human/people chapters (PEOPLE divider canonical).
+- `assets/park_atmos.jpg`     — Reused for future-state / ambition chapters.
+
+### NACO illustrations (for NACO-specific briefs)
+- `assets/naco_detail.png`    — NACO regional detail map.
+- `assets/naco_team.png`      — NACO team composition illustration.
+
+### Pictogram icons (SVG, monochrome — color via CSS fill)
+- `assets/icon_a.svg` · `icon_b.svg` · `icon_c.svg` · `icon_d.svg` · `icon_e.svg`
+  Use inside `<div class="picto"><img src="assets/icon_a.svg">...</div>`
+
+### ED10 abstract chapter banners
+- `assets/ed10_image1.png` · `ed10_image2.png` · `ed10_image3.png`
+  Use as backgrounds for premium chapter dividers (highly abstract, intense color).
+
+# CANONICAL COVER PATTERN (Exec Brief / NACO Pulse style)
+
+This is the locked cover treatment for executive briefs. Reproduce exactly:
+
+```html
+<section class="slide" id="s1">
+  <div class="cover">
+    <div class="left">
+      <div>
+        <span class="kicker">EXEC BRIEF · APR 26</span>
+        <h1 style="margin-top: 48px;">Title<br><span class="accent">Subtitle.</span></h1>
+        <p class="sub">One-sentence lede about what this brief argues.</p>
+        <div class="author">
+          <div class="name">JB CAUNEILLE</div>
+          <div class="role">Global Executive Search &amp; Organizational Intelligence</div>
+        </div>
+      </div>
+      <div class="meta">
+        <span class="date">May 2026 · Confidential · CHRO + ELT</span>
+        <div><div class="ipsen">IPSEN</div><div class="ipsen-rule"></div></div>
+      </div>
+    </div>
+    <div class="right" style="background-image: url('assets/lab_atmos.jpg');"></div>
+  </div>
+</section>
+```
+
+# CANONICAL ELT PRE-READ HERO (CDIO Talent Horizon style)
+
+```html
+<section class="slide" id="s1">
+  <div class="elt-hero" style="background-image: url('assets/lab_atmos.jpg');">
+    <span class="top-tag">ELT PRE-READ · 26.06</span>
+    <div class="meta">
+      <div class="ipsen">IPSEN</div>
+      <div class="date">Office of the Future · Confidential</div>
+    </div>
+    <div class="body">
+      <h1>Headline opens with the verdict<br><span class="l">in lime.</span></h1>
+      <p class="lede">12-minute read on the shift, three lenses for the ELT to debate.</p>
+    </div>
+    <div class="prompts">
+      <span class="tag">DISCUSS</span>
+      <div class="qs">
+        <div class="q">First debate question?</div>
+        <div class="q">Second debate question?</div>
+        <div class="q">Third debate question?</div>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+# CANONICAL CHAPTER DIVIDER (NACO Annual Review style)
+
+```html
+<section class="slide">
+  <div class="divider" style="background-image: url('assets/lab_atmos.jpg');">
+    <div class="num">CHAPTER 01</div>
+    <h1>The people.</h1>
+    <p class="lede">Who is in the seats. Who left them. Who we wish we still had.</p>
+  </div>
+</section>
+```
+
+# DO NOT
+- Do not invent a logo or use any pink/magenta circle "OOF" mark. The brand mark is OUT.
+- Do not invent image URLs. Use only the canonical assets listed above.
+- Do not use external CDN images, stock photos, or placeholder URLs.
+- Do not generate emojis as visual elements.
 """
 
 # ============================================================
@@ -219,17 +328,38 @@ SLIDE_COUNT_HINTS = {
 }
 
 
+COVER_STYLE_HINTS = {
+    "auto": "",
+    "exec_split": "Cover style: EXEC SPLIT — left text panel on ink background + right full-bleed lab_atmos.jpg photo. Use the canonical Exec Brief cover pattern.",
+    "elt_hero":   "Cover style: ELT HERO — full-bleed photo background with bottom-band content + 3 discussion prompts overlay. Use the canonical ELT Pre-Read hero pattern with lab_atmos.jpg.",
+    "park_hero":  "Cover style: PARK HERO — full-bleed park_atmos.jpg (Gill outdoors). For optimistic, future-facing briefs.",
+    "gill_window": "Cover style: GILL WINDOW — full-bleed gill_window.jpg portrait. For point-of-view, manifesto, leadership-voice briefs.",
+    "naco":       "Cover style: NACO — exec split with the cover and naco_team.png in the right panel. Use only for NACO-specific briefs.",
+    "minimal":    "Cover style: MINIMAL — ink background, no photo, just typography. For working sessions, internal team briefs.",
+}
+
+DIVIDER_STYLE_HINTS = {
+    "auto": "",
+    "people":  "Chapter divider style: PEOPLE — use lab_atmos.jpg as background for divider slides.",
+    "science": "Chapter divider style: SCIENCE — rotate through science_cell.png / science_liver.png / science_neuron.png / science_petri.png for divider slides.",
+    "future":  "Chapter divider style: FUTURE — use park_atmos.jpg and park_garden.jpg for divider slides.",
+    "ed10":    "Chapter divider style: ED10 — use ed10_image1/2/3.png for premium high-contrast divider slides.",
+}
+
+
 def generate_brief(
     source: str,
     constraint: str = "",
     archetype: str = "auto",
     audience: str = "auto",
     slide_count: str = "auto",
+    cover_style: str = "auto",
+    divider_style: str = "auto",
 ) -> str:
     """
     Send source + optional constraint to Claude.
-    archetype / audience / slide_count are explicit steering knobs that get
-    woven into the user message as additional constraints.
+    archetype / audience / slide_count / cover_style / divider_style are explicit
+    steering knobs woven into the user message as additional constraints.
     Returns a complete standalone HTML brief.
     """
     client = get_client()
@@ -239,16 +369,19 @@ def generate_brief(
     steering_lines = []
     if archetype and archetype != "auto":
         hint = ARCHETYPE_HINTS.get(archetype, "")
-        if hint:
-            steering_lines.append(hint)
+        if hint: steering_lines.append(hint)
     if audience and audience != "auto":
         hint = AUDIENCE_HINTS.get(audience, "")
-        if hint:
-            steering_lines.append(hint)
+        if hint: steering_lines.append(hint)
     if slide_count and slide_count != "auto":
         hint = SLIDE_COUNT_HINTS.get(slide_count, "")
-        if hint:
-            steering_lines.append(hint)
+        if hint: steering_lines.append(hint)
+    if cover_style and cover_style != "auto":
+        hint = COVER_STYLE_HINTS.get(cover_style, "")
+        if hint: steering_lines.append(hint)
+    if divider_style and divider_style != "auto":
+        hint = DIVIDER_STYLE_HINTS.get(divider_style, "")
+        if hint: steering_lines.append(hint)
     if steering_lines:
         user_msg += "\n\nSTEERING:\n" + "\n".join(f"- {line}" for line in steering_lines)
 

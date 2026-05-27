@@ -55,6 +55,8 @@ def api_generate():
     archetype = (data.get("archetype") or "auto").strip()
     audience = (data.get("audience") or "auto").strip()
     slide_count = (data.get("slide_count") or "auto").strip()
+    cover_style = (data.get("cover_style") or "auto").strip()
+    divider_style = (data.get("divider_style") or "auto").strip()
 
     if not source:
         source = (
@@ -70,6 +72,8 @@ def api_generate():
             archetype=archetype,
             audience=audience,
             slide_count=slide_count,
+            cover_style=cover_style,
+            divider_style=divider_style,
         )
         return jsonify({"html": html, "len": len(html)})
     except Exception as e:

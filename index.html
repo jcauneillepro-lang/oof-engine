@@ -18,18 +18,20 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: var(--font-body); background: var(--ink-dk); color: var(--white);
+  font-family: var(--font-body); background: #FAFBFC; color: var(--ink);
   min-height: 100vh; overflow-x: hidden;
   background-image:
-    radial-gradient(circle at 18% 12%, rgba(166,245,12,0.10) 0%, transparent 38%),
-    radial-gradient(circle at 86% 8%, rgba(12,184,245,0.08) 0%, transparent 42%),
-    radial-gradient(circle at 50% 95%, rgba(245,12,122,0.06) 0%, transparent 45%);
+    radial-gradient(circle at 12% 8%, rgba(166,245,12,0.18) 0%, transparent 40%),
+    radial-gradient(circle at 88% 12%, rgba(12,184,245,0.10) 0%, transparent 42%),
+    radial-gradient(circle at 60% 95%, rgba(245,12,122,0.08) 0%, transparent 45%);
 }
 
 /* ===== TOP CHROME · brand bar ===== */
 .topbar {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 36px; border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 18px 36px; border-bottom: 1px solid rgba(15,37,82,0.08);
+  background: rgba(255,255,255,0.55); backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 .topbar > div { display: flex; align-items: center; gap: 18px; }
 .brand-mark {
@@ -41,17 +43,17 @@ body {
 .brand-text { display: flex; flex-direction: column; }
 .brand-text .t1 {
   font-family: var(--font-display); font-size: 18px; font-weight: 900;
-  letter-spacing: -0.02em; line-height: 1;
+  letter-spacing: -0.02em; line-height: 1; color: var(--ink);
 }
 .brand-text .t1 .l { color: var(--lime); }
 .brand-text .t2 {
-  font-size: 10px; color: rgba(255,255,255,0.55); margin-top: 3px;
+  font-size: 10px; color: var(--gray-d); margin-top: 3px;
   font-style: italic; letter-spacing: 0.04em;
 }
 .topbar .status-chip {
-  font-size: 11px; color: rgba(255,255,255,0.55); gap: 6px;
+  font-size: 11px; color: var(--gray-d); gap: 6px;
 }
-.topbar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 8px var(--lime); }
+.topbar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 8px rgba(166,245,12,0.7); }
 
 /* ===== HERO ===== */
 .hero { padding: 88px 36px 56px; max-width: 1280px; margin: 0 auto; }
@@ -63,14 +65,18 @@ body {
 .hero h1 {
   font-family: var(--font-display); font-size: 88px; font-weight: 900;
   line-height: 0.92; letter-spacing: -0.04em; max-width: 1080px;
+  color: var(--ink);
 }
-.hero h1 .l { color: var(--lime); }
+.hero h1 .l { color: var(--lime); -webkit-text-stroke: 1px var(--ink); }
 .hero h1 .pink { color: var(--magenta); }
 .hero .lede {
-  font-size: 19px; color: rgba(255,255,255,0.78); line-height: 1.55;
+  font-size: 19px; color: var(--gray-d); line-height: 1.55;
   margin-top: 28px; max-width: 740px; font-weight: 400;
 }
-.hero .lede em { color: var(--lime); font-style: normal; font-weight: 600; }
+.hero .lede em {
+  background: var(--lime); color: var(--ink); padding: 1px 6px;
+  font-style: normal; font-weight: 700; border-radius: 3px;
+}
 
 /* ===== MANIFESTO STRIP · 3 columns ===== */
 .manifesto {
@@ -91,9 +97,10 @@ body {
 .mcol h3 {
   font-family: var(--font-display); font-size: 22px; font-weight: 900;
   line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 12px;
+  color: var(--ink);
 }
 .mcol p {
-  font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6;
+  font-size: 14px; color: var(--gray-d); line-height: 1.6;
 }
 
 /* ===== ENGINE PANEL · the actual tool ===== */
@@ -103,15 +110,15 @@ body {
 .engine-head {
   display: flex; justify-content: space-between; align-items: flex-end;
   margin-bottom: 18px; padding-bottom: 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.12);
+  border-bottom: 1px solid rgba(15,37,82,0.10);
 }
 .engine-head h2 {
   font-family: var(--font-display); font-size: 32px; font-weight: 900;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.02em; color: var(--ink);
 }
 .engine-head h2 .l { color: var(--lime); }
 .engine-head .meta {
-  font-size: 11px; color: rgba(255,255,255,0.5); font-style: italic;
+  font-size: 11px; color: var(--gray-d); font-style: italic;
 }
 .engine-head .meta .live {
   display: inline-block; width: 6px; height: 6px; border-radius: 50%;
@@ -121,7 +128,11 @@ body {
 @keyframes blink { 50% { opacity: 0.4; } }
 
 .engine { display: grid; grid-template-columns: 420px 1fr; gap: 18px; }
-.engine > .panel { background: var(--white); border-radius: 14px; overflow: hidden; color: var(--ink); }
+.engine > .panel {
+  background: var(--white); border-radius: 14px; overflow: hidden;
+  color: var(--ink); box-shadow: 0 4px 24px rgba(15,37,82,0.06);
+  border: 1px solid rgba(15,37,82,0.06);
+}
 
 /* LEFT panel · controls */
 .engine .controls { padding: 26px; display: flex; flex-direction: column; gap: 16px; }
@@ -226,7 +237,6 @@ textarea:focus, input:focus, select:focus {
 <!-- ============== TOP BAR ============== -->
 <nav class="topbar">
   <div class="brand">
-    <span class="brand-mark">OOF</span>
     <div class="brand-text">
       <span class="t1">OOF<span class="l">.</span> Engine</span>
       <span class="t2">Office of the Future · Ipsen</span>
@@ -234,7 +244,7 @@ textarea:focus, input:focus, select:focus {
   </div>
   <div class="status-chip">
     <span class="dot"></span>
-    <span>Live · v0.2</span>
+    <span>Live · v0.3</span>
   </div>
 </nav>
 
@@ -324,6 +334,31 @@ textarea:focus, input:focus, select:focus {
             <option value="5">5 · Standard</option>
             <option value="8">8 · Full</option>
             <option value="12">12 · Deep</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="label">Cover style</div>
+          <select id="cover_style">
+            <option value="auto">Auto</option>
+            <option value="exec_split">Exec Split · Jenny lab</option>
+            <option value="elt_hero">ELT Hero · full-bleed photo</option>
+            <option value="park_hero">Park Hero · Gill outdoor</option>
+            <option value="gill_window">Gill Window · POV</option>
+            <option value="naco">NACO (NACO briefs only)</option>
+            <option value="minimal">Minimal · no photo</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="steering-row">
+        <div class="field">
+          <div class="label">Chapter dividers</div>
+          <select id="divider_style">
+            <option value="auto">Auto</option>
+            <option value="people">People · lab_atmos</option>
+            <option value="science">Science · cell / liver / neuron / petri</option>
+            <option value="future">Future · park / garden</option>
+            <option value="ed10">ED10 · premium abstract</option>
           </select>
         </div>
         <div class="field">
@@ -429,11 +464,13 @@ function setStatus(msg, isError = false) {
 // ============== GENERATE ==============
 document.getElementById('make').addEventListener('click', async () => {
   const payload = {
-    source:      document.getElementById('input').value.trim(),
-    constraint:  document.getElementById('constraint').value.trim(),
-    archetype:   document.getElementById('archetype').value,
-    audience:    document.getElementById('audience').value,
-    slide_count: document.getElementById('slide_count').value,
+    source:        document.getElementById('input').value.trim(),
+    constraint:    document.getElementById('constraint').value.trim(),
+    archetype:     document.getElementById('archetype').value,
+    audience:      document.getElementById('audience').value,
+    slide_count:   document.getElementById('slide_count').value,
+    cover_style:   document.getElementById('cover_style').value,
+    divider_style: document.getElementById('divider_style').value,
   };
   const btn = document.getElementById('make');
   btn.disabled = true; btn.textContent = '⏳ Calling Claude…';
