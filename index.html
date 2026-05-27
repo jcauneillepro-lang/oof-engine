@@ -59,67 +59,51 @@
   /* ============== PAGE FRAME ============== */
   section.page {
     max-width: 1280px; margin: 0 auto;
-    padding: 80px 60px;
+    padding: 48px 48px;
     position: relative;
     border-bottom: 1px solid var(--rule-thin);
   }
   section.page:last-child { border-bottom: none; }
   .corner-tl {
-    position: absolute; top: 28px; left: 60px;
+    position: absolute; top: 18px; left: 48px;
     font-family: var(--mono); font-size: 8pt;
     color: var(--gray-d); letter-spacing: 0.18em; text-transform: uppercase;
   }
   .corner-tr {
-    position: absolute; top: 28px; right: 60px;
+    position: absolute; top: 18px; right: 48px;
     font-family: var(--mono); font-size: 8pt;
     color: var(--gray-d); letter-spacing: 0.18em; text-transform: uppercase;
   }
   .page-num {
-    position: absolute; bottom: 28px; right: 60px;
+    position: absolute; bottom: 16px; right: 48px;
     font-family: var(--mono); font-size: 8pt;
     color: var(--gray-d); letter-spacing: 0.18em;
   }
 
   /* ============== HERO ============== */
   .hero {
-    min-height: 80vh;
-    display: flex; flex-direction: column; justify-content: space-between;
-    padding-top: 120px; padding-bottom: 80px;
+    padding-top: 64px; padding-bottom: 40px;
   }
   .hero .kicker {
     display: inline-block; background: var(--lime); color: var(--ink);
     padding: 5px 10px; font-family: var(--mono); font-size: 9pt;
     font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-    margin-bottom: 32px;
+    margin-bottom: 20px;
   }
   .hero h1 {
     font-family: 'Inter Tight', sans-serif; font-weight: 900;
-    font-size: 120pt; line-height: 0.86; letter-spacing: -0.045em;
+    font-size: 92pt; line-height: 0.88; letter-spacing: -0.045em;
     color: var(--ink);
   }
   .hero h1 .l { color: var(--lime); }
   .hero .lede {
-    font-size: 18pt; color: var(--gray-d); line-height: 1.45;
-    margin-top: 40px; max-width: 880px; font-weight: 400;
-  }
-  .hero .meta-block {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 24px; padding-top: 24px; margin-top: 60px;
-    border-top: 1px solid var(--ink);
-  }
-  .hero .meta-block .item .k {
-    font-family: var(--mono); font-size: 8pt;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--gray-d); margin-bottom: 4px;
-  }
-  .hero .meta-block .item .v {
-    font-family: 'Inter Tight', sans-serif; font-weight: 800;
-    font-size: 14pt; color: var(--ink);
+    font-size: 15pt; color: var(--gray-d); line-height: 1.45;
+    margin-top: 24px; max-width: 760px; font-weight: 400;
   }
 
   /* ============== SECTION HEADERS ============== */
   .section-header {
-    margin-bottom: 56px; padding-bottom: 20px;
+    margin-bottom: 32px; padding-bottom: 16px;
     border-bottom: 2px solid var(--ink);
   }
   .section-header .num {
@@ -129,13 +113,13 @@
   }
   .section-header h2 {
     font-family: 'Inter Tight', sans-serif; font-weight: 900;
-    font-size: 56pt; line-height: 0.95; letter-spacing: -0.03em;
+    font-size: 38pt; line-height: 0.95; letter-spacing: -0.03em;
     color: var(--ink);
   }
   .section-header h2 .l { color: var(--lime); }
   .section-header .lede {
-    font-size: 14pt; color: var(--gray-d); line-height: 1.5;
-    margin-top: 20px; max-width: 880px; font-style: italic;
+    font-size: 12pt; color: var(--gray-d); line-height: 1.5;
+    margin-top: 10px; max-width: 760px; font-style: italic;
   }
 
   /* ============== PHILOSOPHY ============== */
@@ -230,7 +214,7 @@
 
   /* ============== COMPONENT GRID ============== */
   .comp-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
   }
   .comp-card {
     background: white;
@@ -239,42 +223,35 @@
     display: flex; flex-direction: column;
   }
   .comp-card header {
-    display: flex; align-items: baseline; gap: 12px;
-    padding: 14px 20px; border-bottom: 1px solid var(--rule-thin);
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 10px 14px; border-bottom: 1px solid var(--rule-thin);
     background: var(--paper-2); flex-shrink: 0;
   }
   .comp-card .comp-num {
-    font-family: var(--mono); font-weight: 600; font-size: 11pt;
+    font-family: var(--mono); font-weight: 600; font-size: 9pt;
     color: var(--lime); letter-spacing: 0.1em;
   }
   .comp-card .comp-name {
     font-family: 'Inter Tight', sans-serif; font-weight: 900;
-    font-size: 14pt; letter-spacing: -0.01em; color: var(--ink);
+    font-size: 11pt; letter-spacing: -0.01em; color: var(--ink);
   }
-  /* Demo container: fixed aspect ratio (16:9), demo content fills + scales by CSS zoom */
+  /* Demo container: fixed 16:9 with scaled inner content */
   .comp-demo-wrap {
     position: relative; width: 100%; aspect-ratio: 16 / 9;
     background: white; overflow: hidden;
   }
   .comp-card .comp-demo {
     position: absolute; inset: 0;
-    padding: 16px; overflow: hidden;
+    padding: 10px; overflow: hidden;
     background: white;
-    /* Use zoom so the inner demo HTML scales as a unit and stays inside the box */
-    zoom: 0.55;
+    zoom: 0.42;
   }
-  /* Description below the demo, not inside it */
-  .comp-card .comp-desc {
-    padding: 12px 20px 16px;
-    font-size: 10pt; color: var(--gray-d); line-height: 1.5;
-    font-style: italic; border-top: 1px solid var(--rule-thin);
-    flex-shrink: 0;
-  }
-  .comp-card .comp-desc p { margin: 0; }
+  /* Drop the inline description — too noisy in dense grid */
+  .comp-card .comp-desc { display: none; }
 
   /* ============== ASSET GRID ============== */
   .asset-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;
   }
   .asset-card { background: white; border: 1px solid var(--rule-thin); }
   .asset-card .asset-thumb {
@@ -283,48 +260,53 @@
     border-bottom: 1px solid var(--rule-thin);
   }
   .asset-card.icon .asset-thumb {
-    display: flex; align-items: center; justify-content: center; padding: 32px;
+    display: flex; align-items: center; justify-content: center; padding: 18px;
     background: var(--paper-2);
   }
   .asset-card.icon .asset-thumb img { width: 100%; height: 100%; object-fit: contain; }
   .asset-card .asset-name {
-    font-family: var(--mono); font-size: 9pt;
-    color: var(--gray-d); padding: 10px 14px;
+    font-family: var(--mono); font-size: 7.5pt;
+    color: var(--gray-d); padding: 6px 8px;
   }
+  .asset-section-h {
+    font-family: 'Inter Tight'; font-weight: 900; font-size: 14pt;
+    margin: 18px 0 10px; color: var(--ink);
+  }
+  .asset-section-h:first-child { margin-top: 0; }
 
   /* ============== ARCHETYPE GRID ============== */
   .arch-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
   }
   .arch-card {
-    background: white; border: 1px solid var(--rule-thin); padding: 28px;
-    border-top: 4px solid var(--lime);
+    background: white; border: 1px solid var(--rule-thin); padding: 16px;
+    border-top: 3px solid var(--lime);
   }
   .arch-card:nth-child(2n) { border-top-color: var(--cyan); }
   .arch-card:nth-child(3n) { border-top-color: var(--magenta); }
   .arch-card:nth-child(5n) { border-top-color: var(--orange); }
   .arch-card:nth-child(7n) { border-top-color: var(--violet); }
-  .arch-card .arch-meta { margin-bottom: 14px; }
+  .arch-card .arch-meta { margin-bottom: 8px; }
   .arch-card .arch-kind {
-    display: inline-block; padding: 3px 8px;
-    font-family: var(--mono); font-size: 7.5pt; font-weight: 600;
+    display: inline-block; padding: 2px 6px;
+    font-family: var(--mono); font-size: 7pt; font-weight: 600;
     letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray-d);
     background: var(--paper-2);
   }
   .arch-card h3 {
     font-family: 'Inter Tight', sans-serif; font-weight: 900;
-    font-size: 20pt; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 10px;
+    font-size: 14pt; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 6px;
   }
-  .arch-card .arch-when { font-size: 11pt; color: var(--gray-d); margin-bottom: 12px; }
+  .arch-card .arch-when { font-size: 10pt; color: var(--gray-d); margin-bottom: 8px; line-height: 1.4; }
   .arch-card .arch-shape {
-    font-family: var(--mono); font-size: 9pt; color: var(--ink); line-height: 1.5;
-    background: var(--paper-2); padding: 10px 12px;
+    font-family: var(--mono); font-size: 8pt; color: var(--ink); line-height: 1.45;
+    background: var(--paper-2); padding: 8px 10px;
   }
 
   /* ============== ENGINE SECTION ============== */
   .engine-section {
     background: var(--ink); color: white;
-    padding: 80px 60px;
+    padding: 40px 48px;
   }
   .engine-section .section-header { border-bottom-color: var(--lime); }
   .engine-section .section-header .num,
@@ -430,21 +412,10 @@
 <!-- ============== HERO ============== -->
 <section class="page hero">
   <div class="corner-tl">OOF · Office of the Future · Ipsen</div>
-  <div class="corner-tr">Design Guidebook · Edition 0.4 · 2026</div>
-  <div>
-    <span class="kicker">From the people who live in the future</span>
-    <h1>OOF<br>Design<br><span class="l">Guidebook.</span></h1>
-    <p class="lede">A language for the next generation of HR leadership at Ipsen. 57 components, 13 brief archetypes, 27 canonical assets. Composed by the engine at the speed of thought, rendered at the standard of forever.</p>
-  </div>
-  <div>
-    <div class="meta-block">
-      <div class="item"><div class="k">Document</div><div class="v">OOF · v0.4</div></div>
-      <div class="item"><div class="k">Issued</div><div class="v">May 2026</div></div>
-      <div class="item"><div class="k">Owner</div><div class="v">Office of the Future</div></div>
-      <div class="item"><div class="k">Status</div><div class="v">Live</div></div>
-    </div>
-  </div>
-  <div class="page-num">01</div>
+  <div class="corner-tr">Design Guidebook · v0.4 · May 2026</div>
+  <span class="kicker">From the people who live in the future</span>
+  <h1>OOF<span class="l">.</span> Design <span class="l">Guidebook.</span></h1>
+  <p class="lede">A language for the next generation of HR leadership at Ipsen. 57 components · 13 archetypes · 27 canonical assets. Composed at the speed of thought.</p>
 </section>
 
 <!-- ============== ENGINE (top placement — try it first) ============== -->
@@ -2321,7 +2292,7 @@
     <h2>27 canonical <span class="l">assets.</span></h2>
     <p class="lede">Every cover background, every chapter divider, every icon. Used by the engine when composing briefs.</p>
   </div>
-  <h3 style="font-family: 'Inter Tight'; font-weight: 900; font-size: 18pt; margin: 24px 0 16px;">Cover backgrounds</h3>
+  <h3 class="asset-section-h">Cover backgrounds</h3>
   <div class="asset-grid"><div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/gill_atmos.jpg');"></div><div class="asset-name">gill_atmos.jpg</div></div>
 <div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/gill_leaf_portrait.jpg');"></div><div class="asset-name">gill_leaf_portrait.jpg</div></div>
 <div class="asset-card"><div class="asset-thumb" style="background-image: url('assets/gill_park.png');"></div><div class="asset-name">gill_park.png</div></div>
